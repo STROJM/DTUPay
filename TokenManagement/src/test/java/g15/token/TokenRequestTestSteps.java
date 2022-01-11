@@ -8,10 +8,10 @@ import io.cucumber.java.en.When;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-public class TokenTestSteps {
+public class TokenRequestTestSteps {
     TokenService sut = new TokenService();
     private String customerId;
-    private Token[] generatedTokens;
+    private String[] generatedTokens;
     private boolean success;
     private String errorMessage;
 

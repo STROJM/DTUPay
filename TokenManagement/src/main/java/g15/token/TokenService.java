@@ -1,38 +1,66 @@
 package g15.token;
 
-import java.awt.dnd.InvalidDnDOperationException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.UUID;
 
 public class TokenService {
     private final int MinTokenRequestAmount = 1;
     private final int MaxTokenRequestAmount = 5;
     private final int MaxOwnedTokensWhenRequesting = 1;
 
-    private final HashMap<String, List<Token>> tokenStore = new HashMap<>();
+    private final HashMap<String, List<String>> tokensForCustomerStore = new HashMap<>();
+    private final HashMap<String, String> customerForTokenStore = new HashMap<>();
 
-    private Token[] generateTokens(String customerId, int amountOfTokens) {
-        Token[] tokens = new Token[amountOfTokens];
+    private String[] generateTokens(String customerId, int amountOfTokens) {
+        String[] tokens = new String[amountOfTokens];
         for (int i = 0; i < amountOfTokens; i++) {
-            tokens[i] = new Token();
+            tokens[i] = UUID.randomUUID().toString();
         }
 
-        if(!tokenStore.containsKey(customerId)){
-            tokenStore.put(customerId, new LinkedList<>());
+        if(!tokensForCustomerStore.containsKey(customerId)){
+            tokensForCustomerStore.put(customerId, new LinkedList<>());
         }
 
-        tokenStore.get(customerId).addAll(List.of(tokens));
+        for (int i = 0; i < amountOfTokens; i++) {
+            customerForTokenStore.put(tokens[i],customerId);
+        }
+
+        tokensForCustomerStore.get(customerId).addAll(List.of(tokens));
         return tokens;
     }
 
-    private void validateRequest(String customerId, int requestedAmountOfTokens) throws InvalidTokenRequestException {
+    //token is non empty
+    //token is unused
+    //token has a customer
+    public String useToken(String customerToken) throws InvalidTokenException {
+        if(customerToken == null){
+            throw new InvalidTokenException("token is empty");
+        }
+
+        if(!customerForTokenStore.containsKey(customerToken)){
+            throw new InvalidTokenException("token is invalid");
+        }
+
+        String cid = customerForTokenStore.get(customerToken);
+        customerForTokenStore.remove(customerToken);
+        tokensForCustomerStore.get(cid).remove(customerToken);
+
+        if (tokensForCustomerStore.get(cid).size() == 0){
+            tokensForCustomerStore.remove(cid);
+        }
+
+        return cid;
+    }
+
+    private void validateTokenGenerationRequest(String customerId, int requestedAmountOfTokens) throws InvalidTokenRequestException {
         if(requestedAmountOfTokens < MinTokenRequestAmount || requestedAmountOfTokens > MaxTokenRequestAmount)
             throw new InvalidTokenRequestException("invalid amount of requested tokens");
 
         int currentAmountOfTokens;
-        if(tokenStore.containsKey(customerId)){
-            currentAmountOfTokens = tokenStore.get(customerId).size();
+        if(tokensForCustomerStore.containsKey(customerId)){
+            currentAmountOfTokens = tokensForCustomerStore.get(customerId).size();
         } else{
             currentAmountOfTokens = 0;
         }
@@ -41,8 +69,8 @@ public class TokenService {
             throw new InvalidTokenRequestException(String.format("the customer already has %d tokens", currentAmountOfTokens));
     }
 
-    public Token[] requestTokens(String customerId, int amountOfTokens) throws InvalidTokenRequestException {
-        validateRequest(customerId, amountOfTokens);
+    public String[] requestTokens(String customerId, int amountOfTokens) throws InvalidTokenRequestException {
+        validateTokenGenerationRequest(customerId, amountOfTokens);
         return generateTokens(customerId, amountOfTokens);
     }
 }
