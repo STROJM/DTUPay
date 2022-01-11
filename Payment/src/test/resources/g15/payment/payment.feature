@@ -1,15 +1,19 @@
 Feature: Payment
 
   Scenario: Successful Payment
-    Given a customer with a bank account with balance 1000
-    And that the customer is registered with DTU Pay
-    And that the customer has a valid token
-    Given a merchant with a bank account with balance 2000
-    And that the merchant is registered with DTU Pay
-    When the merchant initiates a payment for 100 kr by the customer
-    Then the payment is successful
-    And the balance of the customer at the bank is 900 kr
-    And the balance of the merchant at the bank is 2100 kr
+    When a valid "EnrichedPaymentMessage" event for a payment is received
+    Then the amount is transferred in the bank
+    And the payment has been stored
+    And a "PaymentFinishedMessage" event is sent
+# Given a customer with a bank account with balance 1000
+# And that the customer is registered with DTU Pay
+# And that the customer has a valid token
+# Given a merchant with a bank account with balance 2000
+# And that the merchant is registered with DTU Pay
+# When the merchant initiates a payment for 100 kr by the customer
+# Then the payment is successful
+# And the balance of the customer at the bank is 900 kr
+# And the balance of the merchant at the bank is 2100 kr
 
 #  Scenario: Registering customer
 #    Given a customer with a bank account with balance 1000
