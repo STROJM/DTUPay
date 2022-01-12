@@ -20,3 +20,8 @@ popd
 pushd Payment
 ./build.sh
 popd 
+
+# Build APIs
+pushd CustomerApi
+./build.sh
+popd

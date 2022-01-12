@@ -13,7 +13,7 @@ set -e
 
 docker-compose up -d rabbitMq
 sleep 10
-docker-compose up -d token-management account-management payment # add remaining services
+docker-compose up -d token-management account-management payment customer-api
 
 # Cleanup the build images
 docker image prune -f
