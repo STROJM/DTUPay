@@ -13,17 +13,17 @@ public class TokenService {
 
     public TokenService(MessageQueue q) {
         queue = q;
-        queue.addHandler("StudentIdAssigned", this::handleTokenRespons);
+        queue.addHandler("TokensResponse", this::handleTokenResponse);
     }
 
     public TokensResponseMessage requestTokens(TokensRequestMessage s) {
         tokens = new CompletableFuture<>();
-        Event event = new Event("StudentRegistrationRequested", new Object[] { s });
+        Event event = new Event("TokensRequest", new Object[] { s });
         queue.publish(event);
         return tokens.join();
     }
 
-    public void handleTokenRespons(Event e) {
+    public void handleTokenResponse(Event e) {
         var s = e.getArgument(0, TokensResponseMessage.class);
         tokens.complete(s);
     }
