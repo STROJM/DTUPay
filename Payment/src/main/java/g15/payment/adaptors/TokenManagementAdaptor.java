@@ -1,7 +1,9 @@
 package g15.payment.adaptors;
 
 import g15.payment.PaymentService;
+import g15.payment.exceptions.InvalidPaymentException;
 import g15.payment.messages.EnrichedPaymentMessage;
+import g15.payment.messages.PaymentResponseMessage;
 import g15.payment.repositories.PaymentRepository;
 import messaging.Event;
 import messaging.MessageQueue;
@@ -18,7 +20,15 @@ public class TokenManagementAdaptor {
 
     public void handleEnrichedPaymentEvent(Event event) {
         var payment = event.getArgument(0, EnrichedPaymentMessage.class);
-        var response = this.paymentService.performPayment(payment);
+        PaymentResponseMessage response = null;
+
+        try {
+            this.paymentService.performPayment(payment);
+            response = new PaymentResponseMessage();
+        } catch (InvalidPaymentException e) {
+            response = new PaymentResponseMessage(e.getMessage());
+        }
+
         Event responseEvent = new Event("PaymentFinishedMessage", new Object[] { response });
         this.queue.publish(responseEvent);
     }

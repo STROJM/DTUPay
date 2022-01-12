@@ -1,10 +1,15 @@
 Feature: Payment
 
   Scenario: Successful Payment
-    When a valid "EnrichedPaymentMessage" event for a payment is received
-    Then the amount is transferred in the bank
-    And the payment has been stored
-    And a "PaymentFinishedMessage" event is sent
+    Given a valid "EnrichedPaymentMessage" event for a payment of 100 kr is received
+    When the amount is transferred in the bank
+    Then the payment has been stored
+    And a valid "PaymentFinishedMessage" event is sent
+
+  Scenario: Payment with negative amount
+    Given a valid "EnrichedPaymentMessage" event for a payment of -100 kr is received
+    Then the payment has not been stored
+    And an invalid "PaymentFinishedMessage" event is sent with message "Cannot transfer negative amounts"
 
 # Given a customer with a bank account with balance 1000
 # And that the customer is registered with DTU Pay
