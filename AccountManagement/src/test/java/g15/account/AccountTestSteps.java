@@ -23,15 +23,20 @@ public class AccountTestSteps {
 
     boolean expectedSuccess = false;
 
+    List<String> cleanUpErrors = new ArrayList<>();
+
     @After
     public void cleanupAccounts() {
         for (AccountInfo acc : testAccountsRegistered) {
             try {
                 testingService.retireAccount(acc.getAccountId());
             } catch (Exception e) {
-                // We don't care if the account doesn't exist
+                cleanUpErrors.add(acc.getAccountId());
             }
         }
+
+        if (!cleanUpErrors.isEmpty())
+            throw new Error("Failed to cleanup test bank accounts: " + String.join(", ", cleanUpErrors));
     }
 
     private void registerTestUserInBank() {
@@ -83,9 +88,9 @@ public class AccountTestSteps {
     }
 
     @Given("a customer with a valid bank account number {string}")
-    public void aCustomerWithAValidBankAccountNumber(String arg0) {
-        if (accountService.isBankAccountValid(arg0)) {
-            latestBankAccountNumber = arg0;
+    public void aCustomerWithAValidBankAccountNumber(String bankAccountNumber) {
+        if (accountService.isBankAccountValid(bankAccountNumber)) {
+            latestBankAccountNumber = bankAccountNumber;
         } else {
             registerTestUserInBank();
             Assert.assertTrue(accountService.isBankAccountValid(latestBankAccountNumber));
@@ -95,9 +100,9 @@ public class AccountTestSteps {
     }
 
     @Given("a merchant with a valid bank account number {string}")
-    public void aMerchantWithAValidBankAccountNumber(String arg0) {
-        if (accountService.isBankAccountValid(arg0)) {
-            latestBankAccountNumber = arg0;
+    public void aMerchantWithAValidBankAccountNumber(String bankAccountNumber) {
+        if (accountService.isBankAccountValid(bankAccountNumber)) {
+            latestBankAccountNumber = bankAccountNumber;
         } else {
             registerTestUserInBank();
             Assert.assertTrue(accountService.isBankAccountValid(latestBankAccountNumber));
@@ -107,14 +112,14 @@ public class AccountTestSteps {
     }
 
     @Given("a customer with a invalid bank account number {string}")
-    public void aCustomerWithAInvalidBankAccountNumber(String arg0) {
-        latestBankAccountNumber = arg0;
+    public void aCustomerWithAInvalidBankAccountNumber(String bankAccountNumber) {
+        latestBankAccountNumber = bankAccountNumber;
         Assert.assertFalse(accountService.isBankAccountValid(latestBankAccountNumber));
     }
 
     @Given("a merchant with a invalid bank account number {string}")
-    public void aMerchantWithAInvalidBankAccountNumber(String arg0) {
-        latestBankAccountNumber = arg0;
+    public void aMerchantWithAInvalidBankAccountNumber(String bankAccountNumber) {
+        latestBankAccountNumber = bankAccountNumber;
         Assert.assertFalse(accountService.isBankAccountValid(latestBankAccountNumber));
     }
 }
