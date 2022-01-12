@@ -11,4 +11,12 @@ popd
 # Build the services
 pushd TokenManagement
 ./build.sh
+popd
+
+pushd AccountManagement
+./build.sh
+popd
+
+pushd Payment
+./build.sh
 popd 
