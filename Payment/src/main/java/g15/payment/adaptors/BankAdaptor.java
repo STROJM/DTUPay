@@ -25,8 +25,8 @@ public class BankAdaptor {
     public void performRefund(EnrichedRefundMessage refund) throws BankException {
         try {
             bankService.transferMoneyFromTo(
-                    refund.getCustomerBankAccount(),
                     refund.getMerchantBankAccount(),
+                    refund.getCustomerBankAccount(),
                     refund.getAmount(),
                     refund.getDescription()
             );
