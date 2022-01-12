@@ -18,11 +18,20 @@
 
         <cucumber.version>6.9.1</cucumber.version>
         <junit.jupiter.version>5.7.0</junit.jupiter.version>
+        <mockito.version>4.2.0</mockito.version>
         <surefire-plugin.version>2.22.2</surefire-plugin.version>
         <startup.class>g15.token.StartUp</startup.class>
     </properties>
 
     <dependencies>
+
+        <!-- message utilities -->
+        <dependency>
+            <groupId>g15.messaging</groupId>
+            <artifactId>MessageUtilities</artifactId>
+            <version>3.2</version>
+        </dependency>
+
         <!-- cucumber -->
         <dependency>
             <groupId>io.cucumber</groupId>
@@ -48,6 +57,7 @@
             <version>${cucumber.version}</version>
             <scope>test</scope>
         </dependency>
+
         <!-- junit 5 -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -55,6 +65,15 @@
             <version>${junit.jupiter.version}</version>
             <scope>test</scope>
         </dependency>
+
+        <!-- mockito -->
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>${mockito.version}</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
     <build>

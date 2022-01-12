@@ -1,4 +1,7 @@
-package g15.token;
+package g15.token.services;
+
+import g15.token.exceptions.InvalidTokenException;
+import g15.token.exceptions.InvalidTokenRequestException;
 
 import java.util.HashMap;
 import java.util.LinkedList;
