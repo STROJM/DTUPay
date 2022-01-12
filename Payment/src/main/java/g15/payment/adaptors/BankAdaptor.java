@@ -5,6 +5,7 @@ import dtu.ws.fastmoney.BankServiceException_Exception;
 import dtu.ws.fastmoney.BankServiceService;
 import g15.payment.exceptions.BankException;
 import g15.payment.messages.EnrichedPaymentMessage;
+import g15.payment.messages.EnrichedRefundMessage;
 
 public class BankAdaptor {
     private final BankService bankService = new BankServiceService().getBankServicePort();
@@ -15,6 +16,19 @@ public class BankAdaptor {
                     payment.getMerchantBankAccount(),
                     payment.getAmount(),
                     payment.getDescription()
+            );
+        } catch (BankServiceException_Exception e) {
+            throw new BankException(e.getMessage());
+        }
+    }
+
+    public void performRefund(EnrichedRefundMessage refund) throws BankException {
+        try {
+            bankService.transferMoneyFromTo(
+                    refund.getMerchantBankAccount(),
+                    refund.getCustomerBankAccount(),
+                    refund.getAmount(),
+                    refund.getDescription()
             );
         } catch (BankServiceException_Exception e) {
             throw new BankException(e.getMessage());
