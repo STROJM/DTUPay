@@ -3,7 +3,7 @@ package g15.payment.messages;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class EnrichedPayment implements Serializable {
+public class EnrichedPaymentMessage implements Serializable {
     private static final long serialVersionUID = 9023222984284806610L;
 
     private String customerBankAccount;
@@ -13,7 +13,7 @@ public class EnrichedPayment implements Serializable {
     private boolean valid;
     private String errorMessage;
 
-    public EnrichedPayment(String customerBankAccount, String merchantBankAccount, BigDecimal amount, String description, boolean valid, String errorMessage) {
+    public EnrichedPaymentMessage(String customerBankAccount, String merchantBankAccount, BigDecimal amount, String description, boolean valid, String errorMessage) {
         this.customerBankAccount = customerBankAccount;
         this.merchantBankAccount = merchantBankAccount;
         this.amount = amount;
@@ -41,10 +41,10 @@ public class EnrichedPayment implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        if (!(object instanceof EnrichedPayment)) {
+        if (!(object instanceof EnrichedPaymentMessage)) {
             return false;
         }
-        var other = (EnrichedPayment) object;
+        var other = (EnrichedPaymentMessage) object;
 
         return customerBankAccount.equals(other.getCustomerBankAccount()) &&
                 merchantBankAccount.equals(other.getMerchantBankAccount()) &&

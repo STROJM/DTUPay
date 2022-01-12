@@ -4,11 +4,11 @@ import dtu.ws.fastmoney.BankService;
 import dtu.ws.fastmoney.BankServiceException_Exception;
 import dtu.ws.fastmoney.BankServiceService;
 import g15.payment.exceptions.BankException;
-import g15.payment.messages.EnrichedPayment;
+import g15.payment.messages.EnrichedPaymentMessage;
 
-public class Bank {
+public class BankAdaptor {
     private final BankService bankService = new BankServiceService().getBankServicePort();
-    public void performPayment(EnrichedPayment payment) throws BankException {
+    public void performPayment(EnrichedPaymentMessage payment) throws BankException {
         try {
             bankService.transferMoneyFromTo(
                     payment.getCustomerBankAccount(),
