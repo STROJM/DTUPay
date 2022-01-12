@@ -48,13 +48,13 @@ public class PaymentTestSteps {
         verify(bankAdaptor).performRefund((EnrichedRefundMessage) payment);
     }
 
-    @Then("the payment has been stored")
-    public void thePaymentHasBeenStored() {
+    @Then("the transaction has been stored")
+    public void theTransactionHasBeenStored() {
         Assert.assertTrue(service.listPayments().contains(expectedStoredPayment));
     }
 
-    @Then("the payment has not been stored")
-    public void thePaymentHasNotBeenStored() {
+    @Then("the transaction has not been stored")
+    public void theTransactionHasNotBeenStored() {
         Assert.assertFalse(service.listPayments().contains(expectedStoredPayment));
     }
 

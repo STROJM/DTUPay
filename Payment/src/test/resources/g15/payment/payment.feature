@@ -3,12 +3,12 @@ Feature: Payment
   Scenario: Successful Payment
     Given a valid "EnrichedPaymentMessage" event for a payment of 100 kr is received
     When the payment amount is transferred in the bank
-    Then the payment has been stored
+    Then the transaction has been stored
     And a valid "PaymentFinishedMessage" event is sent
 
   Scenario: Payment with negative amount
     Given a valid "EnrichedPaymentMessage" event for a payment of -100 kr is received
-    Then the payment has not been stored
+    Then the transaction has not been stored
     And an invalid "PaymentFinishedMessage" event is sent with message "Cannot transfer negative amounts"
 
   Scenario: Received invalid payment message
@@ -18,12 +18,12 @@ Feature: Payment
   Scenario: Successful refund
     Given a valid "EnrichedRefundMessage" event for a refund of 100 kr is received
     When the refund amount is transferred in the bank
-    Then the payment has been stored
+    Then the transaction has been stored
     And a valid "RefundFinishedMessage" event is sent
 
   Scenario: Refund with negative amount
     Given a valid "EnrichedRefundMessage" event for a refund of -100 kr is received
-    Then the payment has not been stored
+    Then the transaction has not been stored
     And an invalid "RefundFinishedMessage" event is sent with message "Cannot transfer negative amounts"
 
   Scenario: Received invalid payment message
