@@ -1,5 +1,7 @@
 package g15.customerapi.Models;
 
+import g15.customerapi.Models.Response.Option;
+
 public class ResponseModel {
     public boolean completed;
     public String message;

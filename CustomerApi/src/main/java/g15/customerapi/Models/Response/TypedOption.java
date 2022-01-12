@@ -1,4 +1,4 @@
-package g15.customerapi.Models;
+package g15.customerapi.Models.Response;
 
 public class TypedOption<T> extends Option{
     public final T model;

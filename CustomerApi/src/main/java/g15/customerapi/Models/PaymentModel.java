@@ -2,16 +2,16 @@ package g15.customerapi.Models;
 
 import java.util.Objects;
 
-public class PaymentData {
+public class PaymentModel {
     public float amount;
     public String creditor;
     public String debtor;
     public String description;
 
-    public PaymentData() {
+    public PaymentModel() {
     }
 
-    public PaymentData(float amount, String creditor, String debtor, String description) {
+    public PaymentModel(float amount, String creditor, String debtor, String description) {
         this.amount = amount;
         this.creditor = creditor;
         this.debtor = debtor;
@@ -22,10 +22,10 @@ public class PaymentData {
     // Overriding equals() to compare two Complex objects
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof PaymentData)) {
+        if (!(o instanceof PaymentModel)) {
             return false;
         }
-        PaymentData other = (PaymentData) o;
+        PaymentModel other = (PaymentModel) o;
 
         return other.amount == this.amount &&
                 other.creditor.equals(this.creditor) &&
