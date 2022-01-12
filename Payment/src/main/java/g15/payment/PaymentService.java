@@ -23,6 +23,9 @@ public class PaymentService {
     }
 
     public void performPayment(EnrichedPaymentMessage payment) throws InvalidPaymentException {
+        if (!payment.isValid())
+            throw new InvalidPaymentException("Invalid token");
+
         if (payment.getAmount().compareTo(BigDecimal.ZERO) < 0)
             throw new InvalidPaymentException("Cannot transfer negative amounts");
 

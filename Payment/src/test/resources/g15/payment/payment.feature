@@ -11,6 +11,10 @@ Feature: Payment
     Then the payment has not been stored
     And an invalid "PaymentFinishedMessage" event is sent with message "Cannot transfer negative amounts"
 
+  Scenario: Received invalid message
+    Given an invalid "EnrichedPaymentMessage" event
+    Then an invalid "PaymentFinishedMessage" event is sent with message "Invalid token"
+
 # Given a customer with a bank account with balance 1000
 # And that the customer is registered with DTU Pay
 # And that the customer has a valid token

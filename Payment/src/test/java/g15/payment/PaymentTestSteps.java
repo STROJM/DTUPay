@@ -73,4 +73,11 @@ public class PaymentTestSteps {
 
         Assert.assertEquals(expectedEvent, argument.getValue());
     }
+
+    @Given("an invalid {string} event")
+    public void aInvalidEvent(String eventName) {
+        payment = new EnrichedPaymentMessage("customer", "merchant", "token", new BigDecimal(100), "desc", false, "");
+        Event event = new Event(eventName, new Object[]{payment});
+        tokenManagementAdaptor.handleEnrichedPaymentEvent(event);
+    }
 }
