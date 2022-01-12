@@ -11,9 +11,6 @@ public class StartUp {
 		System.out.println("startup");
 		var mq = new RabbitMqQueue("rabbitMq");
 
-		while(true){
-			Thread.sleep(1000);
-			System.out.println("up");
-		}
+		// TODO: Proper setup of service
 	}
 }

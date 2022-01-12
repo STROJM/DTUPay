@@ -1,5 +1,9 @@
 package g15.payment;
 
+import g15.payment.adaptors.BankAdaptor;
+import g15.payment.adaptors.MessageAdaptor;
+import g15.payment.repositories.PaymentRepository;
+import messaging.MessageQueue;
 import messaging.implementations.RabbitMqQueue;
 
 public class StartUp {
@@ -9,11 +13,12 @@ public class StartUp {
 
 	private void startUp() throws Exception {
 		System.out.println("startup");
-		var mq = new RabbitMqQueue("rabbitMq");
+		var queue = new RabbitMqQueue("rabbitMq");
 
-		while(true){
-			Thread.sleep(1000);
-			System.out.println("up");
-		}
+		BankAdaptor bankAdaptor = new BankAdaptor();
+		PaymentRepository paymentRepository = new PaymentRepository();
+		PaymentService service = new PaymentService(paymentRepository, bankAdaptor);
+		new MessageAdaptor(queue, service);
+		System.out.println("payment running");
 	}
 }

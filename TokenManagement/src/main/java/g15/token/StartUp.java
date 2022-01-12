@@ -12,5 +12,6 @@ public class StartUp {
 		System.out.println("startup");
 		var mq = new RabbitMqQueue("rabbitMq");
 		new MessageService(mq);
+		System.out.println("token-management running");
 	}
 }
