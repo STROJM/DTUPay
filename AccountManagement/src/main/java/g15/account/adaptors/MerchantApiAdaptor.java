@@ -28,7 +28,7 @@ public class MerchantApiAdaptor {
             response = new MerchantRegisterResponse(registryAttempt.getBankAccountNumber(), false, e.getMessage());
         }
 
-        Event responseEvent = new Event("CustomerRegisterFinishedMessage", new Object[] { response });
+        Event responseEvent = new Event("MerchantRegisterFinishedMessage", new Object[] { response });
         this.queue.publish(responseEvent);
     }
 }
