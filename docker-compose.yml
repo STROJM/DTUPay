@@ -11,3 +11,10 @@ services:
     image: token-management
     container_name: token-management
 
+  account-management:
+    image: account-management
+    container_name: account-management
+
+  payment:
+    image: payment
+    container_name: payment

@@ -2,11 +2,10 @@ package g15.payment;
 
 //import dtu.ws.fastmoney.*;
 import g15.payment.adaptors.BankAdaptor;
-import g15.payment.adaptors.TokenManagementAdaptor;
+import g15.payment.adaptors.MessageAdaptor;
 import g15.payment.exceptions.BankException;
 import g15.payment.messages.*;
 import g15.payment.repositories.PaymentRepository;
-import io.cucumber.java.PendingException;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -26,7 +25,7 @@ public class PaymentTestSteps {
     MessageQueue queue = mock(MessageQueue.class);
     PaymentRepository paymentRepository = new PaymentRepository();
     PaymentService service = new PaymentService(paymentRepository, bankAdaptor);
-    TokenManagementAdaptor tokenManagementAdaptor = new TokenManagementAdaptor(queue, service);
+    MessageAdaptor messageAdaptor = new MessageAdaptor(queue, service);
     EnrichedMessage payment;
     StoredMessage expectedStoredPayment;
 
@@ -35,7 +34,7 @@ public class PaymentTestSteps {
         payment = new EnrichedPaymentMessage("customer", "merchant", "token", new BigDecimal(amount), "desc", true, "");
         expectedStoredPayment = StoredMessage.from(payment);
         Event event = new Event(eventName, new Object[]{payment});
-        tokenManagementAdaptor.handleEnrichedPaymentEvent(event);
+        messageAdaptor.handleEnrichedPaymentEvent(event);
     }
 
     @When("the payment amount is transferred in the bank")
@@ -81,14 +80,14 @@ public class PaymentTestSteps {
     public void aInvalidPaymentEvent(String eventName) {
         payment = new EnrichedPaymentMessage("customer", "merchant", "token", new BigDecimal(100), "desc", false, "");
         Event event = new Event(eventName, new Object[]{payment});
-        tokenManagementAdaptor.handleEnrichedPaymentEvent(event);
+        messageAdaptor.handleEnrichedPaymentEvent(event);
     }
 
     @Given("an invalid {string} refund event")
     public void aInvalidRefundEvent(String eventName) {
         payment = new EnrichedRefundMessage("customer", "merchant", "token", new BigDecimal(100), "desc", false, "");
         Event event = new Event(eventName, new Object[]{payment});
-        tokenManagementAdaptor.handleEnrichedRefundEvent(event);
+        messageAdaptor.handleEnrichedRefundEvent(event);
     }
 
     @Given("a valid {string} event for a refund of {int} kr is received")
@@ -96,6 +95,6 @@ public class PaymentTestSteps {
         payment = new EnrichedRefundMessage("customer", "merchant", "token", new BigDecimal(amount), "desc", true, "");
         expectedStoredPayment = StoredMessage.from(payment);
         Event event = new Event(eventName, new Object[]{payment});
-        tokenManagementAdaptor.handleEnrichedRefundEvent(event);
+        messageAdaptor.handleEnrichedRefundEvent(event);
     }
 }
