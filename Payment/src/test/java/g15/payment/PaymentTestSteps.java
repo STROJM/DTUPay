@@ -2,6 +2,7 @@ package g15.payment;
 
 //import dtu.ws.fastmoney.*;
 import g15.payment.adaptors.BankAdaptor;
+import g15.payment.adaptors.TokenManagementAdaptor;
 import g15.payment.exceptions.BankException;
 import g15.payment.messages.EnrichedPaymentMessage;
 import g15.payment.messages.PaymentResponseMessage;
@@ -22,7 +23,8 @@ public class PaymentTestSteps {
     BankAdaptor bankAdaptor = mock(BankAdaptor.class);
     MessageQueue queue = mock(MessageQueue.class);
     PaymentRepository paymentRepository = new PaymentRepository();
-    PaymentService service = new PaymentService(queue, paymentRepository, bankAdaptor);
+    PaymentService service = new PaymentService(paymentRepository, bankAdaptor);
+    TokenManagementAdaptor tokenManagementAdaptor = new TokenManagementAdaptor(queue, service);
     EnrichedPaymentMessage payment;
     EnrichedPaymentMessage expected = new EnrichedPaymentMessage("customer", "merchant", new BigDecimal(100), "desc", true, "");
 
@@ -30,7 +32,7 @@ public class PaymentTestSteps {
     public void aEventForAPaymentIsReceived(String eventName) {
         payment = new EnrichedPaymentMessage("customer", "merchant", new BigDecimal(100), "desc", true, "");
         Event event = new Event(eventName, new Object[]{payment});
-        service.handleEnrichedPaymentEvent(event);
+        tokenManagementAdaptor.handleEnrichedPaymentEvent(event);
     }
 
     @Then("the amount is transferred in the bank")

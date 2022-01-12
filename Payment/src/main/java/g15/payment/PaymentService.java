@@ -12,18 +12,14 @@ import java.util.List;
 
 public class PaymentService {
     private BankAdaptor bankAdaptor;
-    private MessageQueue queue;
     private PaymentRepository paymentRepository;
 
-    public PaymentService(MessageQueue queue, PaymentRepository paymentRepository, BankAdaptor bankAdaptor) {
+    public PaymentService(PaymentRepository paymentRepository, BankAdaptor bankAdaptor) {
         this.bankAdaptor = bankAdaptor;
-        this.queue = queue;
         this.paymentRepository = paymentRepository;
-        this.queue.addHandler("EnrichedPaymentMessage", this::handleEnrichedPaymentEvent);
     }
 
-    public void handleEnrichedPaymentEvent(Event event) {
-        var payment = event.getArgument(0, EnrichedPaymentMessage.class);
+    public PaymentResponseMessage performPayment(EnrichedPaymentMessage payment) {
         var response = new PaymentResponseMessage();
 
         try {
@@ -32,9 +28,8 @@ public class PaymentService {
             e.printStackTrace();
         }
 
-        Event responseEvent = new Event("PaymentFinishedMessage", new Object[] { response });
         this.paymentRepository.storePayment(payment);
-        this.queue.publish(responseEvent);
+        return response;
     }
 
     public List<EnrichedPaymentMessage> listPayments() {
