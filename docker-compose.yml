@@ -1,0 +1,10 @@
+version: '3'
+services:
+  rabbitMq:
+    image: rabbitmq:3-management
+    container_name: rabbitMq_container
+    
+  token-management:
+    image: token-management
+    container_name: token-management
+
