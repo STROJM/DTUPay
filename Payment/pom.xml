@@ -70,8 +70,8 @@
             <version>4.1.0</version>
         </dependency>
         <dependency>
-            <groupId>hubert.dtu.dk</groupId>
-            <artifactId>messaging-utilities</artifactId>
+            <groupId>g15.messaging</groupId>
+            <artifactId>MessageUtilities</artifactId>
             <version>3.2</version>
         </dependency>
     </dependencies>
