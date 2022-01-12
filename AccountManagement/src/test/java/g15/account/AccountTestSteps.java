@@ -79,8 +79,7 @@ public class AccountTestSteps {
         Throwable exception = assertThrows(InvalidBankAccountException.class, () -> {
             accountService.registerUserAccount(latestBankAccountNumber);
         });
-        // TODO: Check which error message is coming.
-        Assert.assertFalse(exception.getMessage().isEmpty());
+        Assert.assertEquals(exception.getMessage(), "Account does not exist");
         Assert.assertTrue(
                 accountService.getUserAccounts()
                 .stream()
