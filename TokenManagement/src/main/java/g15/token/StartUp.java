@@ -1,5 +1,6 @@
 package g15.token;
 
+import g15.token.services.MessageService;
 import messaging.implementations.RabbitMqQueue;
 
 public class StartUp {
@@ -10,10 +11,6 @@ public class StartUp {
 	private void startUp() throws Exception {
 		System.out.println("startup");
 		var mq = new RabbitMqQueue("rabbitMq");
-
-		while(true){
-			Thread.sleep(1000);
-			System.out.println("up");
-		}
+		new MessageService(mq);
 	}
 }
