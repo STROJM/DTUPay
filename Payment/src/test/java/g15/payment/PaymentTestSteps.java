@@ -6,6 +6,7 @@ import g15.payment.adaptors.TokenManagementAdaptor;
 import g15.payment.exceptions.BankException;
 import g15.payment.messages.EnrichedPaymentMessage;
 import g15.payment.messages.PaymentResponseMessage;
+import g15.payment.messages.StoredPaymentMessage;
 import g15.payment.repositories.PaymentRepository;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
@@ -26,23 +27,24 @@ public class PaymentTestSteps {
     PaymentService service = new PaymentService(paymentRepository, bankAdaptor);
     TokenManagementAdaptor tokenManagementAdaptor = new TokenManagementAdaptor(queue, service);
     EnrichedPaymentMessage payment;
-    EnrichedPaymentMessage expected = new EnrichedPaymentMessage("customer", "merchant", new BigDecimal(100), "desc", true, "");
+    StoredPaymentMessage expectedStoredPayment;
 
     @When("a valid {string} event for a payment is received")
     public void aEventForAPaymentIsReceived(String eventName) {
-        payment = new EnrichedPaymentMessage("customer", "merchant", new BigDecimal(100), "desc", true, "");
+        payment = new EnrichedPaymentMessage("customer", "merchant", "token", new BigDecimal(100), "desc", true, "");
+        expectedStoredPayment = StoredPaymentMessage.from(payment);
         Event event = new Event(eventName, new Object[]{payment});
         tokenManagementAdaptor.handleEnrichedPaymentEvent(event);
     }
 
     @Then("the amount is transferred in the bank")
     public void theAmountIsTransferredInTheBank() throws BankException {
-        verify(bankAdaptor).performPayment(expected);
+        verify(bankAdaptor).performPayment(payment);
     }
 
     @And("the payment has been stored")
     public void thePaymentHasBeenStored() {
-        Assert.assertTrue(service.listPayments().contains(expected));
+        Assert.assertTrue(service.listPayments().contains(expectedStoredPayment));
     }
 
     @And("a {string} event is sent")

@@ -1,19 +1,20 @@
 package g15.payment.repositories;
 
 import g15.payment.messages.EnrichedPaymentMessage;
+import g15.payment.messages.StoredPaymentMessage;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class PaymentRepository {
-    // TODO: we should probably create a StoredPayment class as customer bank account should not be saved
-    private ArrayList<EnrichedPaymentMessage> payments = new ArrayList();
+    private ArrayList<StoredPaymentMessage> payments = new ArrayList();
 
     public final void storePayment(EnrichedPaymentMessage payment) {
-        payments.add(payment);
+        var storedPayment = StoredPaymentMessage.from(payment);
+        payments.add(storedPayment);
     }
 
-    public final List<EnrichedPaymentMessage> getPayments() {
+    public final List<StoredPaymentMessage> getPayments() {
         return payments;
     }
 }

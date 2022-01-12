@@ -4,6 +4,7 @@ import g15.payment.adaptors.BankAdaptor;
 import g15.payment.exceptions.BankException;
 import g15.payment.messages.EnrichedPaymentMessage;
 import g15.payment.messages.PaymentResponseMessage;
+import g15.payment.messages.StoredPaymentMessage;
 import g15.payment.repositories.PaymentRepository;
 import messaging.Event;
 import messaging.MessageQueue;
@@ -32,7 +33,7 @@ public class PaymentService {
         return response;
     }
 
-    public List<EnrichedPaymentMessage> listPayments() {
+    public List<StoredPaymentMessage> listPayments() {
         return this.paymentRepository.getPayments();
     }
 }

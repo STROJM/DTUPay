@@ -8,18 +8,20 @@ public class EnrichedPaymentMessage implements Serializable {
 
     private String customerBankAccount;
     private String merchantBankAccount;
+    private String token;
     private BigDecimal amount;
     private String description;
     private boolean valid;
     private String errorMessage;
 
-    public EnrichedPaymentMessage(String customerBankAccount, String merchantBankAccount, BigDecimal amount, String description, boolean valid, String errorMessage) {
+    public EnrichedPaymentMessage(String customerBankAccount, String merchantBankAccount, String token, BigDecimal amount, String description, boolean valid, String errorMessage) {
         this.customerBankAccount = customerBankAccount;
         this.merchantBankAccount = merchantBankAccount;
         this.amount = amount;
         this.description = description;
         this.valid = valid;
         this.errorMessage = errorMessage;
+        this.token = token;
     }
 
     public String getCustomerBankAccount() {
@@ -38,6 +40,10 @@ public class EnrichedPaymentMessage implements Serializable {
         return description;
     }
 
+    public String getToken() {
+        return token;
+    }
+
 
     @Override
     public boolean equals(Object object) {
@@ -48,7 +54,16 @@ public class EnrichedPaymentMessage implements Serializable {
 
         return customerBankAccount.equals(other.getCustomerBankAccount()) &&
                 merchantBankAccount.equals(other.getMerchantBankAccount()) &&
+                token.equals(other.getToken()) &&
                 amount.equals(other.getAmount()) &&
                 description.equals(other.getDescription());
+    }
+
+    public boolean isValid() {
+        return valid;
+    }
+
+    public String getErrorMessage() {
+        return errorMessage;
     }
 }

@@ -5,6 +5,7 @@ Feature: Payment
     Then the amount is transferred in the bank
     And the payment has been stored
     And a "PaymentFinishedMessage" event is sent
+
 # Given a customer with a bank account with balance 1000
 # And that the customer is registered with DTU Pay
 # And that the customer has a valid token
