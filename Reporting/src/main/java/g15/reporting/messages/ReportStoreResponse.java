@@ -1,8 +1,7 @@
 package g15.reporting.messages;
 
 import java.io.Serializable;
-
-// TODO: equals and hashCode for all message objects
+import java.util.Objects;
 
 public class ReportStoreResponse implements Serializable {
     boolean completed;
@@ -20,5 +19,18 @@ public class ReportStoreResponse implements Serializable {
 
     public String getErrorMessage() {
         return errorMessage;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ReportStoreResponse that = (ReportStoreResponse) o;
+        return completed == that.completed && errorMessage.equals(that.errorMessage);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(completed, errorMessage);
     }
 }
