@@ -1,7 +1,5 @@
 package g15.merchantapi.Models.Response;
 
-import g15.merchantapi.Models.ResponseModel;
-
 public class TypedResponseModel<T> extends ResponseModel {
     public T model;
 

@@ -1,6 +1,4 @@
-package g15.merchantapi.Models;
-
-import g15.merchantapi.Models.Response.Option;
+package g15.merchantapi.Models.Response;
 
 public class ResponseModel {
     public boolean completed;

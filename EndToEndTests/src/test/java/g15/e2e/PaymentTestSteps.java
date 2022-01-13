@@ -1,8 +1,12 @@
 package g15.e2e;
 
-import dtu.ws.fastmoney.*;
+import dtu.ws.fastmoney.AccountInfo;
+import dtu.ws.fastmoney.BankService;
+import dtu.ws.fastmoney.BankServiceService;
+import dtu.ws.fastmoney.User;
 import g15.e2e.Response.TypedResponseModel;
 import io.cucumber.java.After;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -12,10 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+public class PaymentTestSteps {
 
-public class RegisterTestSteps {
     AccountService service = new AccountService();
     AccountInfo accountCustomer, accountMerchant;
     private final BankService testingService = new BankServiceService().getBankServicePort();
@@ -43,38 +45,30 @@ public class RegisterTestSteps {
             throw new Error("Failed to cleanup test bank accounts: " + String.join(", ", cleanUpErrors));
     }
 
-    @Given("a customer with a valid bank account number")
-    public void aCustomerWithAValidBankAccountNumber() throws Exception {
+
+    @Given("a customer and a merchant with a valid bank account number")
+    public void aCustomerAndAMerchantWithAValidBankAccountNumber() throws Exception {
         accountCustomer = registerTestUserInBank();
-    }
-
-    @When("the customer register at DTUPay")
-    public void theCustomerRegisterAtDTUPay() {
-        AccountModel accountModel = new AccountModel(accountCustomer.getAccountId());
-        this.registerCustomerRequestResponse = service.registerCustomer(accountModel);
-    }
-
-    @Then("the customer register request is successful")
-    public void theCustomerRegisterRequestIsSuccessful() {
-        assertTrue(this.registerCustomerRequestResponse.completed);
-        assertFalse(this.registerCustomerRequestResponse.model.isEmpty());
-    }
-
-    @Given("a merchant with a valid bank account number")
-    public void aMerchantWithAValidBankAccountNumber() throws Exception{
         accountMerchant = registerTestUserInBank();
     }
 
-    @When("the merchant register at DTUPay")
-    public void theMerchantRegisterAtDTUPay() {
-        AccountModel accountModel = new AccountModel(accountMerchant.getAccountId());
-        this.registerMerchantRequestResponse = service.registerMerchant(accountModel);
+
+    @And("the customer and the merchant is registered in DTUPay")
+    public void theCustomerAndTheMerchantIsRegisteredInDTUPay() {
+
+        AccountModel accountModel = new AccountModel(accountCustomer.getAccountId());
+        this.registerCustomerRequestResponse = service.registerCustomer(accountModel);
+
+        AccountModel accountModel2 = new AccountModel(accountMerchant.getAccountId());
+        this.registerMerchantRequestResponse = service.registerMerchant(accountModel2);
     }
 
-    @Then("the merchant register request is successful")
-    public void theMerchantRegisterRequestIsSuccessful() {
-        assertTrue(this.registerMerchantRequestResponse.completed);
-        assertFalse(this.registerMerchantRequestResponse.model.isEmpty());
+    @When("the merchant initiates a payment for the customer of {int} kr")
+    public void theMerchantInitiatesAPaymentForTheCustomerOfKr(int arg0) {
+    }
+
+    @Then("the payment is successful")
+    public void thePaymentIsSuccessful() {
     }
 
     private AccountInfo registerTestUserInBank() throws Exception {
