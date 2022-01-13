@@ -1,7 +1,7 @@
 package g15.customerapi.Service;
 
-import g15.customerapi.messages.TokensRequestMessage;
-import g15.customerapi.messages.TokensResponseMessage;
+import g15.customerapi.Service.messages.TokensRequestMessage;
+import g15.customerapi.Service.messages.TokensResponseMessage;
 import messaging.Event;
 import messaging.MessageQueue;
 import messaging.implementations.RabbitMqQueue;

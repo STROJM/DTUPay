@@ -1,4 +1,4 @@
-package g15.customerapi.messages;
+package g15.customerapi.Service.messages;
 
 public class CustomerRegisterResponse extends ResponseMessage {
 

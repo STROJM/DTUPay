@@ -1,17 +1,13 @@
 package g15.customerapi.Api;
 
 import g15.customerapi.Mapper.CustomerMapper;
-import g15.customerapi.Mapper.TokenMapper;
 import g15.customerapi.Models.CustomerModel;
 import g15.customerapi.Models.Response.TypedResponseModel;
-import g15.customerapi.Models.TokenModel;
 import g15.customerapi.Service.AccountService;
-import g15.customerapi.messages.CustomerRegisterResponse;
-import g15.customerapi.messages.TokensResponseMessage;
+import g15.customerapi.Service.messages.CustomerRegisterResponse;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import java.util.List;
 
 @Path("/accounts")
 public class Accounts {

@@ -24,3 +24,9 @@ services:
     container_name: customer-api
     ports:
       - "8080:8080"
+
+  merchant-api:
+    image: merchant-api
+    container_name: merchant-api
+    ports:
+      - "8081:8080"

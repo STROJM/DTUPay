@@ -4,8 +4,7 @@ import g15.customerapi.Mapper.TokenMapper;
 import g15.customerapi.Models.Response.TypedResponseModel;
 import g15.customerapi.Models.TokenModel;
 import g15.customerapi.Service.TokenService;
-import g15.customerapi.messages.TokensRequestMessage;
-import g15.customerapi.messages.TokensResponseMessage;
+import g15.customerapi.Service.messages.TokensResponseMessage;
 import messaging.implementations.RabbitMqQueue;
 
 import javax.ws.rs.*;
