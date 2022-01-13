@@ -1,5 +1,5 @@
 Feature: Token testing
 
   Scenario: Token request test
-    When a new customer with bank number "1234-1234-1234-1234" requests 5 tokens
+    When a new customer with a new bank account requests 5 tokens
     Then the token request is successful
