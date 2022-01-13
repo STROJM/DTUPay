@@ -6,22 +6,18 @@ import com.rabbitmq.client.*;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
+import java.util.concurrent.*;
 import java.util.function.Consumer;
 
 public class RabbitMqClient implements IMessagingClient{
+    private final Map<String, CallAwaiter> awaiters = new ConcurrentHashMap<>();
     private final Channel channel;
     private static final Charset ENCODING = StandardCharsets.UTF_8;
     private static final String EXCHANGE = "events";
     private static final String QUEUE_TYPE = "direct";
-
-    public static IMessagingClient create(){
-        return new RabbitMqClient("rabbitMq");
-    }
+    private final String replyQueueName;
 
     public RabbitMqClient(String host) {
         try {
@@ -30,6 +26,9 @@ public class RabbitMqClient implements IMessagingClient{
             Connection connection = factory.newConnection();
             channel = connection.createChannel();
             channel.exchangeDeclare(EXCHANGE, QUEUE_TYPE);
+
+            replyQueueName = channel.queueDeclare().getQueue();
+            registerAwaiters();
             System.out.printf("Connected to exchange %s with queue type %s%n", EXCHANGE, QUEUE_TYPE);
         } catch (IOException | TimeoutException e) {
             throw new Error(e);
@@ -37,7 +36,7 @@ public class RabbitMqClient implements IMessagingClient{
     }
 
     private <T> void log(Message<T> message, String method){
-        System.out.printf("Calling %s with message %s%n", method, message.model.getClass().getName());
+        System.out.printf("Calling %s with message %s%n", method, message.model.getClass().getSimpleName());
     }
     private void log(String message){
         System.out.println(message);
@@ -93,25 +92,24 @@ public class RabbitMqClient implements IMessagingClient{
     public <TRequest,TResponse> TResponse call(TRequest request, Class<TResponse> responseType) throws IOException, InterruptedException {
         final String corrId = UUID.randomUUID().toString();
         final String routing_key = request.getClass().getSimpleName();
-
-        String replyQueueName = channel.queueDeclare().getQueue();
         var props = getProperties(corrId, replyQueueName);
-
         channel.basicPublish(EXCHANGE, routing_key, props, serialize(request));
 
         final BlockingQueue<TResponse> response = new ArrayBlockingQueue<>(1);
+        awaiters.put(corrId, CallAwaiter.from(response, responseType));
+        return response.poll(10, TimeUnit.SECONDS);
+    }
 
-        var channelTag = channel.basicConsume(replyQueueName, true, (consumerTag, delivery) -> {
-            if (delivery.getProperties().getCorrelationId().equals(corrId)) {
-                TResponse model = deserialize(delivery.getBody(), responseType);
-                response.offer(model);
+    private void registerAwaiters() throws IOException {
+        channel.basicConsume(replyQueueName, true, (consumerTag, delivery) -> {
+            if(awaiters.containsKey(delivery.getProperties().getCorrelationId())) {
+                var awaiter = awaiters.remove(delivery.getProperties().getCorrelationId());
+                var model = deserialize(delivery.getBody(), awaiter.getResponseType());
+                log("Awaiter released, with response type: " + awaiter.getResponseType().getSimpleName());
+                awaiter.getResponse().offer(model);
             }
         }, consumerTag -> {
         });
-
-        var result = response.poll(10, TimeUnit.SECONDS);
-        channel.basicCancel(channelTag);
-        return result;
     }
 
     private AMQP.BasicProperties getProperties(String corrId) {
