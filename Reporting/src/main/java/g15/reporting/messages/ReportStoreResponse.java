@@ -4,12 +4,12 @@ import java.io.Serializable;
 
 // TODO: equals and hashCode for all message objects
 
-public class ReportResponse implements Serializable {
+public class ReportStoreResponse implements Serializable {
     boolean completed;
     String errorMessage;
 
 
-    public ReportResponse(boolean completed, String errorMessage) {
+    public ReportStoreResponse(boolean completed, String errorMessage) {
         this.completed = completed;
         this.errorMessage = errorMessage;
     }
