@@ -80,6 +80,11 @@
             <version>1.18.22</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>g15.reporting</groupId>
+            <artifactId>Reporting</artifactId>
+            <version>1.0.0</version>
+        </dependency>
     </dependencies>
 
     <build>

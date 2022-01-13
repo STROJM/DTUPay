@@ -5,6 +5,8 @@ import g15.payment.exceptions.InvalidPaymentException;
 import g15.payment.messages.EnrichedPaymentMessage;
 import g15.payment.messages.EnrichedRefundMessage;
 import g15.payment.messages.PaymentResponseMessage;
+import g15.reporting.messages.PaymentReportStoreMessage;
+import g15.reporting.messages.RefundReportStoreMessage;
 import messaging.Event;
 import messaging.MessageQueue;
 
@@ -32,6 +34,10 @@ public class MessageAdaptor {
 
         Event responseEvent = new Event("PaymentFinishedMessage", new Object[] { response });
         this.queue.publish(responseEvent);
+
+        PaymentReportStoreMessage reportMessage = new PaymentReportStoreMessage(payment, response);
+        Event reportEvent = new Event("PaymentReportStoreMessage", new Object[] { reportMessage });
+        this.queue.publish(reportEvent);
     }
 
     public void handleEnrichedRefundEvent(Event event) {
@@ -46,7 +52,10 @@ public class MessageAdaptor {
         }
 
         Event responseEvent = new Event("RefundFinishedMessage", new Object[] { response });
-        // TODO: PaymentReportStoreMessage/RefundReportStoreMessage eventType must be published to save to report repository
         this.queue.publish(responseEvent);
+
+        RefundReportStoreMessage reportMessage = new RefundReportStoreMessage(refund, response);
+        Event reportEvent = new Event("RefundReportStoreMessage", new Object[] { reportMessage });
+        this.queue.publish(reportEvent);
     }
 }
