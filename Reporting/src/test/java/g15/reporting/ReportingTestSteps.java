@@ -61,4 +61,24 @@ public class ReportingTestSteps {
         Event event = new Event(eventName, new Object[]{response});
         verify(queue).publish(event);
     }
+
+    @Given("a valid {string} event for a failed payment of {int} kr is received")
+    public void aValidEventForAFailedPaymentOfKrIsReceived(String eventName, int amount) {
+        var paymentMessage = new EnrichedPaymentMessage("customer", "merchant", "token", new BigDecimal(amount), "desc", false, "Insufficient funds");
+        var paymentResponse = new PaymentResponseMessage();
+        mostRecentReportForStore = new PaymentReportStoreMessage(paymentMessage, paymentResponse);
+
+        Event event = new Event(eventName, new Object[]{mostRecentReportForStore});
+        messageAdaptor.handlePaymentReportEvent(event);
+    }
+
+    @Given("a valid {string} event for a failed refund of {int} kr is received")
+    public void aValidEventForAFailedRefundOfKrIsReceived(String eventName, int amount) {
+        var refundMessage = new EnrichedRefundMessage("customer", "merchant", "token", new BigDecimal(amount), "desc", false, "Insufficient funds");
+        var refundResponse = new PaymentResponseMessage();
+        mostRecentReportForStore = new RefundReportStoreMessage(refundMessage, refundResponse);
+
+        Event event = new Event(eventName, new Object[]{mostRecentReportForStore});
+        messageAdaptor.handleRefundReportEvent(event);
+    }
 }
