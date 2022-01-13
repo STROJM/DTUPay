@@ -3,9 +3,9 @@ package g15.reporting.messages;
 import g15.payment.messages.EnrichedRefundMessage;
 import g15.payment.messages.PaymentResponseMessage;
 
-public class RefundReport extends Report {
+public class RefundReportStoreMessage extends Report {
 
-    public RefundReport(EnrichedRefundMessage refundRequest, PaymentResponseMessage paymentResponse) {
+    public RefundReportStoreMessage(EnrichedRefundMessage refundRequest, PaymentResponseMessage paymentResponse) {
         super();
 
         this.setValid(paymentResponse.isValid());

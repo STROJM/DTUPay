@@ -3,9 +3,9 @@ package g15.reporting.messages;
 import g15.payment.messages.EnrichedPaymentMessage;
 import g15.payment.messages.PaymentResponseMessage;
 
-public class PaymentReport extends Report {
+public class PaymentReportStoreMessage extends Report {
 
-    public PaymentReport(EnrichedPaymentMessage paymentRequest, PaymentResponseMessage paymentResponse) {
+    public PaymentReportStoreMessage(EnrichedPaymentMessage paymentRequest, PaymentResponseMessage paymentResponse) {
         super();
 
         this.setValid(paymentResponse.isValid());
