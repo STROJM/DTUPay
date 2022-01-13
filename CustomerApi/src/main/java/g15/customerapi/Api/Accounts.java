@@ -1,7 +1,7 @@
 package g15.customerapi.Api;
 
 import g15.customerapi.Mapper.CustomerMapper;
-import g15.customerapi.Models.CustomerModel;
+import g15.customerapi.Models.AccountModel;
 import g15.customerapi.Models.Response.TypedResponseModel;
 import g15.customerapi.Service.AccountService;
 import g15.customerapi.Service.messages.CustomerRegisterResponse;
@@ -20,8 +20,8 @@ public class Accounts {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public TypedResponseModel<String> register(CustomerModel customerModel) {
-        CustomerRegisterResponse customerRegisterResponse = service.customerRegister(CustomerMapper.map(customerModel));
+    public TypedResponseModel<String> register(AccountModel accountModel) {
+        CustomerRegisterResponse customerRegisterResponse = service.customerRegister(CustomerMapper.map(accountModel));
 
         var result = new TypedResponseModel<String>();
         result.completed = customerRegisterResponse.isValid();

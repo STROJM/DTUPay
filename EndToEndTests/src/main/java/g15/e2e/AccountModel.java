@@ -1,4 +1,4 @@
-package g15.merchantapi.Models;
+package g15.e2e;
 
 public class AccountModel {
     public String bankAccount;

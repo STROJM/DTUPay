@@ -1,9 +1,6 @@
 package g15.e2e;
 
-import dtu.ws.fastmoney.AccountInfo;
-import dtu.ws.fastmoney.BankService;
-import dtu.ws.fastmoney.BankServiceService;
-import dtu.ws.fastmoney.User;
+import dtu.ws.fastmoney.*;
 import g15.e2e.Response.TypedResponseModel;
 import io.cucumber.java.After;
 import io.cucumber.java.en.Given;
@@ -20,20 +17,20 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class RegisterTestSteps {
     AccountService service = new AccountService();
-    AccountInfo accountUser;
+    AccountInfo accountCustomer, accountMerchant;
     private final BankService testingService = new BankServiceService().getBankServicePort();
-    private TypedResponseModel<String> registerRequestResponse;
+    private TypedResponseModel<String> registerCustomerRequestResponse, registerMerchantRequestResponse;
     List<String> cleanUpErrors = new ArrayList<>();
 
     @After
     public void cleanupAccounts() {
-        if(accountUser == null){
+        if(accountCustomer == null){
             return;
         }
         try {
-            testingService.retireAccount(accountUser.getAccountId());
+            testingService.retireAccount(accountCustomer.getAccountId());
         } catch (Exception e) {
-            cleanUpErrors.add(accountUser.getAccountId());
+            cleanUpErrors.add(accountCustomer.getAccountId());
         }
 
         if (!cleanUpErrors.isEmpty())
@@ -42,22 +39,39 @@ public class RegisterTestSteps {
 
     @Given("a customer with a valid bank account number")
     public void aCustomerWithAValidBankAccountNumber() throws Exception {
-        registerTestUserInBank();
+        accountCustomer = registerTestUserInBank();
     }
 
     @When("the customer register at DTUPay")
     public void theCustomerRegisterAtDTUPay() {
-        CustomerModel customerModel = new CustomerModel(accountUser.getAccountId());
-        this.registerRequestResponse = service.registerCustomer(customerModel);
+        AccountModel accountModel = new AccountModel(accountCustomer.getAccountId());
+        this.registerCustomerRequestResponse = service.registerCustomer(accountModel);
     }
 
-    @Then("the register request is successful")
-    public void theRegisterRequestIsSuccessful() {
-        assertTrue(this.registerRequestResponse.completed);
-        assertFalse(this.registerRequestResponse.model.isEmpty());
+    @Then("the customer register request is successful")
+    public void theCustomerRegisterRequestIsSuccessful() {
+        assertTrue(this.registerCustomerRequestResponse.completed);
+        assertFalse(this.registerCustomerRequestResponse.model.isEmpty());
     }
 
-    private void registerTestUserInBank() throws Exception {
+    @Given("a merchant with a valid bank account number")
+    public void aMerchantWithAValidBankAccountNumber() throws Exception{
+        accountMerchant = registerTestUserInBank();
+    }
+
+    @When("the merchant register at DTUPay")
+    public void theMerchantRegisterAtDTUPay() {
+        AccountModel accountModel = new AccountModel(accountMerchant.getAccountId());
+        this.registerMerchantRequestResponse = service.registerMerchant(accountModel);
+    }
+
+    @Then("the merchant register request is successful")
+    public void theMerchantRegisterRequestIsSuccessful() {
+        assertTrue(this.registerMerchantRequestResponse.completed);
+        assertFalse(this.registerMerchantRequestResponse.model.isEmpty());
+    }
+
+    private AccountInfo registerTestUserInBank() throws Exception {
         User customer = new User();
         customer.setFirstName(UUID.randomUUID().toString());
         customer.setLastName(UUID.randomUUID().toString());
@@ -68,9 +82,10 @@ public class RegisterTestSteps {
             AccountInfo userNew = new AccountInfo();
             userNew.setUser(customer);
             userNew.setAccountId(bankId);
-            accountUser = userNew;
+            return userNew;
         } catch (Exception e) {
             throw new Exception("Could not create test bank account");
         }
     }
+
 }
