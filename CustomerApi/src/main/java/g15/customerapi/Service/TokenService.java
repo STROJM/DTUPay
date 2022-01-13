@@ -4,15 +4,18 @@ import g15.customerapi.messages.TokensRequestMessage;
 import g15.customerapi.messages.TokensResponseMessage;
 import messaging.Event;
 import messaging.MessageQueue;
+import messaging.implementations.RabbitMqQueue;
 
+import javax.inject.Singleton;
 import java.util.concurrent.CompletableFuture;
 
+@Singleton
 public class TokenService {
     private final MessageQueue queue;
     private CompletableFuture<TokensResponseMessage> tokens;
 
-    public TokenService(MessageQueue q) {
-        queue = q;
+    public TokenService() {
+        queue = new RabbitMqQueue("rabbitMq");
         queue.addHandler("TokensResponse", this::handleTokenResponse);
     }
 

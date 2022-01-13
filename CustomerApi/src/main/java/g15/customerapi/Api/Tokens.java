@@ -1,12 +1,12 @@
 package g15.customerapi.Api;
 
-import g15.customerapi.Factory.TokenRequestFactory;
 import g15.customerapi.Mapper.TokenMapper;
 import g15.customerapi.Models.Response.TypedResponseModel;
 import g15.customerapi.Models.TokenModel;
 import g15.customerapi.Service.TokenService;
 import g15.customerapi.messages.TokensRequestMessage;
 import g15.customerapi.messages.TokensResponseMessage;
+import messaging.implementations.RabbitMqQueue;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -16,8 +16,8 @@ import javax.ws.rs.core.MediaType;
 public class Tokens {
     TokenService service;
 
-    public Tokens(){
-        service = new TokenRequestFactory().getService();
+    public Tokens(TokenService service){
+        this.service = service;
     }
 
     @POST
