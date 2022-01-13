@@ -1,9 +1,4 @@
-package g15.merchantapi.Models;
-
-//Merch-id
-//Cust. token
-//Amount
-//Description
+package g15.e2e;
 
 import java.math.BigDecimal;
 
@@ -13,7 +8,7 @@ public class PaymentModel {
     public BigDecimal amount;
     public String description;
 
-    public PaymentModel() {
+    public PaymentModel(){
 
     }
 

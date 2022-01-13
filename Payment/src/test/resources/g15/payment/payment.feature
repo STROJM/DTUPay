@@ -9,11 +9,11 @@ Feature: Payment
   Scenario: Payment with negative amount
     Given a valid "EnrichedPaymentMessage" event for a payment of -100 kr is received
     Then the transaction has not been stored
-    And an invalid "PaymentFinishedMessage" event is sent with message "Cannot transfer negative amounts"
+    And an invalid payment response event is sent with message "Cannot transfer negative amounts"
 
   Scenario: Received invalid payment message
     Given an invalid "EnrichedPaymentMessage" payment event
-    Then an invalid "PaymentFinishedMessage" event is sent with message "Invalid token"
+    Then an invalid payment response event is sent with message "Invalid token"
 
   Scenario: Successful refund
     Given a valid "EnrichedRefundMessage" event for a refund of 100 kr is received
@@ -24,11 +24,11 @@ Feature: Payment
   Scenario: Refund with negative amount
     Given a valid "EnrichedRefundMessage" event for a refund of -100 kr is received
     Then the transaction has not been stored
-    And an invalid "RefundFinishedMessage" event is sent with message "Cannot transfer negative amounts"
+    And an invalid payment response event is sent with message "Cannot transfer negative amounts"
 
   Scenario: Received invalid payment message
     Given an invalid "EnrichedRefundMessage" refund event
-    Then an invalid "RefundFinishedMessage" event is sent with message "Invalid token"
+    Then an invalid payment response event is sent with message "Invalid token"
 
 # Given a customer with a bank account with balance 1000
 # And that the customer is registered with DTU Pay

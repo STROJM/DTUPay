@@ -2,32 +2,24 @@ package g15.merchantapi.Service;
 
 import g15.merchantapi.Service.messages.PaymentMessage;
 import g15.merchantapi.Service.messages.PaymentResponseMessage;
-import messaging.Event;
-import messaging.MessageQueue;
-import messaging.implementations.RabbitMqQueue;
+import messaging.v2.IMessagingClient;
+import messaging.v2.RabbitMqClient;
 
 import javax.inject.Singleton;
-import java.util.concurrent.CompletableFuture;
 
 @Singleton
 public class TokenService {
-    private final MessageQueue queue;
-    private CompletableFuture<PaymentResponseMessage> response;
+    private final IMessagingClient client;
 
     public TokenService() {
-        queue = new RabbitMqQueue("rabbitMq");
-        queue.addHandler("PaymentFinishedMessage", this::handleTokenResponse);
+        this.client = RabbitMqClient.create();
     }
 
-    public PaymentResponseMessage pay(PaymentMessage s) {
-        response = new CompletableFuture<>();
-        Event event = new Event("PaymentRequest", new Object[] { s });
-        queue.publish(event);
-        return response.join();
-    }
-
-    public void handleTokenResponse(Event e) {
-        var s = e.getArgument(0, PaymentResponseMessage.class);
-        response.complete(s);
+    public PaymentResponseMessage pay(PaymentMessage request){
+        try {
+            return client.call(request, PaymentResponseMessage.class);
+        } catch (Exception e) {
+            return new PaymentResponseMessage(e.getMessage());
+        }
     }
 }

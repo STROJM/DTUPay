@@ -1,12 +1,9 @@
 package g15.merchantapi.Api;
 
-import g15.merchantapi.Mapper.MerchantMapper;
 import g15.merchantapi.Mapper.PaymentMapper;
-import g15.merchantapi.Models.AccountModel;
 import g15.merchantapi.Models.PaymentModel;
 import g15.merchantapi.Models.Response.TypedResponseModel;
 import g15.merchantapi.Service.TokenService;
-import g15.merchantapi.Service.messages.MerchantRegisterResponse;
 import g15.merchantapi.Service.messages.PaymentResponseMessage;
 
 import javax.ws.rs.Consumes;
@@ -33,7 +30,7 @@ public class Payments {
         var result = new TypedResponseModel<String>();
         result.completed = paymentResponseMessage.isValid();
         result.model = "";
-        if(!result.completed) {
+        if (!result.completed) {
             result.message = paymentResponseMessage.getErrorMessage();
         }
         return result;

@@ -1,5 +1,6 @@
 package g15.payment;
 
+import com.rabbitmq.client.Delivery;
 import g15.payment.adaptors.BankAdaptor;
 import g15.payment.adaptors.MessageAdaptor;
 import g15.payment.exceptions.BankException;
@@ -9,21 +10,24 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import messaging.Event;
-import messaging.MessageQueue;
+import messaging.v2.IMessagingClient;
+import messaging.v2.Message;
 import org.junit.Assert;
 import org.mockito.ArgumentCaptor;
 
 import java.math.BigDecimal;
 
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 public class PaymentTestSteps {
+    Delivery fakeDelivery = mock(Delivery.class);
     BankAdaptor bankAdaptor = mock(BankAdaptor.class);
-    MessageQueue queue = mock(MessageQueue.class);
+    IMessagingClient client = mock(IMessagingClient.class);
     PaymentRepository paymentRepository = new PaymentRepository();
     PaymentService service = new PaymentService(paymentRepository, bankAdaptor);
-    MessageAdaptor messageAdaptor = new MessageAdaptor(queue, service);
+    MessageAdaptor messageAdaptor = new MessageAdaptor(client, service);
     EnrichedMessage payment;
     StoredMessage expectedStoredPayment;
 
@@ -31,8 +35,9 @@ public class PaymentTestSteps {
     public void aEventForAPaymentIsReceived(String eventName, int amount) {
         payment = new EnrichedPaymentMessage("customer", "merchant", "token", new BigDecimal(amount), "desc", true, "");
         expectedStoredPayment = StoredMessage.from(payment);
-        Event event = new Event(eventName, new Object[]{payment});
-        messageAdaptor.handleEnrichedPaymentEvent(event);
+        var message = Message.from(fakeDelivery, (EnrichedPaymentMessage)payment);
+        //Event event = new Event(eventName, new Object[]{payment});
+        messageAdaptor.handleEnrichedPaymentEvent(message);
     }
 
     @When("the payment amount is transferred in the bank")
@@ -58,41 +63,41 @@ public class PaymentTestSteps {
 
     @And("a valid {string} event is sent")
     public void aEventIsSent(String eventName) {
-        var response = new PaymentResponseMessage();
-        Event event = new Event(eventName, new Object[]{response});
-        verify(queue).publish(event);
+        var captor = ArgumentCaptor.forClass(Message.class);
+        verify(client).reply(captor.capture());
+        var response = (PaymentResponseMessage)captor.getValue().model;
+        assertTrue(response.isValid());
     }
 
-    @And("an invalid {string} event is sent with message {string}")
-    public void anInvalidEventIsSent(String eventName, String errorMessage) {
-        var argument = ArgumentCaptor.forClass(Event.class);
-        verify(queue, times(2)).publish(argument.capture());
-
-        var response = new PaymentResponseMessage(errorMessage);
-        Event expectedEvent = new Event(eventName, new Object[]{response});
-
-        Assert.assertTrue(argument.getAllValues().contains(expectedEvent));
+    @And("an invalid payment response event is sent with message {string}")
+    public void anInvalidPaymentFinishedEventIsSentWithMessage(String errorMessage) {
+        var captor = ArgumentCaptor.forClass(Message.class);
+        verify(client).reply(captor.capture());
+        var response = (PaymentResponseMessage)captor.getValue().model;
+        assertFalse(response.isValid());
+        assertEquals(errorMessage, response.getErrorMessage());
     }
+
 
     @Given("an invalid {string} payment event")
     public void aInvalidPaymentEvent(String eventName) {
         payment = new EnrichedPaymentMessage("customer", "merchant", "token", new BigDecimal(100), "desc", false, "");
-        Event event = new Event(eventName, new Object[]{payment});
-        messageAdaptor.handleEnrichedPaymentEvent(event);
+        var message = Message.from(fakeDelivery, (EnrichedPaymentMessage)payment);
+        messageAdaptor.handleEnrichedPaymentEvent(message);
     }
 
     @Given("an invalid {string} refund event")
     public void aInvalidRefundEvent(String eventName) {
         payment = new EnrichedRefundMessage("customer", "merchant", "token", new BigDecimal(100), "desc", false, "");
-        Event event = new Event(eventName, new Object[]{payment});
-        messageAdaptor.handleEnrichedRefundEvent(event);
+        var message = Message.from(fakeDelivery, (EnrichedRefundMessage)payment);
+        messageAdaptor.handleEnrichedRefundEvent(message);
     }
 
     @Given("a valid {string} event for a refund of {int} kr is received")
     public void aValidEventForARefundOfKrIsReceived(String eventName, int amount) {
         payment = new EnrichedRefundMessage("customer", "merchant", "token", new BigDecimal(amount), "desc", true, "");
         expectedStoredPayment = StoredMessage.from(payment);
-        Event event = new Event(eventName, new Object[]{payment});
-        messageAdaptor.handleEnrichedRefundEvent(event);
+        var message = Message.from(fakeDelivery, (EnrichedRefundMessage)payment);
+        messageAdaptor.handleEnrichedRefundEvent(message);
     }
 }

@@ -4,21 +4,21 @@ import g15.account.exceptions.InvalidBankAccountException;
 import g15.account.messages.MerchantRegisterMessage;
 import g15.account.messages.MerchantRegisterResponse;
 import g15.account.services.AccountService;
-import messaging.Event;
-import messaging.MessageQueue;
+import messaging.v2.IMessagingClient;
+import messaging.v2.Message;
 
 public class MerchantApiAdaptor {
-    private MessageQueue queue;
+    private final IMessagingClient client;
     private AccountService accountService;
 
-    public MerchantApiAdaptor(MessageQueue queue, AccountService accountService) {
-        this.queue = queue;
+    public MerchantApiAdaptor(IMessagingClient client, AccountService accountService){
+        this.client = client;
         this.accountService = accountService;
-        this.queue.addHandler("MerchantRegisterMessage", this::handleMerchantRegisterEvent);
+        this.client.register(this::handleMerchantRegisterEvent, MerchantRegisterMessage.class);
     }
 
-    public void handleMerchantRegisterEvent(Event event) {
-        var registryAttempt = event.getArgument(0, MerchantRegisterMessage.class);
+    public void handleMerchantRegisterEvent(Message<MerchantRegisterMessage> message) {
+        var registryAttempt = message.model;
         MerchantRegisterResponse response = null;
 
         try {
@@ -27,8 +27,6 @@ public class MerchantApiAdaptor {
         } catch (InvalidBankAccountException e) {
             response = new MerchantRegisterResponse(registryAttempt.getBankAccountNumber(), false, e.getMessage());
         }
-
-        Event responseEvent = new Event("MerchantRegisterFinishedMessage", new Object[] { response });
-        this.queue.publish(responseEvent);
+        this.client.reply(message.update(response));
     }
 }

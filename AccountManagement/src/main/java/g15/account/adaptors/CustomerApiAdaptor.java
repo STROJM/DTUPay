@@ -4,21 +4,21 @@ import g15.account.exceptions.InvalidBankAccountException;
 import g15.account.messages.CustomerRegisterMessage;
 import g15.account.messages.CustomerRegisterResponse;
 import g15.account.services.AccountService;
-import messaging.Event;
-import messaging.MessageQueue;
+import messaging.v2.IMessagingClient;
+import messaging.v2.Message;
 
 public class CustomerApiAdaptor {
-    private MessageQueue queue;
-    private AccountService accountService;
+    private final IMessagingClient client;
+    private final AccountService accountService;
 
-    public CustomerApiAdaptor(MessageQueue queue, AccountService accountService) {
-        this.queue = queue;
+    public CustomerApiAdaptor(IMessagingClient client, AccountService accountService){
+        this.client = client;
         this.accountService = accountService;
-        this.queue.addHandler("CustomerRegisterMessage", this::handleCustomerRegisterEvent);
+        this.client.register(this::handleCustomerRegisterEvent, CustomerRegisterMessage.class);
     }
 
-    public void handleCustomerRegisterEvent(Event event) {
-        var registryAttempt = event.getArgument(0, CustomerRegisterMessage.class);
+    public void handleCustomerRegisterEvent(Message<CustomerRegisterMessage> message) {
+        var registryAttempt = message.model;
         CustomerRegisterResponse response = null;
 
         try {
@@ -28,7 +28,6 @@ public class CustomerApiAdaptor {
             response = new CustomerRegisterResponse(registryAttempt.getBankAccountNumber(), false, e.getMessage());
         }
 
-        Event responseEvent = new Event("CustomerRegisterFinishedMessage", new Object[] { response });
-        this.queue.publish(responseEvent);
+        this.client.reply(message.update(response));
     }
 }
