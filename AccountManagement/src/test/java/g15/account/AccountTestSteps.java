@@ -53,7 +53,7 @@ public class AccountTestSteps {
         User customer = new User();
         customer.setFirstName(UUID.randomUUID().toString());
         customer.setLastName(UUID.randomUUID().toString());
-        customer.setCprNumber("test-cpr-number");
+        customer.setCprNumber(UUID.randomUUID().toString());
 
         try {
             var bankId = testingService.createAccountWithBalance(customer, new BigDecimal(1000));
