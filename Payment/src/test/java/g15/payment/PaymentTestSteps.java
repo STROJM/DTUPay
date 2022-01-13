@@ -1,6 +1,5 @@
 package g15.payment;
 
-//import dtu.ws.fastmoney.*;
 import g15.payment.adaptors.BankAdaptor;
 import g15.payment.adaptors.MessageAdaptor;
 import g15.payment.exceptions.BankException;
