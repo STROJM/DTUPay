@@ -81,8 +81,14 @@ public class PaymentTestSteps {
 
     @When("the merchant initiates a payment for the customer of {int} kr")
     public void theMerchantInitiatesAPaymentForTheCustomerOfKr(int amount) {
-        PaymentModel paymentModel = new PaymentModel(accountMerchant.getAccountId(), this.tokenRequestResponse.model[0], new BigDecimal(amount), "Description is not missing");
+        PaymentModel paymentModel = new PaymentModel(accountMerchant.getAccountId(), this.tokenRequestResponse.model[0], new BigDecimal(amount), "The customer pays the merchant something");
         this.paymentResponse = paymentService.pay(paymentModel);
+    }
+
+    @When("the merchant initiates a refund for the customer of {int} kr")
+    public void theMerchantInitiatesARefundForTheCustomerOfKr(int amount) {
+        PaymentModel paymentModel = new PaymentModel(accountMerchant.getAccountId(), this.tokenRequestResponse.model[0], new BigDecimal(amount), "The merchant refunds something to the customer");
+        this.paymentResponse = paymentService.refund(paymentModel);
     }
 
     @Then("the payment is successful")

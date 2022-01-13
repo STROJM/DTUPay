@@ -25,7 +25,23 @@ public class Payments {
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/pay")
     public TypedResponseModel<String> pay(PaymentModel paymentModel) {
-        PaymentResponseMessage paymentResponseMessage = service.pay(PaymentMapper.map(paymentModel));
+        PaymentResponseMessage paymentResponseMessage = service.pay(PaymentMapper.mapPayment(paymentModel));
+
+        var result = new TypedResponseModel<String>();
+        result.completed = paymentResponseMessage.isValid();
+        result.model = "";
+        if (!result.completed) {
+            result.message = paymentResponseMessage.getErrorMessage();
+        }
+        return result;
+    }
+
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/refund")
+    public TypedResponseModel<String> refund(PaymentModel paymentModel) {
+        PaymentResponseMessage paymentResponseMessage = service.refund(PaymentMapper.mapRefund(paymentModel));
 
         var result = new TypedResponseModel<String>();
         result.completed = paymentResponseMessage.isValid();

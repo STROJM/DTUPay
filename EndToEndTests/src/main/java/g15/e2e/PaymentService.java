@@ -19,4 +19,14 @@ public class PaymentService {
                 .post(Entity.entity(paymentModel, MediaType.APPLICATION_JSON))
                 .readEntity(new GenericType<>(){});
     }
+
+    public TypedResponseModel<String> refund(PaymentModel paymentModel){
+        Client client = ClientBuilder.newClient();
+        WebTarget r = client.target("http://localhost:8081/");
+
+        return r.path("/payments/refund")
+                .request()
+                .post(Entity.entity(paymentModel, MediaType.APPLICATION_JSON))
+                .readEntity(new GenericType<>(){});
+    }
 }
