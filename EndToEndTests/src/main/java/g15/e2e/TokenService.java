@@ -14,9 +14,11 @@ public class TokenService {
         Client client = ClientBuilder.newClient();
         WebTarget r = client.target("http://localhost:8080/");
 
-        return r.path("/tokens")
+        TypedResponseModel<String[]> response = r.path("/tokens")
                 .request()
                 .post(Entity.entity(request, MediaType.APPLICATION_JSON))
                 .readEntity(new GenericType<>(){});
+        client.close();
+        return response;
     }
 }

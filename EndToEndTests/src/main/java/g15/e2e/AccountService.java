@@ -14,21 +14,25 @@ public class AccountService {
         Client client = ClientBuilder.newClient();
         WebTarget r = client.target("http://localhost:8080/");
 
-        return r.path("/accounts")
+        TypedResponseModel<String> response = r.path("/accounts")
                 .request()
                 .post(Entity.entity(request, MediaType.APPLICATION_JSON))
                 .readEntity(new GenericType<>() {
                 });
+        client.close();
+        return response;
     }
 
     public TypedResponseModel<String> registerMerchant(AccountModel request){
         Client client = ClientBuilder.newClient();
         WebTarget r = client.target("http://localhost:8081/");
 
-        return r.path("/accounts")
+        TypedResponseModel<String> response = r.path("/accounts")
                 .request()
                 .post(Entity.entity(request, MediaType.APPLICATION_JSON))
                 .readEntity(new GenericType<>() {
                 });
+        client.close();
+        return response;
     }
 }
