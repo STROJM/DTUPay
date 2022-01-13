@@ -2,29 +2,19 @@ package g15.customerapi.Service;
 
 import g15.customerapi.messages.TokensRequestMessage;
 import g15.customerapi.messages.TokensResponseMessage;
-import messaging.Event;
-import messaging.MessageQueue;
-
-import java.util.concurrent.CompletableFuture;
+import messaging.v2.IMessagingClient;
 
 public class TokenService {
-    private final MessageQueue queue;
-    private CompletableFuture<TokensResponseMessage> tokens;
-
-    public TokenService(MessageQueue q) {
-        queue = q;
-        queue.addHandler("TokensResponse", this::handleTokenResponse);
+    private final IMessagingClient messagingClient;
+    public TokenService(IMessagingClient messagingClient){
+        this.messagingClient = messagingClient;
     }
 
     public TokensResponseMessage requestTokens(TokensRequestMessage s) {
-        tokens = new CompletableFuture<>();
-        Event event = new Event("TokensRequest", new Object[] { s });
-        queue.publish(event);
-        return tokens.join();
-    }
-
-    public void handleTokenResponse(Event e) {
-        var s = e.getArgument(0, TokensResponseMessage.class);
-        tokens.complete(s);
+        try {
+            return messagingClient.call(s, TokensResponseMessage.class);
+        } catch (Exception e) {
+            return new TokensResponseMessage(false, e.getMessage(), null);
+        }
     }
 }
