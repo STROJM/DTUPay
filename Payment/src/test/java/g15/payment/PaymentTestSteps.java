@@ -1,6 +1,5 @@
 package g15.payment;
 
-//import dtu.ws.fastmoney.*;
 import g15.payment.adaptors.BankAdaptor;
 import g15.payment.adaptors.MessageAdaptor;
 import g15.payment.exceptions.BankException;
@@ -17,8 +16,7 @@ import org.mockito.ArgumentCaptor;
 
 import java.math.BigDecimal;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 public class PaymentTestSteps {
     BankAdaptor bankAdaptor = mock(BankAdaptor.class);
@@ -68,12 +66,12 @@ public class PaymentTestSteps {
     @And("an invalid {string} event is sent with message {string}")
     public void anInvalidEventIsSent(String eventName, String errorMessage) {
         var argument = ArgumentCaptor.forClass(Event.class);
-        verify(queue).publish(argument.capture());
+        verify(queue, times(2)).publish(argument.capture());
 
         var response = new PaymentResponseMessage(errorMessage);
         Event expectedEvent = new Event(eventName, new Object[]{response});
 
-        Assert.assertEquals(expectedEvent, argument.getValue());
+        Assert.assertTrue(argument.getAllValues().contains(expectedEvent));
     }
 
     @Given("an invalid {string} payment event")

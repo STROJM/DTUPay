@@ -22,4 +22,8 @@ public class PaymentResponseMessage implements Serializable {
     public boolean isValid() {
         return valid;
     }
+
+    public String getErrorMessage() {
+        return errorMessage;
+    }
 }

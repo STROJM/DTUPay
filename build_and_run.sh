@@ -7,7 +7,7 @@ set -e
 #Run images
 docker-compose up -d rabbitMq
 sleep 10
-docker-compose up -d token-management account-management payment customer-api merchant-api
+docker-compose up -d token-management account-management payment reporting customer-api merchant-api
 
 #Run e2e tests
 sleep 5
