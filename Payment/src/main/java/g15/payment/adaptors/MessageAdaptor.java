@@ -46,6 +46,7 @@ public class MessageAdaptor {
         }
 
         Event responseEvent = new Event("RefundFinishedMessage", new Object[] { response });
+        // TODO: PaymentReportMessage/RefundReportMessage eventType must be published to save to report repository
         this.queue.publish(responseEvent);
     }
 }
