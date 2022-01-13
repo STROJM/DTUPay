@@ -1,8 +1,11 @@
 package g15.payment.messages;
 
+import lombok.EqualsAndHashCode;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+@EqualsAndHashCode
 public class EnrichedMessage implements Serializable {
     private static final long serialVersionUID = 9023222984284806610L;
 
@@ -42,21 +45,6 @@ public class EnrichedMessage implements Serializable {
 
     public String getToken() {
         return token;
-    }
-
-
-    @Override
-    public boolean equals(Object object) {
-        if (!(object instanceof EnrichedMessage)) {
-            return false;
-        }
-        var other = (EnrichedMessage) object;
-
-        return customerBankAccount.equals(other.getCustomerBankAccount()) &&
-                merchantBankAccount.equals(other.getMerchantBankAccount()) &&
-                token.equals(other.getToken()) &&
-                amount.equals(other.getAmount()) &&
-                description.equals(other.getDescription());
     }
 
     public boolean isValid() {

@@ -17,8 +17,8 @@ public class TokenTestSteps {
         this.tokenRequestResponse = service.requestTokens(new TokenModel(bankAccountNumber, amountOfTokens));
     }
 
-    @Then("the request is successful")
-    public void theRequestIsSuccessful() {
+    @Then("the token request is successful")
+    public void theTokenRequestIsSuccessful() {
         assertTrue(this.tokenRequestResponse.completed);
         assertTrue(this.tokenRequestResponse.model.length > 0);
     }

@@ -4,6 +4,7 @@ import g15.customerapi.messages.TokensRequestMessage;
 import g15.customerapi.messages.TokensResponseMessage;
 import messaging.v2.IMessagingClient;
 
+@Singleton
 public class TokenService {
     private final IMessagingClient messagingClient;
     public TokenService(IMessagingClient messagingClient){

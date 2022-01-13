@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>g15.accont</groupId>
+    <groupId>g15.account</groupId>
     <artifactId>AccountManagement</artifactId>
     <version>1.0.0</version>
 
@@ -62,6 +62,15 @@
             <version>2.3.3</version>
             <type>pom</type>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.mockito/mockito-core -->
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <scope>test</scope>
+            <version>4.1.0</version>
+        </dependency>
+
         <dependency>
             <groupId>g15.messaging</groupId>
             <artifactId>MessageUtilities</artifactId>
