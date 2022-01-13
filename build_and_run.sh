@@ -1,19 +1,19 @@
 #!/bin/bash
 set -e
 
+#Build images
 ./build.sh
 
-# Update the set of services and
-# build and execute the system tests
-#pushd end-to-end-tests
-#./deploy.sh
-#sleep 5
-#./test.sh
-#popd
-
+#Run images
 docker-compose up -d rabbitMq
 sleep 10
 docker-compose up -d token-management account-management payment customer-api
+
+#Run e2e tests
+sleep 5
+pushd EndToEndTests
+ ./run_tests.sh
+popd
 
 # Cleanup the build images
 docker image prune -f

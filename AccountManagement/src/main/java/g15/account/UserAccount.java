@@ -1,14 +1,12 @@
 package g15.account;
 
-import dtu.ws.fastmoney.Account;
-
 public class UserAccount {
 
-    Account bankAccount;
+    String bankAccountNumber;
     String userId;
 
-    public UserAccount(Account bankAccount, String userId) {
-        this.bankAccount = bankAccount;
+    public UserAccount(String bankAccountNumber, String userId) {
+        this.bankAccountNumber = bankAccountNumber;
         this.userId = userId;
     }
 }

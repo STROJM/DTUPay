@@ -1,6 +1,4 @@
-package g15.customerapi.Models;
-
-import g15.customerapi.Models.Response.Option;
+package g15.e2e.Response;
 
 public class ResponseModel {
     public boolean completed;

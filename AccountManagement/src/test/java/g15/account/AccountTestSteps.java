@@ -1,6 +1,13 @@
 package g15.account;
 
 import dtu.ws.fastmoney.*;
+import g15.account.adaptors.BankAdaptor;
+import g15.account.exceptions.InvalidBankAccountException;
+import g15.account.messages.CustomerRegisterMessage;
+import g15.account.messages.MerchantRegisterMessage;
+import g15.account.messages.RegisterMessage;
+import g15.account.repositories.AccountRepository;
+import g15.account.services.AccountService;
 import io.cucumber.java.After;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -18,8 +25,11 @@ public class AccountTestSteps {
     List<AccountInfo> testAccountsRegistered = new ArrayList<>();
     private final BankService testingService = new BankServiceService().getBankServicePort();
 
-    AccountService accountService = new AccountService();
-    String latestBankAccountNumber = "";
+    AccountRepository accountRepository = new AccountRepository();
+    BankAdaptor bankAdaptor = new BankAdaptor();
+    AccountService accountService = new AccountService(accountRepository, bankAdaptor);
+
+    RegisterMessage latestBankAccountNumber = new RegisterMessage("");
 
     boolean expectedSuccess = false;
 
@@ -43,7 +53,7 @@ public class AccountTestSteps {
         User customer = new User();
         customer.setFirstName(UUID.randomUUID().toString());
         customer.setLastName(UUID.randomUUID().toString());
-        customer.setCprNumber("test-cpr-number");
+        customer.setCprNumber(UUID.randomUUID().toString());
 
         try {
             var bankId = testingService.createAccountWithBalance(customer, new BigDecimal(1000));
@@ -51,7 +61,7 @@ public class AccountTestSteps {
             userNew.setUser(customer);
             userNew.setAccountId(bankId);
             this.testAccountsRegistered.add(userNew);
-            latestBankAccountNumber = bankId;
+            latestBankAccountNumber = new RegisterMessage(bankId);
         } catch (Exception e) {
             throw new InvalidBankAccountException("Could not create test bank account");
         }
@@ -71,7 +81,7 @@ public class AccountTestSteps {
     public void theUserSuccessfullyRegisters() {
         Assert.assertTrue(accountService.getUserAccounts()
                         .stream()
-                        .anyMatch(acc -> acc.bankAccount.getId().equals(latestBankAccountNumber)));
+                        .anyMatch(acc -> acc.bankAccountNumber.equals(latestBankAccountNumber.getBankAccountNumber())));
     }
 
     @Then("the user fails to register")
@@ -79,17 +89,17 @@ public class AccountTestSteps {
         Throwable exception = assertThrows(InvalidBankAccountException.class, () -> {
             accountService.registerUserAccount(latestBankAccountNumber);
         });
-        Assert.assertEquals(exception.getMessage(), "Account does not exist");
+        Assert.assertEquals(exception.getMessage(), latestBankAccountNumber.getBankAccountNumber() + " is not a valid bank account number");
         Assert.assertTrue(
                 accountService.getUserAccounts()
                 .stream()
-                .filter(acc -> acc.bankAccount.getId().equals(latestBankAccountNumber)).findAny().isEmpty());
+                .filter(acc -> acc.bankAccountNumber.equals(latestBankAccountNumber.getBankAccountNumber())).findAny().isEmpty());
     }
 
     @Given("a customer with a valid bank account number {string}")
     public void aCustomerWithAValidBankAccountNumber(String bankAccountNumber) {
-        if (accountService.isBankAccountValid(bankAccountNumber)) {
-            latestBankAccountNumber = bankAccountNumber;
+        if (accountService.isBankAccountValid(new CustomerRegisterMessage(bankAccountNumber))) {
+            latestBankAccountNumber = new CustomerRegisterMessage(bankAccountNumber);
         } else {
             registerTestUserInBank();
             Assert.assertTrue(accountService.isBankAccountValid(latestBankAccountNumber));
@@ -100,8 +110,8 @@ public class AccountTestSteps {
 
     @Given("a merchant with a valid bank account number {string}")
     public void aMerchantWithAValidBankAccountNumber(String bankAccountNumber) {
-        if (accountService.isBankAccountValid(bankAccountNumber)) {
-            latestBankAccountNumber = bankAccountNumber;
+        if (accountService.isBankAccountValid(new MerchantRegisterMessage(bankAccountNumber))) {
+            latestBankAccountNumber = new MerchantRegisterMessage(bankAccountNumber);
         } else {
             registerTestUserInBank();
             Assert.assertTrue(accountService.isBankAccountValid(latestBankAccountNumber));
@@ -112,13 +122,13 @@ public class AccountTestSteps {
 
     @Given("a customer with a invalid bank account number {string}")
     public void aCustomerWithAInvalidBankAccountNumber(String bankAccountNumber) {
-        latestBankAccountNumber = bankAccountNumber;
+        latestBankAccountNumber = new CustomerRegisterMessage(bankAccountNumber);
         Assert.assertFalse(accountService.isBankAccountValid(latestBankAccountNumber));
     }
 
     @Given("a merchant with a invalid bank account number {string}")
     public void aMerchantWithAInvalidBankAccountNumber(String bankAccountNumber) {
-        latestBankAccountNumber = bankAccountNumber;
+        latestBankAccountNumber = new MerchantRegisterMessage(bankAccountNumber);
         Assert.assertFalse(accountService.isBankAccountValid(latestBankAccountNumber));
     }
 }
