@@ -65,7 +65,6 @@
             <groupId>g15.payment</groupId>
             <artifactId>Payment</artifactId>
             <version>1.0.0</version>
-            <scope>compile</scope>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.mockito/mockito-core -->
         <dependency>
