@@ -34,9 +34,6 @@ public class TokenService {
         return tokens;
     }
 
-    //token is non empty
-    //token is unused
-    //token has a customer
     public String useToken(String customerToken) throws InvalidTokenException {
         if(customerToken == null){
             throw new InvalidTokenException("token is empty");

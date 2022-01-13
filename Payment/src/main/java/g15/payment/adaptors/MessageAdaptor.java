@@ -5,15 +5,14 @@ import g15.payment.exceptions.InvalidPaymentException;
 import g15.payment.messages.EnrichedPaymentMessage;
 import g15.payment.messages.EnrichedRefundMessage;
 import g15.payment.messages.PaymentResponseMessage;
-import g15.payment.repositories.PaymentRepository;
 import messaging.Event;
 import messaging.MessageQueue;
 
-public class TokenManagementAdaptor {
+public class MessageAdaptor {
     private MessageQueue queue;
     private PaymentService paymentService;
 
-    public TokenManagementAdaptor(MessageQueue queue, PaymentService paymentService) {
+    public MessageAdaptor(MessageQueue queue, PaymentService paymentService) {
         this.queue = queue;
         this.paymentService = paymentService;
         this.queue.addHandler("EnrichedPaymentMessage", this::handleEnrichedPaymentEvent);
