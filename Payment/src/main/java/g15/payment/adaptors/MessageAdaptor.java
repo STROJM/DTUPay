@@ -2,11 +2,7 @@ package g15.payment.adaptors;
 
 import g15.payment.PaymentService;
 import g15.payment.exceptions.InvalidPaymentException;
-import g15.payment.messages.EnrichedPaymentMessage;
-import g15.payment.messages.EnrichedRefundMessage;
-import g15.payment.messages.PaymentResponseMessage;
-import g15.reporting.messages.PaymentReportStoreMessage;
-import g15.reporting.messages.RefundReportStoreMessage;
+import g15.payment.messages.*;
 import messaging.Event;
 import messaging.MessageQueue;
 
