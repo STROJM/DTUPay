@@ -1,4 +1,4 @@
-package g15.reporting;
+package g15.reporting.services;
 
 import g15.reporting.messages.Report;
 import g15.reporting.repositories.ReportRepository;

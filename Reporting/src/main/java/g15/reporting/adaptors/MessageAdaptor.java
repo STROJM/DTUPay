@@ -1,6 +1,6 @@
 package g15.reporting.adaptors;
 
-import g15.reporting.ReportService;
+import g15.reporting.services.ReportService;
 import g15.reporting.messages.PaymentReport;
 import g15.reporting.messages.RefundReport;
 import g15.reporting.messages.ReportResponse;
