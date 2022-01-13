@@ -22,7 +22,7 @@ public class AccountService {
 
     public MerchantRegisterResponse merchantRegister(MerchantRegisterMessage s) {
         customerRegisterResponse = new CompletableFuture<>();
-        Event event = new Event("CustomerRegisterMessage", new Object[] { s });
+        Event event = new Event("CustomerRegisterMessage", new Object[]{s});
         queue.publish(event);
 
         return customerRegisterResponse.join();

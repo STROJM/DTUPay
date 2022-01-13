@@ -21,7 +21,7 @@ public class TokenService {
 
     public PaymentResponseMessage pay(PaymentMessage s) {
         response = new CompletableFuture<>();
-        Event event = new Event("PaymentRequest", new Object[] { s });
+        Event event = new Event("PaymentRequest", new Object[]{s});
         queue.publish(event);
         return response.join();
     }

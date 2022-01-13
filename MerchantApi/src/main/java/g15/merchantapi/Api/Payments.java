@@ -33,7 +33,7 @@ public class Payments {
         var result = new TypedResponseModel<String>();
         result.completed = paymentResponseMessage.isValid();
         result.model = "";
-        if(!result.completed) {
+        if (!result.completed) {
             result.message = paymentResponseMessage.getErrorMessage();
         }
         return result;

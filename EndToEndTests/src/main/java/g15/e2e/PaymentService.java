@@ -9,14 +9,14 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 
-public class TokenService {
-    public TypedResponseModel<String[]> requestTokens(TokenModel request){
+public class PaymentService {
+    public TypedResponseModel<String> pay(PaymentModel paymentModel){
         Client client = ClientBuilder.newClient();
-        WebTarget r = client.target("http://localhost:8080/");
+        WebTarget r = client.target("http://localhost:8081/");
 
-        return r.path("/tokens")
+        return r.path("/payments/pay")
                 .request()
-                .post(Entity.entity(request, MediaType.APPLICATION_JSON))
+                .post(Entity.entity(paymentModel, MediaType.APPLICATION_JSON))
                 .readEntity(new GenericType<>(){});
     }
 }

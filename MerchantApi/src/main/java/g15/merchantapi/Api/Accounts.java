@@ -27,7 +27,7 @@ public class Accounts {
         var result = new TypedResponseModel<String>();
         result.completed = merchantRegisterResponse.isValid();
         result.model = merchantRegisterResponse.getBankAccountNumber();
-        if(!result.completed) {
+        if (!result.completed) {
             result.message = merchantRegisterResponse.getErrorMessage();
         }
         return result;

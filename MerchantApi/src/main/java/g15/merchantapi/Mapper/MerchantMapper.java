@@ -4,7 +4,7 @@ import g15.merchantapi.Models.AccountModel;
 import g15.merchantapi.Service.messages.MerchantRegisterMessage;
 
 public class MerchantMapper {
-    public static MerchantRegisterMessage map(AccountModel accountModel){
+    public static MerchantRegisterMessage map(AccountModel accountModel) {
         return new MerchantRegisterMessage(accountModel.getBankAccount());
     }
 }

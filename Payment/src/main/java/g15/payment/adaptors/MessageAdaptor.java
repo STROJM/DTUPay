@@ -13,8 +13,8 @@ public class MessageAdaptor {
     public MessageAdaptor(MessageQueue queue, PaymentService paymentService) {
         this.queue = queue;
         this.paymentService = paymentService;
-        this.queue.addHandler("EnrichedPaymentMessage", this::handleEnrichedPaymentEvent);
-        this.queue.addHandler("EnrichedRefundMessage", this::handleEnrichedRefundEvent);
+        this.queue.addHandler("EnrichedPaymentRequest", this::handleEnrichedPaymentEvent);
+        this.queue.addHandler("EnrichedRefundRequest", this::handleEnrichedRefundEvent);
     }
 
     public void handleEnrichedPaymentEvent(Event event) {
