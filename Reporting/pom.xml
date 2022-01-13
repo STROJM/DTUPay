@@ -55,16 +55,17 @@
             <version>${junit.jupiter.version}</version>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>g15.payment</groupId>
+            <artifactId>Payment</artifactId>
+            <version>1.0.0</version>
+        </dependency>
         <dependency>
             <groupId>g15.messaging</groupId>
             <artifactId>MessageUtilities</artifactId>
             <version>3.2</version>
             <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>g15.payment</groupId>
-            <artifactId>Payment</artifactId>
-            <version>1.0.0</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.mockito/mockito-core -->
         <dependency>
