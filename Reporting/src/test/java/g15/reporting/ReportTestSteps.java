@@ -5,7 +5,7 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
-public class AccountTestSteps {
+public class ReportTestSteps {
 
 //    BankAdaptor bankAdaptor = mock(BankAdaptor.class);
 //    MessageQueue queue = mock(MessageQueue.class);

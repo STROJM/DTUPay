@@ -1,18 +1,13 @@
-Feature: Account testing
+Feature: Report testing
 
-  Scenario: Account registered
-    Given a customer with bank account number "123"
-    When the user registers in dtu pay
-    Then the user successfully registers
-
-  Scenario: Successful Payment
+  Scenario: Successful payment reported
     Given a valid "EnrichedPaymentMessage" event for a payment of 100 kr is received
     When the payment amount is transferred in the bank
     Then the transaction has been stored
     And a valid "PaymentFinishedMessage" event is sent
 
 
-  Scenario: Successful refund
+  Scenario: Successful refund reported
     Given a valid "EnrichedRefundMessage" event for a refund of 100 kr is received
     When the refund amount is transferred in the bank
     Then the transaction has been stored
