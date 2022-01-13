@@ -9,6 +9,8 @@ import messaging.MessageQueue;
 import messaging.implementations.RabbitMqQueue;
 
 import javax.inject.Singleton;
+import java.math.BigDecimal;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 @Singleton
@@ -26,8 +28,6 @@ public class AccountService {
         customerRegisterResponse = new CompletableFuture<>();
         Event event = new Event("CustomerRegisterMessage", new Object[] { s });
         queue.publish(event);
-
-
 
         return customerRegisterResponse.join();
     }

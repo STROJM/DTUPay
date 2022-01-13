@@ -9,12 +9,12 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 
-public class TokenService {
-    public TypedResponseModel<String[]> requestTokens(TokenModel request){
+public class AccountService {
+    public TypedResponseModel<String> registerCustomer(CustomerModel request){
         Client client = ClientBuilder.newClient();
         WebTarget r = client.target("http://localhost:8080/");
 
-        return r.path("/tokens")
+        return r.path("/accounts")
                 .request()
                 .post(Entity.entity(request, MediaType.APPLICATION_JSON))
                 .readEntity(new GenericType<>() {
