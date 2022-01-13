@@ -26,9 +26,11 @@ public class PaymentService {
         Client client = ClientBuilder.newClient();
         WebTarget r = client.target("http://localhost:8081/");
 
-        return r.path("/payments/refund")
+        TypedResponseModel<String> response = r.path("/payments/refund")
                 .request()
                 .post(Entity.entity(paymentModel, MediaType.APPLICATION_JSON))
                 .readEntity(new GenericType<>(){});
+        client.close();
+        return response;
     }
 }
