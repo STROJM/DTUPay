@@ -1,7 +1,6 @@
 package messaging.v2;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.rabbitmq.client.*;
 
 import java.io.IOException;
@@ -19,6 +18,10 @@ public class RabbitMqClient implements IMessagingClient{
     private static final Charset ENCODING = StandardCharsets.UTF_8;
     private static final String EXCHANGE = "events";
     private static final String QUEUE_TYPE = "direct";
+
+    public static IMessagingClient create(){
+        return new RabbitMqClient("rabbitMq");
+    }
 
     public RabbitMqClient(String host) {
         try {

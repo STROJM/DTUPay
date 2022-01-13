@@ -11,13 +11,20 @@ import javax.ws.rs.core.MediaType;
 
 public class TokenService {
     public TypedResponseModel<String[]> requestTokens(TokenModel request){
-        Client client = ClientBuilder.newClient();
-        WebTarget r = client.target("http://localhost:8080/");
-        var response = r.path("/tokens")
-                .request()
-                .post(Entity.entity(request, MediaType.APPLICATION_JSON))
-                .readEntity(new GenericType<TypedResponseModel<String[]>>(){});
-
-        return response;
+        Client client = null;
+        try {
+            client = ClientBuilder.newClient();
+            WebTarget r = client.target("http://localhost:8080/");
+            var response = r.path("/tokens")
+                    .request()
+                    .post(Entity.entity(request, MediaType.APPLICATION_JSON))
+                    .readEntity(new GenericType<TypedResponseModel<String[]>>() {
+                    });
+            return response;
+        } catch (Exception e){
+            throw e;
+        } finally {
+            if (client != null) client.close();
+        }
     }
 }

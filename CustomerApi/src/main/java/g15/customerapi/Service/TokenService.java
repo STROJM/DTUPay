@@ -1,14 +1,17 @@
 package g15.customerapi.Service;
 
-import g15.customerapi.messages.TokensRequestMessage;
-import g15.customerapi.messages.TokensResponseMessage;
+import g15.customerapi.Service.messages.TokensRequestMessage;
+import g15.customerapi.Service.messages.TokensResponseMessage;
 import messaging.v2.IMessagingClient;
+import messaging.v2.RabbitMqClient;
+
+import javax.inject.Singleton;
 
 @Singleton
 public class TokenService {
     private final IMessagingClient messagingClient;
-    public TokenService(IMessagingClient messagingClient){
-        this.messagingClient = messagingClient;
+    public TokenService(){
+        this.messagingClient = RabbitMqClient.create();
     }
 
     public TokensResponseMessage requestTokens(TokensRequestMessage s) {
