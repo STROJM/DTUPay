@@ -10,5 +10,6 @@ public interface IMessagingClient {
 
     <TModel> void register(Consumer<Message<TModel>> handler, Class<TModel> modelClass);
 
+    void enableAwaitingCalls();
     <TRequest,TResponse> TResponse call(TRequest request, Class<TResponse> responseType) throws IOException, InterruptedException;
 }
