@@ -5,43 +5,34 @@ import g15.reporting.reports.CustomerTransactionReport;
 import g15.reporting.reports.ManagerTransactionReport;
 import g15.reporting.reports.MerchantTransactionReport;
 import g15.reporting.services.ReportService;
-import messaging.Event;
-import messaging.MessageQueue;
+import messaging.v2.IMessagingClient;
+import messaging.v2.Message;
 
 public class MessageAdaptor {
-    private MessageQueue queue;
     private ReportService reportingService;
+    private final IMessagingClient client;
 
-    public MessageAdaptor(MessageQueue queue, ReportService reportingService) {
-        this.queue = queue;
-        this.reportingService = reportingService;
-        this.queue.addHandler("PaymentReportStoreMessage", this::handlePaymentReportEvent);
-        this.queue.addHandler("RefundReportStoreMessage", this::handleRefundReportEvent);
-        this.queue.addHandler("ManagerReportMessage", this::handleManagerReportEvent);
-        this.queue.addHandler("CustomerReportMessage", this::handleCustomerReportEvent);
-        this.queue.addHandler("MerchantReportMessage", this::handleMerchantReportEvent);
+    public MessageAdaptor(IMessagingClient client, ReportService reportService){
+        this.client = client;
+        this.reportingService = reportService;
+        this.client.register(this::handlePaymentReportEvent, PaymentReportStoreMessage.class);
+        this.client.register(this::handleRefundReportEvent, RefundReportStoreMessage.class);
+        this.client.register(this::handleManagerReportEvent, ManagerReportMessage.class);
+        this.client.register(this::handleCustomerReportEvent, CustomerReportMessage.class);
+        this.client.register(this::handleMerchantReportEvent, MerchantReportMessage.class);
     }
 
-    public void handlePaymentReportEvent(Event event) {
-        var report = event.getArgument(0, PaymentReportStoreMessage.class);
+    public void handlePaymentReportEvent(Message<PaymentReportStoreMessage> message) {
+        var report = message.model;
         reportingService.saveReport(report);
-
-        ReportStoreResponse response = new ReportStoreResponse(true, "");
-        Event responseEvent = new Event("PaymentReportFinished", new Object[] { response });
-        this.queue.publish(responseEvent);
     }
 
-    public void handleRefundReportEvent(Event event) {
-        var report = event.getArgument(0, RefundReportStoreMessage.class);
+    public void handleRefundReportEvent(Message<RefundReportStoreMessage> message) {
+        var report = message.model;
         reportingService.saveReport(report);
-
-        ReportStoreResponse response = new ReportStoreResponse(true, "");
-        Event responseEvent = new Event("RefundReportFinished", new Object[] { response });
-        this.queue.publish(responseEvent);
     }
 
-    public void handleManagerReportEvent(Event event) {
-        // NOTE: We assume only one manager exists, so we don't need a specific ID for this dude.
+    public void handleManagerReportEvent(Message<ManagerReportMessage> message) {
 
         ManagerReportResponse fullManagerReport = new ManagerReportResponse();
 
@@ -57,12 +48,11 @@ public class MessageAdaptor {
                 );
         }
 
-        Event responseEvent = new Event("ManagerReportFinished", new Object[] { fullManagerReport });
-        this.queue.publish(responseEvent);
+        this.client.reply(message.update(fullManagerReport));
     }
 
-    public void handleCustomerReportEvent(Event event) {
-        var customerReportMessage = event.getArgument(0, CustomerReportMessage.class);
+    public void handleCustomerReportEvent(Message<CustomerReportMessage> message) {
+        var customerReportMessage = message.model;
 
         CustomerReportResponse fullCustomerReport = new CustomerReportResponse();
 
@@ -78,12 +68,11 @@ public class MessageAdaptor {
             }
         }
 
-        Event responseEvent = new Event("CustomerReportFinished", new Object[] { fullCustomerReport });
-        this.queue.publish(responseEvent);
+        this.client.reply(message.update(fullCustomerReport));
     }
 
-    public void handleMerchantReportEvent(Event event) {
-        var merchantReportMessage = event.getArgument(0, MerchantReportMessage.class);
+    public void handleMerchantReportEvent(Message<MerchantReportMessage> message) {
+        var merchantReportMessage = message.model;
 
         MerchantReportResponse fullMerchantReport = new MerchantReportResponse();
 
@@ -98,7 +87,6 @@ public class MessageAdaptor {
             }
         }
 
-        Event responseEvent = new Event("MerchantReportFinished", new Object[] { fullMerchantReport });
-        this.queue.publish(responseEvent);
+        this.client.reply(message.update(fullMerchantReport));
     }
 }
