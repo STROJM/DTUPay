@@ -1,4 +1,4 @@
-package g15.customerapi.Models.Response;
+package g15.managerapi.Models.Response;
 
 public class TypedResponseModel<T> extends ResponseModel {
     public T model;

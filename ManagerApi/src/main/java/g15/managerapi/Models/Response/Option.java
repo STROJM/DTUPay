@@ -1,4 +1,4 @@
-package g15.customerapi.Models.Response;
+package g15.managerapi.Models.Response;
 
 public class Option {
     public final boolean completed;
