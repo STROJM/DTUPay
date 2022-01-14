@@ -5,9 +5,10 @@ set -e
 ./build.sh
 
 #Run images
-docker-compose up -d rabbitMq
+docker-compose -f docker-compose-metrics.yml up -d
+docker-compose -f docker-compose.yml up -d rabbitMq
 sleep 10
-docker-compose up -d token-management account-management payment reporting customer-api merchant-api
+docker-compose -f docker-compose.yml up -d token-management account-management payment reporting customer-api merchant-api
 
 #Run e2e tests
 sleep 5
