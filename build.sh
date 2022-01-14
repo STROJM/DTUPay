@@ -34,3 +34,8 @@ popd
 pushd MerchantApi
 ./build.sh
 popd
+
+# Build APIs
+pushd ManagerApi
+./build.sh
+popd

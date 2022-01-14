@@ -1,0 +1,6 @@
+version: '3'
+services:
+  manager-api:
+    image: manager-api
+    build: .
+ 
