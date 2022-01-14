@@ -46,9 +46,3 @@ Feature: Reporting
     And the customer has a previous payment to the merchant of 100 kr
     When the manager requests a list of previous payments
     Then the manager list contains a payment to the merchant from the customer for 100 kr
-
-  Scenario: Manager requests list of payments without payments
-    Given a merchant and customer with a valid bank account number
-    And the merchant and customer is registered in DTUPay
-    When the manager requests a list of previous payments
-    Then the manager report list is empty

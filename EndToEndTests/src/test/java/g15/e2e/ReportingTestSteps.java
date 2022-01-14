@@ -161,9 +161,4 @@ public class ReportingTestSteps {
 
         Assert.assertTrue(managerPayments.contains(expected));
     }
-
-    @Then("the manager report list is empty")
-    public void theManagerReportListIsEmpty() {
-        Assert.assertTrue(managerPayments.isEmpty());
-    }
 }
