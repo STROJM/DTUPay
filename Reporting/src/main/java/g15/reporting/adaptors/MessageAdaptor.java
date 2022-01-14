@@ -78,7 +78,8 @@ public class MessageAdaptor {
         MerchantReportResponse fullMerchantReport = new MerchantReportResponse();
 
         for (Report report : this.reportingService.getReports()) {
-            if (report.getMerchantBankAccountNumber().equals(merchantReportMessage.getMerchantBankAccount())) {
+            if (report.getMerchantBankAccountNumber().equals(merchantReportMessage.getMerchantBankAccount()) &&
+                report.isValid()) {
                 fullMerchantReport.addTransactionReport(new MerchantTransactionReport(
                         report.getToken(),
                         report.getDescription(),

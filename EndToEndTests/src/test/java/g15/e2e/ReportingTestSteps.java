@@ -20,7 +20,8 @@ public class ReportingTestSteps {
     AccountInfo accountCustomer, accountMerchant;
     private final BankService bankService = new BankServiceService().getBankServicePort();
     ReportingService reportingService = new ReportingService();
-    List<CustomerTransactionReport> payments;
+    List<CustomerTransactionReport> customerPayments;
+    List<MerchantTransactionReport> merchantPayments;
     String token;
 
     @After
@@ -98,10 +99,10 @@ public class ReportingTestSteps {
 
     @When("the customer requests a list of previous payments")
     public void theCustomerRequestsAListOfPreviousPayments() {
-        payments = reportingService.getCustomerPayments(accountCustomer.getAccountId()).model;
+        customerPayments = reportingService.getCustomerPayments(accountCustomer.getAccountId()).model;
     }
 
-    @Then("the list contains a payment to the merchant for {int} kr")
+    @Then("the list contains a payment to the merchant from the customer for {int} kr")
     public void theListContainsAPaymentToTheMerchantForKr(int amount) {
         CustomerTransactionReport expected = new CustomerTransactionReport();
 
@@ -111,11 +112,33 @@ public class ReportingTestSteps {
         expected.merchantBankAccountNumber = accountMerchant.getAccountId();
         expected.amount = new BigDecimal(amount);
 
-        Assert.assertTrue(payments.contains(expected));
+        Assert.assertTrue(customerPayments.contains(expected));
     }
 
-    @Then("the report list is empty")
+    @Then("the customer report list is empty")
     public void theReportListIsEmpty() {
-        Assert.assertTrue(payments.isEmpty());
+        Assert.assertTrue(customerPayments.isEmpty());
+    }
+
+    @When("the merchant requests a list of previous payments")
+    public void theMerchantRequestsAListOfPreviousPayments() {
+        merchantPayments = reportingService.getMerchantPayments(accountMerchant.getAccountId()).model;
+    }
+
+    @Then("the merchant list contains a payment to the merchant for {int} kr")
+    public void theMerchantListContainsAPaymentToTheMerchantForKr(int amount) {
+        MerchantTransactionReport expected = new MerchantTransactionReport();
+
+        expected.token = this.token;
+        expected.description = "The customer pays the merchant something";
+        expected.errorMessage = "";
+        expected.amount = new BigDecimal(amount);
+
+        Assert.assertTrue(merchantPayments.contains(expected));
+    }
+
+    @Then("the merchant report list is empty")
+    public void theMerchantReportListIsEmpty() {
+        Assert.assertTrue(merchantPayments.isEmpty());
     }
 }

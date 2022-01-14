@@ -13,10 +13,24 @@ public class ReportingService {
         Client client = ClientBuilder.newClient();
         WebTarget r = client.target("http://localhost:8080/");
 
-        TypedResponseModel<List<CustomerTransactionReport>> response = r.path("/payments/" + customerId)
+        TypedResponseModel<List<CustomerTransactionReport>> response = r.path("/reporting/" + customerId)
                 .request()
                 .get()
                 .readEntity(new GenericType<>(){});
+
+        client.close();
+        return response;
+    }
+
+    public TypedResponseModel<List<MerchantTransactionReport>> getMerchantPayments(String merchantId){
+        Client client = ClientBuilder.newClient();
+        WebTarget r = client.target("http://localhost:8081/");
+
+        TypedResponseModel<List<MerchantTransactionReport>> response = r.path("/reporting/" + merchantId)
+                .request()
+                .get()
+                .readEntity(new GenericType<>(){});
+
         client.close();
         return response;
     }
