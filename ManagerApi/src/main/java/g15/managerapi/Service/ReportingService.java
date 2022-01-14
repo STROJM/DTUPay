@@ -19,8 +19,7 @@ public class ReportingService {
         try {
             return client.call(request, ManagerReportResponse.class);
         } catch (Exception e) {
-            // NOTE: Removed error-handling, getting a report should never fail for a manager.
-            return null;
+            return new ManagerReportResponse();
         }
     }
 }
