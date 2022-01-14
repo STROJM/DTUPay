@@ -1,4 +1,4 @@
-Feature: Reporting testing
+Feature: Reporting
 
   Scenario: Registered customer requests list of payments
     Given a merchant and customer with a valid bank account number
@@ -10,5 +10,12 @@ Feature: Reporting testing
   Scenario: Registered customer requests list of payments without payments
     Given a merchant and customer with a valid bank account number
     And the merchant and customer is registered in DTUPay
+    When the customer requests a list of previous payments
+    Then the report list is empty
+
+  Scenario: Customer cannot see invalid payments
+    Given a merchant and customer with a valid bank account number
+    And the merchant and customer is registered in DTUPay
+    And the customer has a previous payment to the merchant of -100 kr
     When the customer requests a list of previous payments
     Then the report list is empty

@@ -57,7 +57,8 @@ public class MessageAdaptor {
         CustomerReportResponse fullCustomerReport = new CustomerReportResponse();
 
         for (Report report : this.reportingService.getReports()) {
-            if (report.getCustomerBankAccountNumber().equals(customerReportMessage.getCustomerBankAccount())) {
+            if (report.getCustomerBankAccountNumber().equals(customerReportMessage.getCustomerBankAccount()) &&
+                    report.isValid()) {
                 fullCustomerReport.addTransactionReport(new CustomerTransactionReport(
                         report.getToken(),
                         report.getDescription(),

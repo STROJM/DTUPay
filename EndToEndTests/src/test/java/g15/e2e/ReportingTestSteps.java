@@ -93,8 +93,7 @@ public class ReportingTestSteps {
 
         this.token = tokenRequestResponse.model[0];
         PaymentModel paymentModel = new PaymentModel(accountMerchant.getAccountId(), this.token, new BigDecimal(amount), "The customer pays the merchant something");
-        var paymentResponse = paymentService.pay(paymentModel);
-        Assert.assertTrue(paymentResponse.completed);
+        paymentService.pay(paymentModel);
     }
 
     @When("the customer requests a list of previous payments")
@@ -111,9 +110,6 @@ public class ReportingTestSteps {
         expected.errorMessage = "";
         expected.merchantBankAccountNumber = accountMerchant.getAccountId();
         expected.amount = new BigDecimal(amount);
-
-        System.out.println(expected);
-        System.out.println(payments);
 
         Assert.assertTrue(payments.contains(expected));
     }
