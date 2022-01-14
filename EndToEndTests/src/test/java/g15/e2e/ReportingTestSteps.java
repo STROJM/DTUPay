@@ -117,4 +117,9 @@ public class ReportingTestSteps {
 
         Assert.assertTrue(payments.contains(expected));
     }
+
+    @Then("the report list is empty")
+    public void theReportListIsEmpty() {
+        Assert.assertTrue(payments.isEmpty());
+    }
 }
