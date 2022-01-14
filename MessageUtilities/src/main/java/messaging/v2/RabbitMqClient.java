@@ -102,12 +102,11 @@ public class RabbitMqClient implements IMessagingClient{
 
     private void registerAwaiters() throws IOException {
         channel.basicConsume(replyQueueName, true, (consumerTag, delivery) -> {
-            if(awaiters.containsKey(delivery.getProperties().getCorrelationId())) {
-                var awaiter = awaiters.remove(delivery.getProperties().getCorrelationId());
-                var model = deserialize(delivery.getBody(), awaiter.getResponseType());
-                log("Awaiter released, with response type: " + awaiter.getResponseType().getSimpleName());
-                awaiter.getResponse().offer(model);
-            }
+            var awaiter = awaiters.remove(delivery.getProperties().getCorrelationId());
+            if (awaiter == null) return;
+            var model = deserialize(delivery.getBody(), awaiter.getResponseType());
+            log("Awaiter released, with response type: " + awaiter.getResponseType().getSimpleName());
+            awaiter.getResponse().offer(model);
         }, consumerTag -> {
         });
     }
