@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 
 public class ManagerTransactionReport extends Report {
 
+    public ManagerTransactionReport() {}
 
     public ManagerTransactionReport(boolean valid, String errorMessage, String customerBankAccountNumber, String merchantBankAccountNumber,
                                     String token, BigDecimal amount, String description)
