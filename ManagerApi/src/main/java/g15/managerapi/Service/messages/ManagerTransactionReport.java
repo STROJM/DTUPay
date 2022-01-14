@@ -1,12 +1,9 @@
-package g15.reporting.reports;
-
-import g15.reporting.messages.Report;
+package g15.managerapi.Service.messages;
 
 import java.math.BigDecimal;
 
 public class ManagerTransactionReport extends Report {
 
-    public ManagerTransactionReport() {}
 
     public ManagerTransactionReport(boolean valid, String errorMessage, String customerBankAccountNumber, String merchantBankAccountNumber,
                                     String token, BigDecimal amount, String description)

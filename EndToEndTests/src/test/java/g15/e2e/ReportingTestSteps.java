@@ -22,6 +22,7 @@ public class ReportingTestSteps {
     ReportingService reportingService = new ReportingService();
     List<CustomerTransactionReport> customerPayments;
     List<MerchantTransactionReport> merchantPayments;
+    List<ManagerTransactionReport> managerPayments;
     String token;
 
     @After
@@ -125,6 +126,11 @@ public class ReportingTestSteps {
         merchantPayments = reportingService.getMerchantPayments(accountMerchant.getAccountId()).model;
     }
 
+    @When("the manager requests a list of previous payments")
+    public void theManagerRequestsAListOfPreviousPayments() {
+        managerPayments = reportingService.getManagerPayments().model;
+    }
+
     @Then("the merchant list contains a payment to the merchant for {int} kr")
     public void theMerchantListContainsAPaymentToTheMerchantForKr(int amount) {
         MerchantTransactionReport expected = new MerchantTransactionReport();
@@ -140,5 +146,19 @@ public class ReportingTestSteps {
     @Then("the merchant report list is empty")
     public void theMerchantReportListIsEmpty() {
         Assert.assertTrue(merchantPayments.isEmpty());
+    }
+
+    @Then("the manager list contains a payment to the merchant from the customer for {int} kr")
+    public void theManagerListContainsAPaymentToTheMerchantFromTheCustomerForKr(int amount) {
+        ManagerTransactionReport expected = new ManagerTransactionReport(
+                true,
+                "",
+                accountCustomer.getAccountId(),
+                accountMerchant.getAccountId(),
+                this.token,
+                new BigDecimal(amount),
+                "The customer pays the merchant something");
+
+        Assert.assertTrue(managerPayments.contains(expected));
     }
 }

@@ -1,6 +1,5 @@
 package g15.customerapi.Service;
 
-import g15.customerapi.Service.messages.CustomerRegisterResponse;
 import g15.customerapi.Service.messages.CustomerReportMessage;
 import g15.customerapi.Service.messages.CustomerReportResponse;
 import messaging.v2.IMessagingClient;

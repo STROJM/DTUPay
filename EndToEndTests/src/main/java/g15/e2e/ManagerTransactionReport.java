@@ -1,6 +1,4 @@
-package g15.reporting.reports;
-
-import g15.reporting.messages.Report;
+package g15.e2e;
 
 import java.math.BigDecimal;
 
