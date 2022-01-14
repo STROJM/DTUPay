@@ -22,6 +22,7 @@ public class ReportingTestSteps {
     ReportingService reportingService = new ReportingService();
     List<CustomerTransactionReport> customerPayments;
     List<MerchantTransactionReport> merchantPayments;
+    List<ManagerTransactionReport> managerPayments;
     String token;
 
     @After

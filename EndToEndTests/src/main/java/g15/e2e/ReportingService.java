@@ -34,4 +34,17 @@ public class ReportingService {
         client.close();
         return response;
     }
+
+    public TypedResponseModel<List<ManagerTransactionReport>> getManagerPayments(){
+        Client client = ClientBuilder.newClient();
+        WebTarget r = client.target("http://localhost:8082/");
+
+        TypedResponseModel<List<ManagerTransactionReport>> response = r.path("/reporting/")
+                .request()
+                .get()
+                .readEntity(new GenericType<>(){});
+
+        client.close();
+        return response;
+    }
 }
