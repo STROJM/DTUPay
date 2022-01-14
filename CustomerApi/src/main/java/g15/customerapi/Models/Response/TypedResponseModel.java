@@ -1,7 +1,5 @@
 package g15.customerapi.Models.Response;
 
-import g15.customerapi.Models.ResponseModel;
-
 public class TypedResponseModel<T> extends ResponseModel {
     public T model;
 

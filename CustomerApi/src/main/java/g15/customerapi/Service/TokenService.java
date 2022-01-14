@@ -2,32 +2,23 @@ package g15.customerapi.Service;
 
 import g15.customerapi.Service.messages.TokensRequestMessage;
 import g15.customerapi.Service.messages.TokensResponseMessage;
-import messaging.Event;
-import messaging.MessageQueue;
-import messaging.implementations.RabbitMqQueue;
+import messaging.v2.IMessagingClient;
+import messaging.v2.MessagingClientFactory;
 
 import javax.inject.Singleton;
-import java.util.concurrent.CompletableFuture;
 
 @Singleton
 public class TokenService {
-    private final MessageQueue queue;
-    private CompletableFuture<TokensResponseMessage> tokens;
-
-    public TokenService() {
-        queue = new RabbitMqQueue("rabbitMq");
-        queue.addHandler("TokensResponse", this::handleTokenResponse);
+    private final IMessagingClient messagingClient;
+    public TokenService(){
+        this.messagingClient = MessagingClientFactory.create();
     }
 
     public TokensResponseMessage requestTokens(TokensRequestMessage s) {
-        tokens = new CompletableFuture<>();
-        Event event = new Event("TokensRequest", new Object[] { s });
-        queue.publish(event);
-        return tokens.join();
-    }
-
-    public void handleTokenResponse(Event e) {
-        var s = e.getArgument(0, TokensResponseMessage.class);
-        tokens.complete(s);
+        try {
+            return messagingClient.call(s, TokensResponseMessage.class);
+        } catch (Exception e) {
+            return new TokensResponseMessage(false, e.getMessage(), null);
+        }
     }
 }

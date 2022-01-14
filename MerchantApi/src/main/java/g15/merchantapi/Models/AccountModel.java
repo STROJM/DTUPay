@@ -6,6 +6,7 @@ public class AccountModel {
     public AccountModel(){
 
     }
+
     public AccountModel(String bankAccount) {
         this.bankAccount = bankAccount;
     }

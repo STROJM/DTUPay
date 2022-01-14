@@ -13,11 +13,12 @@ public class TokenService {
     public TypedResponseModel<String[]> requestTokens(TokenModel request){
         Client client = ClientBuilder.newClient();
         WebTarget r = client.target("http://localhost:8080/");
-        var response = r.path("/tokens")
+
+        TypedResponseModel<String[]> response = r.path("/tokens")
                 .request()
                 .post(Entity.entity(request, MediaType.APPLICATION_JSON))
-                .readEntity(new GenericType<TypedResponseModel<String[]>>(){});
-
+                .readEntity(new GenericType<>(){});
+        client.close();
         return response;
     }
 }

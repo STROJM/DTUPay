@@ -3,17 +3,16 @@ package g15.payment;
 import g15.payment.adaptors.BankAdaptor;
 import g15.payment.adaptors.MessageAdaptor;
 import g15.payment.repositories.PaymentRepository;
-import messaging.MessageQueue;
-import messaging.implementations.RabbitMqQueue;
+import messaging.v2.MessagingClientFactory;
 
 public class StartUp {
 	public static void main(String[] args) throws Exception {
 		new StartUp().startUp();
 	}
 
-	private void startUp() throws Exception {
+	private void startUp() {
 		System.out.println("startup");
-		var queue = new RabbitMqQueue("rabbitMq");
+		var queue = MessagingClientFactory.create();
 
 		BankAdaptor bankAdaptor = new BankAdaptor();
 		PaymentRepository paymentRepository = new PaymentRepository();

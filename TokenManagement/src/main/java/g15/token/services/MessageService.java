@@ -2,33 +2,26 @@ package g15.token.services;
 
 import g15.token.exceptions.InvalidTokenException;
 import g15.token.exceptions.InvalidTokenRequestException;
-import g15.token.messages.EnrichedPaymentMessage;
-import g15.token.messages.PaymentMessage;
-import g15.token.messages.TokensRequestMessage;
-import g15.token.messages.TokensResponseMessage;
-import messaging.Event;
-import messaging.MessageQueue;
+import g15.token.messages.*;
+import messaging.v2.IMessagingClient;
+import messaging.v2.Message;
 
 public class MessageService {
-    private final MessageQueue queue;
+    private final IMessagingClient messagingClient;
     private final TokenService tokenService = new TokenService();
 
-    public MessageService(MessageQueue q){
-        this.queue = q;
-        this.queue.addHandler(
-                "PaymentRequest",
-                this::handleNonValidatedPaymentRequest
-        );
-        this.queue.addHandler(
-                "TokensRequest",
-                this::handleTokensRequest);
+    public MessageService(IMessagingClient messagingClient){
+        this.messagingClient = messagingClient;
+        this.messagingClient.register(this::handleTokensRequest, TokensRequestMessage.class);
+        this.messagingClient.register(this::handleNonValidatedPaymentRequest, PaymentMessage.class);
+        this.messagingClient.register(this::handleNonValidatedRefundRequest, RefundMessage.class);
     }
 
-    public void handleTokensRequest(Event event) {
-        var request = event.getArgument(0, TokensRequestMessage.class);
-        var response = getTokensResponse(request);
-        queue.publish(new Event("TokensResponse", new Object[] {response}));
+    public void handleTokensRequest(Message<TokensRequestMessage> message) {
+        var response = getTokensResponse(message.model);
+        this.messagingClient.reply(message.update(response));
     }
+
     private TokensResponseMessage getTokensResponse(TokensRequestMessage request){
         try {
             var tokens = tokenService.requestTokens(request.getCustomerBankAccount(), request.getTokensAmount());
@@ -38,12 +31,16 @@ public class MessageService {
         }
     }
 
-
-    public void handleNonValidatedPaymentRequest(Event ev) {
-        var request = ev.getArgument(0, PaymentMessage.class);
-        EnrichedPaymentMessage enrichedRequest = getEnrichedPaymentMessage(request);
-        queue.publish(new Event("EnrichedPaymentRequest", new Object[] { enrichedRequest }));
+    public void handleNonValidatedPaymentRequest(Message<PaymentMessage> message) {
+        EnrichedPaymentMessage enrichedRequest = getEnrichedPaymentMessage(message.model);
+        this.messagingClient.forward(message.update(enrichedRequest), EnrichedPaymentMessage.class);
     }
+
+    public void handleNonValidatedRefundRequest(Message<RefundMessage> message) {
+        EnrichedRefundMessage enrichedRequest = getEnrichedRefundMessage(message.model);
+        this.messagingClient.forward(message.update(enrichedRequest), EnrichedRefundMessage.class);
+    }
+
     private EnrichedPaymentMessage getEnrichedPaymentMessage(PaymentMessage request) {
         try {
             var customerBankAccount = tokenService.useToken(request.getToken());
@@ -52,12 +49,38 @@ public class MessageService {
             return getEnrichedPaymentMessage(request, null, e.getMessage());
         }
     }
+
+    private EnrichedRefundMessage getEnrichedRefundMessage(RefundMessage request) {
+        try {
+            var customerBankAccount = tokenService.useToken(request.getToken());
+            return getEnrichedRefundMessage(request, customerBankAccount, null);
+        } catch (InvalidTokenException e){
+            return getEnrichedRefundMessage(request, null, e.getMessage());
+        }
+    }
+
     private EnrichedPaymentMessage getEnrichedPaymentMessage(
             PaymentMessage request,
             String customerBankAccount,
             String errorMessage
     ) {
         return new EnrichedPaymentMessage(
+                customerBankAccount,
+                request.getMerchantBankAccount(),
+                request.getToken(),
+                request.getAmount(),
+                request.getDescription(),
+                customerBankAccount != null,
+                errorMessage
+        );
+    }
+
+    private EnrichedRefundMessage getEnrichedRefundMessage(
+            RefundMessage request,
+            String customerBankAccount,
+            String errorMessage
+    ) {
+        return new EnrichedRefundMessage(
                 customerBankAccount,
                 request.getMerchantBankAccount(),
                 request.getToken(),

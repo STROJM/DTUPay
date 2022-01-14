@@ -1,7 +1,9 @@
 package g15.token;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+import com.rabbitmq.client.Delivery;
 import g15.token.messages.EnrichedPaymentMessage;
 import g15.token.messages.PaymentMessage;
 import g15.token.messages.TokensRequestMessage;
@@ -11,19 +13,18 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import messaging.Event;
-import messaging.MessageQueue;
+import messaging.v2.IMessagingClient;
+import messaging.v2.Message;
 import org.mockito.ArgumentCaptor;
 
 import java.math.BigDecimal;
 
-
 public class MessageTestSteps {
-    MessageQueue queue = mock(MessageQueue.class);
-    MessageService service = new MessageService(queue);
+    private final Delivery fakeDelivery = mock(Delivery.class);
+    IMessagingClient client = mock(IMessagingClient.class);
+    MessageService service = new MessageService(client);
+    private PaymentMessage paymentRequest;
     private String bankAccountNumber;
-
-    ArgumentCaptor<Event> eventCaptor = ArgumentCaptor.forClass(Event.class);
     private String tokenToUse;
 
     @Given("a customer with bank account number {string}")
@@ -34,54 +35,64 @@ public class MessageTestSteps {
     @And("the customer owns an unused token")
     public void theCustomerOwnsTokens() {
         var request = new TokensRequestMessage(bankAccountNumber, 1);
-        service.handleTokensRequest(new Event("TokensRequest", new Object[]{request}));
-        verify(queue).publish(eventCaptor.capture());
-        var tokenResponse = eventCaptor.getValue().getArgument(0, TokensResponseMessage.class);
+        service.handleTokensRequest(Message.from(fakeDelivery, request));
+        var captor = ArgumentCaptor.forClass(Message.class);
+        verify(client).reply(captor.capture());
+        var tokenResponse = (TokensResponseMessage)captor.getValue().model;
         this.tokenToUse = tokenResponse.getTokens()[0];
     }
 
-    @When("the {string} event for {int} tokens is received")
-    public void theEventForTokensIsReceived(String eventName, int amount) {
+    @When("the event for {int} tokens is received")
+    public void theEventForTokensIsReceived(int amount) {
         var request = new TokensRequestMessage(this.bankAccountNumber, amount);
-        service.handleTokensRequest(new Event(eventName,new Object[] {request}));
+        service.handleTokensRequest(Message.from(fakeDelivery, request));
     }
 
-    @Then("the {string} valid token response event is sent")
-    public void theEventForTokensIsSent(String eventName) {
-        var expected = new TokensResponseMessage(true, null, null);
-        verify(queue).publish(argThat(new ValidTokensResponseEventMatcher(expected)));
+    @Then("the valid token response event is sent")
+    public void theEventForTokensIsSent() {
+        var captor = ArgumentCaptor.forClass(Message.class);
+        verify(client).reply(captor.capture());
+        var result = (TokensResponseMessage)captor.getValue().model;
+        assertTrue(result.isSuccess());
+        assertNotNull(result.getTokens());
     }
 
-    @Then("the {string} invalid token response event is sent with error {string}")
-    public void theEventForTokensIsSent(String eventName, String error) {
-        var expected = new TokensResponseMessage(false, error, null);
-        verify(queue).publish(argThat(new ValidTokensResponseEventMatcher(expected)));
+    @Then("an invalid payment request event is sent with error {string}")
+    public void theEventForTokensIsSent(String error) {
+        var captor = ArgumentCaptor.forClass(Message.class);
+        verify(client).forward(captor.capture(), eq(EnrichedPaymentMessage.class));
+        var result = (EnrichedPaymentMessage)captor.getValue().model;
+        assertFalse(result.isValid());
+        assertEquals(error, result.getErrorMessage());
     }
 
-    @When("the {string} event for a payment request is received")
-    public void theEventIsReceived(String eventName) {
-        var request = new PaymentMessage(
+    @When("the event for a payment request is received")
+    public void theEventIsReceived() {
+        this.paymentRequest = new PaymentMessage(
           "merchantBankAccountNumber",
                 tokenToUse,
                 BigDecimal.valueOf(10),
           "description"
         );
 
-        service.handleNonValidatedPaymentRequest(new Event(eventName,new Object[] {request}));
+        service.handleNonValidatedPaymentRequest(Message.from(fakeDelivery, paymentRequest));
     }
 
-    @Then("the {string} valid event for an enriched payment request is sent")
-    public void theEventIsSent(String eventName) {
-        var expected = new EnrichedPaymentMessage(
-                bankAccountNumber,
-                "merchantBankAccountNumber",
-                tokenToUse,
-                BigDecimal.valueOf(10),
-                "description",
-                true,
-                null
-        );
-        var event = new Event(eventName, new Object[] {expected});
-        verify(queue).publish(event);
+    @Then("a valid event for an enriched payment request is sent")
+    public void theEventIsSent() {
+        var captor = ArgumentCaptor.forClass(Message.class);
+        verify(client).forward(captor.capture(), eq(EnrichedPaymentMessage.class));
+        var result = (EnrichedPaymentMessage)captor.getValue().model;
+        assertEquals(bankAccountNumber, result.getCustomerBankAccount());
+        assertEquals(paymentRequest.getMerchantBankAccount(), result.getMerchantBankAccount());
+        assertEquals(paymentRequest.getAmount(), result.getAmount());
+        assertEquals(paymentRequest.getDescription(), result.getDescription());
+        assertEquals(tokenToUse, result.getToken());
+        assertTrue(result.isValid());
+        assertNull(result.getErrorMessage());
+    }
+
+    private String stringEquals(String eventName) {
+        return matches("^" + eventName + "$");
     }
 }

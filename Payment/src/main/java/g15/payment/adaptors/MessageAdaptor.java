@@ -3,22 +3,22 @@ package g15.payment.adaptors;
 import g15.payment.PaymentService;
 import g15.payment.exceptions.InvalidPaymentException;
 import g15.payment.messages.*;
-import messaging.Event;
-import messaging.MessageQueue;
+import messaging.v2.IMessagingClient;
+import messaging.v2.Message;
 
 public class MessageAdaptor {
-    private MessageQueue queue;
-    private PaymentService paymentService;
+    private final IMessagingClient client;
+    private final PaymentService paymentService;
 
-    public MessageAdaptor(MessageQueue queue, PaymentService paymentService) {
-        this.queue = queue;
+    public MessageAdaptor(IMessagingClient client, PaymentService paymentService){
+        this.client = client;
         this.paymentService = paymentService;
-        this.queue.addHandler("EnrichedPaymentMessage", this::handleEnrichedPaymentEvent);
-        this.queue.addHandler("EnrichedRefundMessage", this::handleEnrichedRefundEvent);
+        this.client.register(this::handleEnrichedPaymentEvent, EnrichedPaymentMessage.class);
+        this.client.register(this::handleEnrichedRefundEvent, EnrichedRefundMessage.class);
     }
 
-    public void handleEnrichedPaymentEvent(Event event) {
-        var payment = event.getArgument(0, EnrichedPaymentMessage.class);
+    public void handleEnrichedPaymentEvent(Message<EnrichedPaymentMessage> message) {
+        var payment = message.model;
         PaymentResponseMessage response = null;
 
         try {
@@ -27,17 +27,13 @@ public class MessageAdaptor {
         } catch (InvalidPaymentException e) {
             response = new PaymentResponseMessage(e.getMessage());
         }
-
-        Event responseEvent = new Event("PaymentFinishedMessage", new Object[] { response });
-        this.queue.publish(responseEvent);
-
-        PaymentReportStoreMessage reportMessage = new PaymentReportStoreMessage(payment, response);
-        Event reportEvent = new Event("PaymentReportStoreMessage", new Object[] { reportMessage });
-        this.queue.publish(reportEvent);
+        this.client.reply(message.update(response));
+        var report = new PaymentReportStoreMessage(payment, response);
+        this.client.forward(message.update(report), PaymentReportStoreMessage.class);
     }
 
-    public void handleEnrichedRefundEvent(Event event) {
-        var refund = event.getArgument(0, EnrichedRefundMessage.class);
+    public void handleEnrichedRefundEvent(Message<EnrichedRefundMessage> message) {
+        var refund = message.model;
         PaymentResponseMessage response = null;
 
         try {
@@ -46,12 +42,8 @@ public class MessageAdaptor {
         } catch (InvalidPaymentException e) {
             response = new PaymentResponseMessage(e.getMessage());
         }
-
-        Event responseEvent = new Event("RefundFinishedMessage", new Object[] { response });
-        this.queue.publish(responseEvent);
-
-        RefundReportStoreMessage reportMessage = new RefundReportStoreMessage(refund, response);
-        Event reportEvent = new Event("RefundReportStoreMessage", new Object[] { reportMessage });
-        this.queue.publish(reportEvent);
+        this.client.reply(message.update(response));
+        var report = new RefundReportStoreMessage(refund, response);
+        this.client.forward(message.update(report), RefundReportStoreMessage.class);
     }
 }

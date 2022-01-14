@@ -24,13 +24,20 @@ public class RegisterTestSteps {
 
     @After
     public void cleanupAccounts() {
-        if(accountCustomer == null){
-            return;
+        if(accountCustomer != null) {
+            try {
+                testingService.retireAccount(accountCustomer.getAccountId());
+            } catch (Exception e) {
+                cleanUpErrors.add(accountCustomer.getAccountId());
+            }
         }
-        try {
-            testingService.retireAccount(accountCustomer.getAccountId());
-        } catch (Exception e) {
-            cleanUpErrors.add(accountCustomer.getAccountId());
+
+        if(accountMerchant != null) {
+            try {
+                testingService.retireAccount(accountMerchant.getAccountId());
+            } catch (Exception e) {
+                cleanUpErrors.add(accountMerchant.getAccountId());
+            }
         }
 
         if (!cleanUpErrors.isEmpty())

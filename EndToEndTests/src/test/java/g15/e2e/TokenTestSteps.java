@@ -5,6 +5,8 @@ import g15.e2e.Response.TypedResponseModel;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
+import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TokenTestSteps {
@@ -12,9 +14,9 @@ public class TokenTestSteps {
     private TypedResponseModel<String[]> tokenRequestResponse;
 
 
-    @When("a new customer with bank number {string} requests {int} tokens")
-    public void aNewCustomerWithBankNumberRequestsTokens(String bankAccountNumber, int amountOfTokens) {
-        this.tokenRequestResponse = service.requestTokens(new TokenModel(bankAccountNumber, amountOfTokens));
+    @When("a new customer with a new bank account requests {int} tokens")
+    public void aNewCustomerWithBankNumberRequestsTokens(int amountOfTokens) {
+        this.tokenRequestResponse = service.requestTokens(new TokenModel(UUID.randomUUID().toString(), amountOfTokens));
     }
 
     @Then("the token request is successful")
