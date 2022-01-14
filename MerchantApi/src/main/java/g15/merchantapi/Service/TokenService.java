@@ -13,7 +13,7 @@ public class TokenService {
     private final IMessagingClient client;
 
     public TokenService() {
-        this.client = MessagingClientFactory.create();
+        this.client = MessagingClientFactory.createAwaitableClient();
     }
 
     public PaymentResponseMessage pay(PaymentMessage request){

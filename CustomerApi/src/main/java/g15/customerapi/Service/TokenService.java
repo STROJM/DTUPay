@@ -11,7 +11,7 @@ import javax.inject.Singleton;
 public class TokenService {
     private final IMessagingClient messagingClient;
     public TokenService(){
-        this.messagingClient = MessagingClientFactory.create();
+        this.messagingClient = MessagingClientFactory.createAwaitableClient();
     }
 
     public TokensResponseMessage requestTokens(TokensRequestMessage s) {

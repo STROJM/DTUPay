@@ -12,7 +12,7 @@ public class AccountService {
     private final IMessagingClient client;
 
     public AccountService() {
-        this.client = MessagingClientFactory.create();
+        this.client = MessagingClientFactory.createAwaitableClient();
     }
 
     public MerchantRegisterResponse merchantRegister(MerchantRegisterMessage request) {

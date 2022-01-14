@@ -9,4 +9,9 @@ public class MessagingClientFactory {
     public static IMessagingClient create(){
         return create("rabbitMq");
     }
+    public static IMessagingClient createAwaitableClient(){
+        var client = create("rabbitMq");
+        client.enableAwaitingCalls();
+        return client;
+    }
 }

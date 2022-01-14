@@ -17,7 +17,7 @@ public class RabbitMqClient implements IMessagingClient{
     private static final Charset ENCODING = StandardCharsets.UTF_8;
     private static final String EXCHANGE = "events";
     private static final String QUEUE_TYPE = "direct";
-    private final String replyQueueName;
+    private String replyQueueName = null;
 
     public RabbitMqClient(String host) {
         try {
@@ -26,12 +26,19 @@ public class RabbitMqClient implements IMessagingClient{
             Connection connection = factory.newConnection();
             channel = connection.createChannel();
             channel.exchangeDeclare(EXCHANGE, QUEUE_TYPE);
-
-            replyQueueName = channel.queueDeclare().getQueue();
-            registerAwaiters();
             System.out.printf("Connected to exchange %s with queue type %s%n", EXCHANGE, QUEUE_TYPE);
         } catch (IOException | TimeoutException e) {
             throw new Error(e);
+        }
+    }
+
+    public void enableAwaitingCalls() {
+        try {
+            if(replyQueueName != null) return;
+            replyQueueName = channel.queueDeclare().getQueue();
+            registerAwaiters();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -90,13 +97,16 @@ public class RabbitMqClient implements IMessagingClient{
     }
 
     public <TRequest,TResponse> TResponse call(TRequest request, Class<TResponse> responseType) throws IOException, InterruptedException {
+        if (replyQueueName == null) throw new IllegalStateException("Awaitable calls not enabled");
+
         final String corrId = UUID.randomUUID().toString();
         final String routing_key = request.getClass().getSimpleName();
         var props = getProperties(corrId, replyQueueName);
-        channel.basicPublish(EXCHANGE, routing_key, props, serialize(request));
 
         final BlockingQueue<TResponse> response = new ArrayBlockingQueue<>(1);
         awaiters.put(corrId, CallAwaiter.from(response, responseType));
+        channel.basicPublish(EXCHANGE, routing_key, props, serialize(request));
+
         return response.poll(10, TimeUnit.SECONDS);
     }
 
