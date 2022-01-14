@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>g15.customerapi</groupId>
-    <artifactId>CutomerApi</artifactId>
+    <artifactId>CustomerApi</artifactId>
     <version>1.0.0</version>
 
     <properties>
