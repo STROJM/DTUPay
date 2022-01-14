@@ -1,9 +1,6 @@
 package g15.e2e;
 
-import dtu.ws.fastmoney.AccountInfo;
-import dtu.ws.fastmoney.BankService;
-import dtu.ws.fastmoney.BankServiceService;
-import dtu.ws.fastmoney.User;
+import dtu.ws.fastmoney.*;
 import g15.e2e.Response.TypedResponseModel;
 import io.cucumber.java.After;
 import io.cucumber.java.en.And;
@@ -16,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class PaymentTestSteps {
@@ -54,10 +51,10 @@ public class PaymentTestSteps {
     }
 
 
-    @Given("a customer and a merchant with a valid bank account number")
-    public void aCustomerAndAMerchantWithAValidBankAccountNumber() throws Exception {
-        accountCustomer = registerTestUserInBank();
-        accountMerchant = registerTestUserInBank();
+    @Given("a customer and a merchant with a valid bank account number and balance {int}")
+    public void aCustomerAndAMerchantWithAValidBankAccountNumber(int balance) throws Exception {
+        accountCustomer = registerTestUserInBank(balance);
+        accountMerchant = registerTestUserInBank(balance);
     }
 
 
@@ -96,14 +93,14 @@ public class PaymentTestSteps {
         assertTrue(this.paymentResponse.completed);
     }
 
-    private AccountInfo registerTestUserInBank() throws Exception {
+    private AccountInfo registerTestUserInBank(int balance) throws Exception {
         User customer = new User();
         customer.setFirstName(UUID.randomUUID().toString());
         customer.setLastName(UUID.randomUUID().toString());
         customer.setCprNumber(UUID.randomUUID().toString());
 
         try {
-            var bankId = testingService.createAccountWithBalance(customer, new BigDecimal(1000));
+            var bankId = testingService.createAccountWithBalance(customer, new BigDecimal(balance));
             AccountInfo userNew = new AccountInfo();
             userNew.setUser(customer);
             userNew.setAccountId(bankId);
@@ -111,5 +108,15 @@ public class PaymentTestSteps {
         } catch (Exception e) {
             throw new Exception("Could not create test bank account");
         }
+    }
+
+    @And("the customer has balance {int}")
+    public void theCustomerHasBalance(int balance) throws BankServiceException_Exception {
+        assertEquals(new BigDecimal(balance), testingService.getAccount(accountCustomer.getAccountId()).getBalance());
+    }
+
+    @And("the merchant has balance {int}")
+    public void theMerchantHasBalance(int balance) throws BankServiceException_Exception {
+        assertEquals(new BigDecimal(balance), testingService.getAccount(accountMerchant.getAccountId()).getBalance());
     }
 }
