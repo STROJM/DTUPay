@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.*;
 import java.util.function.Consumer;
@@ -15,21 +16,38 @@ public class RabbitMqClient implements IMessagingClient{
     private final Map<String, CallAwaiter> awaiters = new ConcurrentHashMap<>();
     private final Channel channel;
     private static final Charset ENCODING = StandardCharsets.UTF_8;
+    private static final int CONNECTION_RETRIES = 10;
+    private static final int CONNECTION_RETRY_WAIT_MS = 10000;
     private static final String EXCHANGE = "events";
     private static final String QUEUE_TYPE = "direct";
     private String replyQueueName = null;
 
     public RabbitMqClient(String host) {
         try {
-            ConnectionFactory factory = new ConnectionFactory();
-            factory.setHost(host);
-            Connection connection = factory.newConnection();
+            var connection = connectWithRetries(host, CONNECTION_RETRIES);
             channel = connection.createChannel();
             channel.exchangeDeclare(EXCHANGE, QUEUE_TYPE);
             System.out.printf("Connected to exchange %s with queue type %s%n", EXCHANGE, QUEUE_TYPE);
-        } catch (IOException | TimeoutException e) {
+        } catch (Exception e) {
             throw new Error(e);
         }
+    }
+
+    private Connection connectWithRetries(String host, int retries) throws Exception {
+        Exception error = null;
+        for (int i = 0; i < retries; i++) {
+            try {
+                var factory = new ConnectionFactory();
+                factory.setHost(host);
+                return factory.newConnection();
+            } catch (IOException | TimeoutException e) {
+                System.out.println("Connection error: " + e.getMessage());
+                error = e;
+            }
+            System.out.println("Retrying connection in " + CONNECTION_RETRY_WAIT_MS + " ms");
+            Thread.sleep(CONNECTION_RETRY_WAIT_MS);
+        }
+        throw Objects.requireNonNull(error);
     }
 
     public void enableAwaitingCalls() {
