@@ -19,7 +19,7 @@ public class TokenService {
             tokens[i] = UUID.randomUUID().toString();
         }
 
-        repo.addTokens(customerId, amountOfTokens, tokens);
+        repo.addTokens(customerId, tokens);
         return tokens;
     }
 

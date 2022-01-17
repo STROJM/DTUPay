@@ -11,13 +11,13 @@ public class TokenRepository {
     private final HashMap<String, List<String>> tokensForCustomerStore = new HashMap<>();
     private final HashMap<String, String> customerForTokenStore = new HashMap<>();
 
-    public void addTokens(String customerId, int amountOfTokens, String[] tokens) {
+    public void addTokens(String customerId, String[] tokens) {
         if(!tokensForCustomerStore.containsKey(customerId)){
             tokensForCustomerStore.put(customerId, new LinkedList<>());
         }
 
-        for (int i = 0; i < amountOfTokens; i++) {
-            customerForTokenStore.put(tokens[i], customerId);
+        for (var token : tokens) {
+            customerForTokenStore.put(token, customerId);
         }
 
         tokensForCustomerStore.get(customerId).addAll(List.of(tokens));
