@@ -1,8 +1,11 @@
 package messages.payment;
 
+import lombok.EqualsAndHashCode;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+@EqualsAndHashCode
 public class RefundMessage implements Serializable {
     private static final long serialVersionUID = 9023222984284806610L;
 

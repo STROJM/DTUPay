@@ -1,7 +1,10 @@
 package messages.tokens;
 
+import lombok.EqualsAndHashCode;
+
 import java.io.Serializable;
 
+@EqualsAndHashCode
 public class TokensResponseMessage implements Serializable {
     private static final long serialVersionUID = 9023222984284806610L;
 

@@ -54,7 +54,8 @@ public class MessageAdaptor {
         CustomerReportResponse fullCustomerReport = new CustomerReportResponse();
 
         for (Report report : this.reportingService.getReports()) {
-            if (report.getCustomerBankAccountNumber().equals(customerReportMessage.getCustomerBankAccount())) {
+            if (report.getCustomerBankAccountNumber().equals(customerReportMessage.getCustomerBankAccount()) &&
+                    report.isValid()) {
                 fullCustomerReport.addTransactionReport(new CustomerTransactionReport(
                         report.getToken(),
                         report.getDescription(),
@@ -74,7 +75,8 @@ public class MessageAdaptor {
         MerchantReportResponse fullMerchantReport = new MerchantReportResponse();
 
         for (Report report : this.reportingService.getReports()) {
-            if (report.getMerchantBankAccountNumber().equals(merchantReportMessage.getMerchantBankAccount())) {
+            if (report.getMerchantBankAccountNumber().equals(merchantReportMessage.getMerchantBankAccount()) &&
+                report.isValid()) {
                 fullMerchantReport.addTransactionReport(new MerchantTransactionReport(
                         report.getToken(),
                         report.getDescription(),

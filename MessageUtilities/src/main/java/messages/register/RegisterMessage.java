@@ -1,8 +1,11 @@
 package messages.register;
 
+import lombok.EqualsAndHashCode;
+
 import java.io.Serializable;
 import java.util.Objects;
 
+@EqualsAndHashCode
 public class RegisterMessage implements Serializable {
     private static final long serialVersionUID = 9023222984284806610L;
 

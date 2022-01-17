@@ -1,9 +1,12 @@
 package messages.reporting;
 
+import lombok.EqualsAndHashCode;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
 
+@EqualsAndHashCode
 public class Report implements Serializable {
 
     private boolean valid;

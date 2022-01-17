@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>g15.e2e</groupId>
-    <artifactId>EndToEndTests</artifactId>
+    <groupId>g15.managerapi</groupId>
+    <artifactId>ManagerApi</artifactId>
     <version>1.0.0</version>
 
     <properties>
@@ -16,6 +16,7 @@
         <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
         <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
         <quarkus.platform.version>2.6.1.Final</quarkus.platform.version>
+
         <cucumber.version>6.9.1</cucumber.version>
         <junit.version>5.7.0</junit.version>
     </properties>
@@ -31,19 +32,6 @@
         </dependencies>
     </dependencyManagement>
     <dependencies>
-
-        <dependency>
-            <groupId>org.jboss.resteasy</groupId>
-            <artifactId>resteasy-client</artifactId>
-            <version>4.7.1.Final</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.sun.xml.ws</groupId>
-            <artifactId>jaxws-ri</artifactId>
-            <version>2.3.3</version>
-            <type>pom</type>
-        </dependency>
 
         <!-- cucumber -->
         <dependency>
@@ -107,45 +95,15 @@
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-smallrye-openapi</artifactId>
         </dependency>
-
-        <!-- payment app contract -->
         <dependency>
             <groupId>g15.messaging</groupId>
             <artifactId>MessageUtilities</artifactId>
             <version>3.2</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.18.22</version>
-            <scope>provided</scope>
-        </dependency>
-
     </dependencies>
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>jaxws-maven-plugin</artifactId>
-                <version>2.6</version>
-                <executions>
-                    <execution>
-                        <id>wsimport-from-jdk</id>
-                        <goals>
-                            <goal>wsimport</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <wsdlUrls>
-                        <wsdlUrl>http://fm-00.compute.dtu.dk/BankService.wsdl.xml</wsdlUrl>
-                    </wsdlUrls>
-                    <keep>true</keep>
-                    <packageName>dtu.ws.fastmoney</packageName>
-                    <sourceDestDir>src/main/java</sourceDestDir>
-                </configuration>
-            </plugin>
             <plugin>
                 <groupId>${quarkus.platform.group-id}</groupId>
                 <artifactId>quarkus-maven-plugin</artifactId>
