@@ -18,4 +18,13 @@ public class MerchantTransactionReport {
         this.errorMessage = errorMessage;
         this.amount = amount;
     }
+
+    public static MerchantTransactionReport from(Report report) {
+        return new MerchantTransactionReport(
+                report.getToken(),
+                report.getDescription(),
+                report.getErrorMessage(),
+                report.getAmount()
+        );
+    }
 }

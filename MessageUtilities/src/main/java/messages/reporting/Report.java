@@ -4,7 +4,6 @@ import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Objects;
 
 @EqualsAndHashCode
 public class Report implements Serializable {
@@ -77,18 +76,5 @@ public class Report implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Report report = (Report) o;
-        return valid == report.valid && errorMessage.equals(report.errorMessage) && customerBankAccountNumber.equals(report.customerBankAccountNumber) && merchantBankAccountNumber.equals(report.merchantBankAccountNumber) && token.equals(report.token) && amount.equals(report.amount) && description.equals(report.description);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(valid, errorMessage, customerBankAccountNumber, merchantBankAccountNumber, token, amount, description);
     }
 }

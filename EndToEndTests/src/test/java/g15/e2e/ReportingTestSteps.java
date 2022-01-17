@@ -112,7 +112,7 @@ public class ReportingTestSteps {
 
         expected.token = this.token;
         expected.description = "The customer pays the merchant something";
-        expected.errorMessage = "";
+        expected.errorMessage = null;
         expected.merchantBankAccountNumber = accountMerchant.getAccountId();
         expected.amount = new BigDecimal(amount);
 
@@ -140,7 +140,7 @@ public class ReportingTestSteps {
 
         expected.token = this.token;
         expected.description = "The customer pays the merchant something";
-        expected.errorMessage = "";
+        expected.errorMessage = null;
         expected.amount = new BigDecimal(amount);
 
         Assert.assertTrue(merchantPayments.contains(expected));
@@ -155,7 +155,7 @@ public class ReportingTestSteps {
     public void theManagerListContainsAPaymentToTheMerchantFromTheCustomerForKr(int amount) {
         ManagerTransactionReport expected = new ManagerTransactionReport(
                 true,
-                "",
+                null,
                 accountCustomer.getAccountId(),
                 accountMerchant.getAccountId(),
                 this.token,

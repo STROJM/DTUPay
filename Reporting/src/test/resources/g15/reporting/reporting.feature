@@ -1,21 +1,25 @@
 Feature: Reporting
 
-  Scenario: Successful payment reported
-    Given a valid "PaymentReportStoreMessage" event for a payment of 100 kr is received
-    Then the report is stored
-    #And a valid "PaymentReportFinished" event is sent
+  Scenario: Successful transaction customer report
+    Given a completed transaction event for a payment of 100 kr is received
+    Then the customer who performed the transaction can get the report
 
-  Scenario: Successful refund reported
-    Given a valid "RefundReportStoreMessage" event for a refund of 100 kr is received
-    Then the report is stored
-    #And a valid "RefundReportFinished" event is sent
+  Scenario: Failed transaction customer report
+    Given a failed transaction event for a payment of 100 kr is received
+    Then the customer who performed the transaction can get the report
 
-  Scenario: Unsuccessful payment reported
-    Given a valid "PaymentReportStoreMessage" event for a failed payment of 100 kr is received
-    Then the report is stored
-    #And a valid "PaymentReportFinished" event is sent
+  Scenario: Successful transaction merchant report
+    Given a completed transaction event for a payment of 100 kr is received
+    Then the merchant who received the transaction can get the report
 
-  Scenario: Unsuccessful refund reported
-    Given a valid "RefundReportStoreMessage" event for a failed refund of 100 kr is received
-    Then the report is stored
-    #And a valid "RefundReportFinished" event is sent
+  Scenario: Failed transaction merchant report
+    Given a failed transaction event for a payment of 100 kr is received
+    Then the merchant who received the transaction can get the report
+
+  Scenario: Successful transaction manager report
+    Given a completed transaction event for a payment of 100 kr is received
+    Then the manager can get the report
+
+  Scenario: Failed transaction manager report
+    Given a failed transaction event for a payment of 100 kr is received
+    Then the manager can get the report

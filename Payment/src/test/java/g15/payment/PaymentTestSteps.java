@@ -3,9 +3,11 @@ package g15.payment;
 import com.rabbitmq.client.Delivery;
 import g15.payment.adaptors.BankAdaptor;
 import g15.payment.adaptors.MessageAdaptor;
+import messages.reporting.Transaction;
+import messages.reporting.TransactionCompleted;
 import g15.payment.exceptions.BankException;
+import g15.payment.repositories.EventStore;
 import messages.payment.*;
-import g15.payment.repositories.PaymentRepository;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -25,19 +27,18 @@ public class PaymentTestSteps {
     Delivery fakeDelivery = mock(Delivery.class);
     BankAdaptor bankAdaptor = mock(BankAdaptor.class);
     IMessagingClient client = mock(IMessagingClient.class);
-    PaymentRepository paymentRepository = new PaymentRepository();
-    PaymentService service = new PaymentService(paymentRepository, bankAdaptor);
+    EventStore eventStore = new EventStore(client);
+    PaymentService service = new PaymentService(eventStore, bankAdaptor);
     MessageAdaptor messageAdaptor = new MessageAdaptor(client, service);
     EnrichedMessage payment;
-    StoredMessage expectedStoredPayment;
+    Transaction paymentEvent;
 
     @Given("a valid {string} event for a payment of {int} kr is received")
     public void aEventForAPaymentIsReceived(String eventName, int amount) {
         payment = new EnrichedPaymentMessage("customer", "merchant", "token", new BigDecimal(amount), "desc", true, "");
-        expectedStoredPayment = StoredMessage.from(payment);
         var message = Message.from(fakeDelivery, (EnrichedPaymentMessage)payment);
-        //Event event = new Event(eventName, new Object[]{payment});
         messageAdaptor.handleEnrichedPaymentEvent(message);
+        paymentEvent = new TransactionCompleted(payment);
     }
 
     @When("the payment amount is transferred in the bank")
@@ -52,12 +53,12 @@ public class PaymentTestSteps {
 
     @Then("the transaction has been stored")
     public void theTransactionHasBeenStored() {
-        Assert.assertTrue(service.listPayments().contains(expectedStoredPayment));
+        Assert.assertTrue(service.listPayments().contains(paymentEvent));
     }
 
     @Then("the transaction has not been stored")
     public void theTransactionHasNotBeenStored() {
-        Assert.assertFalse(service.listPayments().contains(expectedStoredPayment));
+        Assert.assertFalse(service.listPayments().contains(paymentEvent));
     }
 
 
@@ -96,7 +97,7 @@ public class PaymentTestSteps {
     @Given("a valid {string} event for a refund of {int} kr is received")
     public void aValidEventForARefundOfKrIsReceived(String eventName, int amount) {
         payment = new EnrichedRefundMessage("customer", "merchant", "token", new BigDecimal(amount), "desc", true, "");
-        expectedStoredPayment = StoredMessage.from(payment);
+        paymentEvent = new TransactionCompleted(payment);
         var message = Message.from(fakeDelivery, (EnrichedRefundMessage)payment);
         messageAdaptor.handleEnrichedRefundEvent(message);
     }

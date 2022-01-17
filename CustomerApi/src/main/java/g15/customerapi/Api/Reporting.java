@@ -27,7 +27,7 @@ public class Reporting {
 
         var response = new TypedResponseModel<List<CustomerTransactionReport>>();
 
-        response.model = reportingResponseMessage.getAllTransactions();
+        response.model = reportingResponseMessage.getTransactionReports();
         response.completed = true;
 
         return response;

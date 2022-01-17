@@ -18,4 +18,16 @@ public class ManagerTransactionReport extends Report {
         this.setAmount(amount);
         this.setDescription(description);
     }
+
+    public static ManagerTransactionReport from(Report report) {
+        return new ManagerTransactionReport(
+                report.isValid(),
+                report.getErrorMessage(),
+                report.getCustomerBankAccountNumber(),
+                report.getMerchantBankAccountNumber(),
+                report.getToken(),
+                report.getAmount(),
+                report.getDescription()
+        );
+    }
 }

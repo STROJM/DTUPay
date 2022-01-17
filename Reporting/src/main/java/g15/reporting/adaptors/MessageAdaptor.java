@@ -12,80 +12,25 @@ public class MessageAdaptor {
     public MessageAdaptor(IMessagingClient client, ReportService reportService){
         this.client = client;
         this.reportingService = reportService;
-        this.client.register(this::handlePaymentReportEvent, PaymentReportStoreMessage.class);
-        this.client.register(this::handleRefundReportEvent, RefundReportStoreMessage.class);
-        this.client.register(this::handleManagerReportEvent, ManagerReportMessage.class);
+        this.client.register(this::handleTransactionReportMessage, TransactionReportMessage.class);
         this.client.register(this::handleCustomerReportEvent, CustomerReportMessage.class);
         this.client.register(this::handleMerchantReportEvent, MerchantReportMessage.class);
+        this.client.register(this::handleManagerReportEvent, ManagerReportMessage.class);
     }
 
-    public void handlePaymentReportEvent(Message<PaymentReportStoreMessage> message) {
-        var report = message.model;
-        reportingService.saveReport(report);
+    public void handleTransactionReportMessage(Message<TransactionReportMessage> message) {
+        this.reportingService.save(message.model.getTransactionEvent());
     }
-
-    public void handleRefundReportEvent(Message<RefundReportStoreMessage> message) {
-        var report = message.model;
-        reportingService.saveReport(report);
-    }
-
-    public void handleManagerReportEvent(Message<ManagerReportMessage> message) {
-
-        ManagerReportResponse fullManagerReport = new ManagerReportResponse();
-
-        for (Report report : this.reportingService.getReports()) {
-            fullManagerReport.addTransactionReport(new ManagerTransactionReport(
-                    report.isValid(),
-                    report.getErrorMessage(),
-                    report.getCustomerBankAccountNumber(),
-                    report.getMerchantBankAccountNumber(),
-                    report.getToken(),
-                    report.getAmount(),
-                    report.getDescription())
-                );
-        }
-
-        this.client.reply(message.update(fullManagerReport));
-    }
-
     public void handleCustomerReportEvent(Message<CustomerReportMessage> message) {
-        var customerReportMessage = message.model;
-
-        CustomerReportResponse fullCustomerReport = new CustomerReportResponse();
-
-        for (Report report : this.reportingService.getReports()) {
-            if (report.getCustomerBankAccountNumber().equals(customerReportMessage.getCustomerBankAccount()) &&
-                    report.isValid()) {
-                fullCustomerReport.addTransactionReport(new CustomerTransactionReport(
-                        report.getToken(),
-                        report.getDescription(),
-                        report.getErrorMessage(),
-                        report.getMerchantBankAccountNumber(),
-                        report.getAmount())
-                );
-            }
-        }
-
-        this.client.reply(message.update(fullCustomerReport));
+        var reports = this.reportingService.getByCustomerId(message.model.getCustomerBankAccount());
+        this.client.reply(message.update(reports));
     }
-
     public void handleMerchantReportEvent(Message<MerchantReportMessage> message) {
-        var merchantReportMessage = message.model;
-
-        MerchantReportResponse fullMerchantReport = new MerchantReportResponse();
-
-        for (Report report : this.reportingService.getReports()) {
-            if (report.getMerchantBankAccountNumber().equals(merchantReportMessage.getMerchantBankAccount()) &&
-                report.isValid()) {
-                fullMerchantReport.addTransactionReport(new MerchantTransactionReport(
-                        report.getToken(),
-                        report.getDescription(),
-                        report.getErrorMessage(),
-                        report.getAmount())
-                );
-            }
-        }
-
-        this.client.reply(message.update(fullMerchantReport));
+        var reports = this.reportingService.getByMerchantId(message.model.getMerchantBankAccount());
+        this.client.reply(message.update(reports));
+    }
+    public void handleManagerReportEvent(Message<ManagerReportMessage> message) {
+        var reports = this.reportingService.getAll();
+        this.client.reply(message.update(reports));
     }
 }

@@ -1,21 +1,24 @@
 package g15.payment;
 
 import g15.payment.adaptors.BankAdaptor;
+import messages.reporting.Transaction;
+import messages.reporting.TransactionCompleted;
+import messages.reporting.TransactionFailed;
 import g15.payment.exceptions.BankException;
 import g15.payment.exceptions.InvalidPaymentException;
+import g15.payment.repositories.EventStore;
 import messages.payment.*;
-import g15.payment.repositories.PaymentRepository;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 public class PaymentService {
-    private BankAdaptor bankAdaptor;
-    private PaymentRepository paymentRepository;
+    private final EventStore store;
+    private final BankAdaptor bankAdaptor;
 
-    public PaymentService(PaymentRepository paymentRepository, BankAdaptor bankAdaptor) {
+    public PaymentService(EventStore store, BankAdaptor bankAdaptor) {
+        this.store = store;
         this.bankAdaptor = bankAdaptor;
-        this.paymentRepository = paymentRepository;
     }
 
     private void checkPayment(EnrichedMessage payment) throws InvalidPaymentException {
@@ -31,11 +34,11 @@ public class PaymentService {
 
         try {
             this.bankAdaptor.performPayment(payment);
+            this.store.add(new TransactionCompleted(payment));
         } catch (BankException e) {
+            this.store.add(new TransactionFailed(payment, e.getMessage()));
             throw new InvalidPaymentException(e.getMessage());
         }
-
-        this.paymentRepository.storePayment(payment);
     }
 
     public void performRefund(EnrichedRefundMessage refund) throws InvalidPaymentException {
@@ -43,14 +46,14 @@ public class PaymentService {
 
         try {
             this.bankAdaptor.performRefund(refund);
+            this.store.add(new TransactionCompleted(refund));
         } catch (BankException e) {
+            this.store.add(new TransactionFailed(refund, e.getMessage()));
             throw new InvalidPaymentException(e.getMessage());
         }
-
-        this.paymentRepository.storePayment(refund);
     }
 
-    public List<StoredMessage> listPayments() {
-        return this.paymentRepository.getPayments();
+    public List<Transaction> listPayments() {
+        return this.store.get();
     }
 }

@@ -21,4 +21,14 @@ public class CustomerTransactionReport implements Serializable {
         this.merchantBankAccountNumber = merchantBankAccountNumber;
         this.amount = amount;
     }
+
+    public static CustomerTransactionReport from(Report report) {
+        return new CustomerTransactionReport(
+                report.getToken(),
+                report.getDescription(),
+                report.getErrorMessage(),
+                report.getMerchantBankAccountNumber(),
+                report.getAmount()
+        );
+    }
 }

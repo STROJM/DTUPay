@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class CustomerReportMessage implements Serializable {
 
-    private String customerBankAccount;
+    private final String customerBankAccount;
 
     public CustomerReportMessage(String customerBankAccount) {
         this.customerBankAccount = customerBankAccount;

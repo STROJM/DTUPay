@@ -1,16 +1,25 @@
 package messages.reporting;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class MerchantReportResponse {
-    private List<MerchantTransactionReport> transactionList = new ArrayList<>();
-
-    public MerchantReportResponse() {}
-
-    public void addTransactionReport(MerchantTransactionReport transactionReport) {
-        this.transactionList.add(transactionReport);
+    private final List<MerchantTransactionReport> transactionReports;
+    public MerchantReportResponse() {
+        this(new LinkedList<>());
+    }
+    public MerchantReportResponse(List<MerchantTransactionReport> transactionReports){
+        this.transactionReports = transactionReports;
     }
 
-    public List<MerchantTransactionReport> getAllTransactions() { return transactionList; }
+    public static MerchantReportResponse from(List<Report> reports) {
+        var transactionReports = reports.stream()
+                .map(MerchantTransactionReport::from)
+                .collect(Collectors.toList());
+
+        return new MerchantReportResponse(transactionReports);
+    }
+
+    public List<MerchantTransactionReport> getTransactionReports() { return transactionReports; }
 }

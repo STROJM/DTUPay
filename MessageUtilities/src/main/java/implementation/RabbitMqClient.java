@@ -91,6 +91,16 @@ public class RabbitMqClient implements IMessagingClient{
         }
     }
 
+    public <TModel> void send(TModel model){
+        try {
+            log("send " + model.getClass().getSimpleName());
+            var props = getProperties();
+            channel.basicPublish(EXCHANGE, model.getClass().getSimpleName(), props, serialize(model));
+        } catch (IOException e1) {
+            throw new Error(e1);
+        }
+    }
+
     public <TModel> void register(Consumer<Message<TModel>> handler, Class<TModel> modelClass) {
         try {
             log("register");
@@ -139,13 +149,17 @@ public class RabbitMqClient implements IMessagingClient{
         });
     }
 
+    private AMQP.BasicProperties getProperties() {
+        return new AMQP.BasicProperties
+                .Builder()
+                .build();
+    }
     private AMQP.BasicProperties getProperties(String corrId) {
         return new AMQP.BasicProperties
                 .Builder()
                 .correlationId(corrId)
                 .build();
     }
-
     private AMQP.BasicProperties getProperties(String corrId, String replyQueueName) {
         return new AMQP.BasicProperties
                 .Builder()

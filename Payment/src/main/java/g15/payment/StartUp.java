@@ -2,7 +2,7 @@ package g15.payment;
 
 import g15.payment.adaptors.BankAdaptor;
 import g15.payment.adaptors.MessageAdaptor;
-import g15.payment.repositories.PaymentRepository;
+import g15.payment.repositories.EventStore;
 import implementation.MessagingClientFactory;
 
 public class StartUp {
@@ -12,12 +12,12 @@ public class StartUp {
 
 	private void startUp() {
 		System.out.println("startup");
-		var queue = MessagingClientFactory.create();
+		var client = MessagingClientFactory.create();
 
 		BankAdaptor bankAdaptor = new BankAdaptor();
-		PaymentRepository paymentRepository = new PaymentRepository();
-		PaymentService service = new PaymentService(paymentRepository, bankAdaptor);
-		new MessageAdaptor(queue, service);
+		var eventStore = new EventStore(client);
+		PaymentService service = new PaymentService(eventStore, bankAdaptor);
+		new MessageAdaptor(client, service);
 		System.out.println("payment running");
 	}
 }
