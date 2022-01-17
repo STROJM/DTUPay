@@ -1,9 +1,9 @@
 package g15.customerapi.Service;
 
-import g15.customerapi.Service.messages.TokensRequestMessage;
-import g15.customerapi.Service.messages.TokensResponseMessage;
-import messaging.v2.IMessagingClient;
-import messaging.v2.MessagingClientFactory;
+import implementation.IMessagingClient;
+import implementation.MessagingClientFactory;
+import messages.tokens.TokensRequestMessage;
+import messages.tokens.TokensResponseMessage;
 
 import javax.inject.Singleton;
 

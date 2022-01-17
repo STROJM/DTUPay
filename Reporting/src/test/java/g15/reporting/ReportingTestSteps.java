@@ -1,19 +1,17 @@
 package g15.reporting;
 
 import com.rabbitmq.client.Delivery;
-import g15.payment.messages.EnrichedPaymentMessage;
-import g15.payment.messages.EnrichedRefundMessage;
-import g15.payment.messages.PaymentResponseMessage;
 import g15.reporting.adaptors.MessageAdaptor;
-import g15.reporting.messages.PaymentReportStoreMessage;
-import g15.reporting.messages.RefundReportStoreMessage;
-import g15.reporting.messages.Report;
 import g15.reporting.repositories.ReportRepository;
 import g15.reporting.services.ReportService;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
-import messaging.v2.IMessagingClient;
-import messaging.v2.Message;
+import implementation.IMessagingClient;
+import implementation.Message;
+import messages.payment.*;
+import messages.reporting.PaymentReportStoreMessage;
+import messages.reporting.RefundReportStoreMessage;
+import messages.reporting.Report;
 import org.junit.Assert;
 
 import java.math.BigDecimal;

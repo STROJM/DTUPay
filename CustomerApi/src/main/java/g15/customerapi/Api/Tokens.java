@@ -4,7 +4,6 @@ import g15.customerapi.Mapper.TokenMapper;
 import g15.customerapi.Models.Response.TypedResponseModel;
 import g15.customerapi.Models.TokenModel;
 import g15.customerapi.Service.TokenService;
-import g15.customerapi.Service.messages.TokensResponseMessage;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;

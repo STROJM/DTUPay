@@ -1,7 +1,7 @@
 package g15.token;
 
 import g15.token.services.MessageService;
-import messaging.v2.MessagingClientFactory;
+import implementation.MessagingClientFactory;
 
 public class StartUp {
 	public static void main(String[] args) {

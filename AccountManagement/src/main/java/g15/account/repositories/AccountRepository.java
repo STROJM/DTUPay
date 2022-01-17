@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AccountRepository {
-    private ArrayList<UserAccount> registeredAccounts = new ArrayList();
+    private ArrayList<UserAccount> registeredAccounts = new ArrayList<>();
 
     public final void saveAccount(UserAccount account) {
         registeredAccounts.add(account);

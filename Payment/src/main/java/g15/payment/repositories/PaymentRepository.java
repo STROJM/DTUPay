@@ -1,7 +1,7 @@
 package g15.payment.repositories;
 
-import g15.payment.messages.EnrichedMessage;
-import g15.payment.messages.StoredMessage;
+import messages.payment.EnrichedMessage;
+import messages.payment.StoredMessage;
 
 import java.util.ArrayList;
 import java.util.List;

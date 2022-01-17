@@ -4,14 +4,14 @@ import com.rabbitmq.client.Delivery;
 import g15.payment.adaptors.BankAdaptor;
 import g15.payment.adaptors.MessageAdaptor;
 import g15.payment.exceptions.BankException;
-import g15.payment.messages.*;
+import messages.payment.*;
 import g15.payment.repositories.PaymentRepository;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import messaging.v2.IMessagingClient;
-import messaging.v2.Message;
+import implementation.IMessagingClient;
+import implementation.Message;
 import org.junit.Assert;
 import org.mockito.ArgumentCaptor;
 

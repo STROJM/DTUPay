@@ -3,15 +3,15 @@ package g15.account;
 import dtu.ws.fastmoney.*;
 import g15.account.adaptors.BankAdaptor;
 import g15.account.exceptions.InvalidBankAccountException;
-import g15.account.messages.CustomerRegisterMessage;
-import g15.account.messages.MerchantRegisterMessage;
-import g15.account.messages.RegisterMessage;
 import g15.account.repositories.AccountRepository;
 import g15.account.services.AccountService;
 import io.cucumber.java.After;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import messages.register.CustomerRegisterMessage;
+import messages.register.MerchantRegisterMessage;
+import messages.register.RegisterMessage;
 import org.junit.Assert;
 
 import java.math.BigDecimal;

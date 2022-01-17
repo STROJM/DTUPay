@@ -1,15 +1,15 @@
 package g15.account.adaptors;
 
 import g15.account.exceptions.InvalidBankAccountException;
-import g15.account.messages.MerchantRegisterMessage;
-import g15.account.messages.MerchantRegisterResponse;
 import g15.account.services.AccountService;
-import messaging.v2.IMessagingClient;
-import messaging.v2.Message;
+import implementation.IMessagingClient;
+import implementation.Message;
+import messages.register.MerchantRegisterMessage;
+import messages.register.MerchantRegisterResponse;
 
 public class MerchantApiAdaptor {
     private final IMessagingClient client;
-    private AccountService accountService;
+    private final AccountService accountService;
 
     public MerchantApiAdaptor(IMessagingClient client, AccountService accountService){
         this.client = client;
@@ -19,7 +19,7 @@ public class MerchantApiAdaptor {
 
     public void handleMerchantRegisterEvent(Message<MerchantRegisterMessage> message) {
         var registryAttempt = message.model;
-        MerchantRegisterResponse response = null;
+        MerchantRegisterResponse response;
 
         try {
             this.accountService.registerUserAccount(registryAttempt);

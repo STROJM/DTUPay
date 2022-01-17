@@ -3,7 +3,7 @@ package g15.payment;
 import g15.payment.adaptors.BankAdaptor;
 import g15.payment.adaptors.MessageAdaptor;
 import g15.payment.repositories.PaymentRepository;
-import messaging.v2.MessagingClientFactory;
+import implementation.MessagingClientFactory;
 
 public class StartUp {
 	public static void main(String[] args) throws Exception {

@@ -1,10 +1,10 @@
 package g15.merchantapi.Service;
 
-import g15.merchantapi.Service.messages.PaymentMessage;
-import g15.merchantapi.Service.messages.PaymentResponseMessage;
-import g15.merchantapi.Service.messages.RefundMessage;
-import messaging.v2.IMessagingClient;
-import messaging.v2.MessagingClientFactory;
+import implementation.IMessagingClient;
+import implementation.MessagingClientFactory;
+import messages.payment.PaymentMessage;
+import messages.payment.PaymentResponseMessage;
+import messages.payment.RefundMessage;
 
 import javax.inject.Singleton;
 

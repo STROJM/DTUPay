@@ -1,6 +1,6 @@
 package g15.reporting.repositories;
 
-import g15.reporting.messages.Report;
+import messages.reporting.Report;
 
 import java.util.ArrayList;
 import java.util.List;

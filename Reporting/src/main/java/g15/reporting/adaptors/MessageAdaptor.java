@@ -1,15 +1,12 @@
 package g15.reporting.adaptors;
 
-import g15.reporting.messages.*;
-import g15.reporting.reports.CustomerTransactionReport;
-import g15.reporting.reports.ManagerTransactionReport;
-import g15.reporting.reports.MerchantTransactionReport;
 import g15.reporting.services.ReportService;
-import messaging.v2.IMessagingClient;
-import messaging.v2.Message;
+import implementation.IMessagingClient;
+import implementation.Message;
+import messages.reporting.*;
 
 public class MessageAdaptor {
-    private ReportService reportingService;
+    private final ReportService reportingService;
     private final IMessagingClient client;
 
     public MessageAdaptor(IMessagingClient client, ReportService reportService){

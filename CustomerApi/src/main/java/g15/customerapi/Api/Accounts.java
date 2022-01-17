@@ -4,7 +4,7 @@ import g15.customerapi.Mapper.CustomerMapper;
 import g15.customerapi.Models.AccountModel;
 import g15.customerapi.Models.Response.TypedResponseModel;
 import g15.customerapi.Service.AccountService;
-import g15.customerapi.Service.messages.CustomerRegisterResponse;
+import messages.register.CustomerRegisterResponse;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;

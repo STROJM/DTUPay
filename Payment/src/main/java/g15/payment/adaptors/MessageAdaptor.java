@@ -2,9 +2,11 @@ package g15.payment.adaptors;
 
 import g15.payment.PaymentService;
 import g15.payment.exceptions.InvalidPaymentException;
-import g15.payment.messages.*;
-import messaging.v2.IMessagingClient;
-import messaging.v2.Message;
+import implementation.IMessagingClient;
+import implementation.Message;
+import messages.payment.*;
+import messages.reporting.PaymentReportStoreMessage;
+import messages.reporting.RefundReportStoreMessage;
 
 public class MessageAdaptor {
     private final IMessagingClient client;

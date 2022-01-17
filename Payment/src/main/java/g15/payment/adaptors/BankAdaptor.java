@@ -4,8 +4,8 @@ import dtu.ws.fastmoney.BankService;
 import dtu.ws.fastmoney.BankServiceException_Exception;
 import dtu.ws.fastmoney.BankServiceService;
 import g15.payment.exceptions.BankException;
-import g15.payment.messages.EnrichedPaymentMessage;
-import g15.payment.messages.EnrichedRefundMessage;
+import messages.payment.EnrichedPaymentMessage;
+import messages.payment.EnrichedRefundMessage;
 
 public class BankAdaptor {
     private final BankService bankService = new BankServiceService().getBankServicePort();

@@ -5,7 +5,7 @@ import g15.account.adaptors.CustomerApiAdaptor;
 import g15.account.adaptors.MerchantApiAdaptor;
 import g15.account.repositories.AccountRepository;
 import g15.account.services.AccountService;
-import messaging.v2.MessagingClientFactory;
+import implementation.MessagingClientFactory;
 
 public class StartUp {
 	public static void main(String[] args) throws Exception {

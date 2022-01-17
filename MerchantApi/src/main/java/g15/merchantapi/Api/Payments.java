@@ -4,7 +4,7 @@ import g15.merchantapi.Mapper.PaymentMapper;
 import g15.merchantapi.Models.PaymentModel;
 import g15.merchantapi.Models.Response.TypedResponseModel;
 import g15.merchantapi.Service.TokenService;
-import g15.merchantapi.Service.messages.PaymentResponseMessage;
+import messages.payment.PaymentResponseMessage;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;

@@ -1,11 +1,11 @@
 package g15.account.adaptors;
 
 import g15.account.exceptions.InvalidBankAccountException;
-import g15.account.messages.CustomerRegisterMessage;
-import g15.account.messages.CustomerRegisterResponse;
 import g15.account.services.AccountService;
-import messaging.v2.IMessagingClient;
-import messaging.v2.Message;
+import implementation.IMessagingClient;
+import implementation.Message;
+import messages.register.CustomerRegisterMessage;
+import messages.register.CustomerRegisterResponse;
 
 public class CustomerApiAdaptor {
     private final IMessagingClient client;

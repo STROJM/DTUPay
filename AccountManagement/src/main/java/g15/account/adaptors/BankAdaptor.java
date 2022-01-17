@@ -2,7 +2,7 @@ package g15.account.adaptors;
 
 import dtu.ws.fastmoney.BankService;
 import dtu.ws.fastmoney.BankServiceService;
-import g15.account.messages.RegisterMessage;
+import messages.register.RegisterMessage;
 
 public class BankAdaptor {
     private final BankService bankService = new BankServiceService().getBankServicePort();

@@ -1,11 +1,10 @@
 package g15.merchantapi.Api;
 
-
 import g15.merchantapi.Mapper.MerchantMapper;
 import g15.merchantapi.Models.AccountModel;
 import g15.merchantapi.Models.Response.TypedResponseModel;
 import g15.merchantapi.Service.AccountService;
-import g15.merchantapi.Service.messages.MerchantRegisterResponse;
+import messages.register.MerchantRegisterResponse;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;

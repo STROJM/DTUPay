@@ -3,15 +3,15 @@ package g15.account.services;
 import g15.account.UserAccount;
 import g15.account.adaptors.BankAdaptor;
 import g15.account.exceptions.InvalidBankAccountException;
-import g15.account.messages.RegisterMessage;
 import g15.account.repositories.AccountRepository;
+import messages.register.RegisterMessage;
 
 import java.util.List;
 import java.util.UUID;
 
 public class AccountService {
-    private AccountRepository accountRepository;
-    private BankAdaptor bankAdaptor;
+    private final AccountRepository accountRepository;
+    private final BankAdaptor bankAdaptor;
 
     public AccountService(AccountRepository accountRepository, BankAdaptor bankAdaptor) {
         this.accountRepository = accountRepository;

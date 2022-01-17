@@ -1,8 +1,8 @@
 package g15.merchantapi.Mapper;
 
 import g15.merchantapi.Models.PaymentModel;
-import g15.merchantapi.Service.messages.PaymentMessage;
-import g15.merchantapi.Service.messages.RefundMessage;
+import messages.payment.PaymentMessage;
+import messages.payment.RefundMessage;
 
 public class PaymentMapper {
 

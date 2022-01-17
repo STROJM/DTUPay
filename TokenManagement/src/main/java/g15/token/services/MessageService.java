@@ -2,9 +2,13 @@ package g15.token.services;
 
 import g15.token.exceptions.InvalidTokenException;
 import g15.token.exceptions.InvalidTokenRequestException;
-import g15.token.messages.*;
-import messaging.v2.IMessagingClient;
-import messaging.v2.Message;
+import messages.payment.EnrichedPaymentMessage;
+import messages.payment.EnrichedRefundMessage;
+import messages.payment.PaymentMessage;
+import messages.payment.RefundMessage;
+import messages.tokens.*;
+import implementation.IMessagingClient;
+import implementation.Message;
 
 public class MessageService {
     private final IMessagingClient messagingClient;

@@ -4,17 +4,17 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import com.rabbitmq.client.Delivery;
-import g15.token.messages.EnrichedPaymentMessage;
-import g15.token.messages.PaymentMessage;
-import g15.token.messages.TokensRequestMessage;
-import g15.token.messages.TokensResponseMessage;
 import g15.token.services.MessageService;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import messaging.v2.IMessagingClient;
-import messaging.v2.Message;
+import implementation.IMessagingClient;
+import implementation.Message;
+import messages.payment.EnrichedPaymentMessage;
+import messages.payment.PaymentMessage;
+import messages.tokens.TokensRequestMessage;
+import messages.tokens.TokensResponseMessage;
 import org.mockito.ArgumentCaptor;
 
 import java.math.BigDecimal;
@@ -90,9 +90,5 @@ public class MessageTestSteps {
         assertEquals(tokenToUse, result.getToken());
         assertTrue(result.isValid());
         assertNull(result.getErrorMessage());
-    }
-
-    private String stringEquals(String eventName) {
-        return matches("^" + eventName + "$");
     }
 }

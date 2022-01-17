@@ -1,9 +1,9 @@
 package g15.customerapi.Service;
 
-import g15.customerapi.Service.messages.CustomerRegisterMessage;
-import g15.customerapi.Service.messages.CustomerRegisterResponse;
-import messaging.v2.IMessagingClient;
-import messaging.v2.MessagingClientFactory;
+import messages.register.CustomerRegisterMessage;
+import messages.register.CustomerRegisterResponse;
+import implementation.IMessagingClient;
+import implementation.MessagingClientFactory;
 
 import javax.inject.Singleton;
 

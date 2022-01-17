@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.UUID;
 
 public class TokenService {
-    private final int MinTokenRequestAmount = 1;
-    private final int MaxTokenRequestAmount = 5;
-    private final int MaxOwnedTokensWhenRequesting = 1;
+    private static final int MinTokenRequestAmount = 1;
+    private static final int MaxTokenRequestAmount = 5;
+    private static final int MaxOwnedTokensWhenRequesting = 1;
 
     private final HashMap<String, List<String>> tokensForCustomerStore = new HashMap<>();
     private final HashMap<String, String> customerForTokenStore = new HashMap<>();

@@ -3,7 +3,7 @@ package g15.payment;
 import g15.payment.adaptors.BankAdaptor;
 import g15.payment.exceptions.BankException;
 import g15.payment.exceptions.InvalidPaymentException;
-import g15.payment.messages.*;
+import messages.payment.*;
 import g15.payment.repositories.PaymentRepository;
 
 import java.math.BigDecimal;

@@ -1,9 +1,9 @@
 package g15.merchantapi.Service;
 
-import g15.merchantapi.Service.messages.MerchantRegisterMessage;
-import g15.merchantapi.Service.messages.MerchantRegisterResponse;
-import messaging.v2.IMessagingClient;
-import messaging.v2.MessagingClientFactory;
+import implementation.IMessagingClient;
+import implementation.MessagingClientFactory;
+import messages.register.MerchantRegisterMessage;
+import messages.register.MerchantRegisterResponse;
 
 import javax.inject.Singleton;
 
