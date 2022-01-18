@@ -1,5 +1,8 @@
 package g15.managerapi.Models.Response;
 
+/**
+ * @author Oliver Ro Møltoft Christensen s176352
+ */
 public class Option {
     public final boolean completed;
     public final String message;

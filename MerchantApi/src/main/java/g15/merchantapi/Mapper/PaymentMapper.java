@@ -4,6 +4,9 @@ import g15.merchantapi.Models.PaymentModel;
 import messages.payment.PaymentMessage;
 import messages.payment.RefundMessage;
 
+/**
+ * @author Oliver Ro Møltoft Christensen s176352
+ */
 public class PaymentMapper {
 
     public static PaymentMessage mapPayment(PaymentModel paymentModel) {

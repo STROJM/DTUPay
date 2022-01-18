@@ -1,5 +1,8 @@
 package g15.customerapi.Models.Response;
 
+/**
+ * @author Oliver Ro Møltoft Christensen s176352
+ */
 public class TypedOption<T> extends Option{
     public final T model;
 

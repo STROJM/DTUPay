@@ -7,6 +7,9 @@ import messages.tokens.TokensResponseMessage;
 
 import javax.inject.Singleton;
 
+/**
+ * @author Oliver Ro Møltoft Christensen s176352
+ */
 @Singleton
 public class TokenService {
     private final IMessagingClient messagingClient;

@@ -7,6 +7,9 @@ import messages.reporting.CustomerReportResponse;
 
 import javax.inject.Singleton;
 
+/**
+ * @author Oliver Ro Møltoft Christensen s176352
+ */
 @Singleton
 public class ReportingService {
     private final IMessagingClient client;

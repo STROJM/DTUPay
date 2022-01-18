@@ -1,5 +1,8 @@
 package g15.customerapi.Models;
 
+/**
+ * @author Oliver Ro Møltoft Christensen s176352
+ */
 public class TokenModel {
     public String customerBankAccount;
     public int tokensAmount;

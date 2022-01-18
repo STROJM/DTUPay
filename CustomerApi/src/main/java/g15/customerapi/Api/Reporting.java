@@ -12,6 +12,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 
+/**
+ * @author Oliver Ro Møltoft Christensen s176352
+ */
 @Path("/reporting/{id}")
 public class Reporting {
     ReportingService service;

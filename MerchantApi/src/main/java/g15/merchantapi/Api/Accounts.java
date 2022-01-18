@@ -9,6 +9,9 @@ import messages.register.MerchantRegisterResponse;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
+/**
+ * @author Oliver Ro Møltoft Christensen s176352
+ */
 @Path("/accounts")
 public class Accounts {
     AccountService service;

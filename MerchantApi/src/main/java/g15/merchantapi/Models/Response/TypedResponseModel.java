@@ -1,5 +1,8 @@
 package g15.merchantapi.Models.Response;
 
+/**
+ * @author Oliver Ro Møltoft Christensen s176352
+ */
 public class TypedResponseModel<T> extends ResponseModel {
     public T model;
 

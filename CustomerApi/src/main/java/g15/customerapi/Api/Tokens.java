@@ -11,6 +11,9 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+/**
+ * @author Oliver Ro Møltoft Christensen s176352
+ */
 @Consumes({"application/json"})
 @Path("/tokens")
 public class Tokens {

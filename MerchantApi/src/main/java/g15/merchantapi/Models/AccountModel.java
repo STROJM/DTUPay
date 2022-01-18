@@ -1,5 +1,8 @@
 package g15.merchantapi.Models;
 
+/**
+ * @author Oliver Ro Møltoft Christensen s176352
+ */
 public class AccountModel {
     public String bankAccount;
 

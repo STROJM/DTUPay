@@ -1,12 +1,10 @@
 package g15.merchantapi.Models;
 
-//Merch-id
-//Cust. token
-//Amount
-//Description
-
 import java.math.BigDecimal;
 
+/**
+ * @author Oliver Ro Møltoft Christensen s176352
+ */
 public class PaymentModel {
     public String merchantId;
     public String customerToken;
