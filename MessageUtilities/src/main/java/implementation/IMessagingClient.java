@@ -3,6 +3,9 @@ package implementation;
 import java.io.IOException;
 import java.util.function.Consumer;
 
+/**
+ * @author Roar Nind Steffensen
+ */
 public interface IMessagingClient {
     <TModel> void reply(Message<TModel> message);
     <TModel> void forward(Message<TModel> message, Class<TModel> modelType);

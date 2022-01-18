@@ -5,6 +5,9 @@ import g15.reporting.repositories.ReportRepository;
 import g15.reporting.services.ReportService;
 import implementation.MessagingClientFactory;
 
+/**
+ * @author Roar Nind Steffensen
+ */
 public class StartUp {
     public static void main(String[] args) throws Exception {
         new StartUp().startUp();

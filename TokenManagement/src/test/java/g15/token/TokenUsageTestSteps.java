@@ -9,6 +9,9 @@ import io.cucumber.java.en.When;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * @author Roar Nind Steffensen
+ */
 public class TokenUsageTestSteps {
     TokenService sut = new TokenService();
     private String token;

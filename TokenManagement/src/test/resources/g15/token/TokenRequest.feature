@@ -1,3 +1,5 @@
+#@author Roar Nind Steffensen
+
 Feature: Token request testing
 
   Scenario: Customer requests new tokens

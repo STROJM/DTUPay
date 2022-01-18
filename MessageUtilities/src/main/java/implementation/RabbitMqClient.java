@@ -12,6 +12,9 @@ import java.util.UUID;
 import java.util.concurrent.*;
 import java.util.function.Consumer;
 
+/**
+ * @author Roar Nind Steffensen
+ */
 public class RabbitMqClient implements IMessagingClient{
     private final Map<String, CallAwaiter> awaiters = new ConcurrentHashMap<>();
     private final Channel channel;

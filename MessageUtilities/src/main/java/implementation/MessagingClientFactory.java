@@ -1,5 +1,8 @@
 package implementation;
 
+/**
+ * @author Roar Nind Steffensen
+ */
 public class MessagingClientFactory {
     private static IMessagingClient client;
     public static IMessagingClient create(String host){

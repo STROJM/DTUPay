@@ -2,6 +2,9 @@ package implementation;
 
 import java.util.concurrent.BlockingQueue;
 
+/**
+ * @author Roar Nind Steffensen
+ */
 public class CallAwaiter<TResponse> {
     private final BlockingQueue<TResponse> response;
     private final Class<TResponse> responseType;

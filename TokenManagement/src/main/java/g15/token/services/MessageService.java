@@ -10,6 +10,9 @@ import messages.tokens.*;
 import implementation.IMessagingClient;
 import implementation.Message;
 
+/**
+ * @author Roar Nind Steffensen
+ */
 public class MessageService {
     private final IMessagingClient messagingClient;
     private final TokenService tokenService = new TokenService();

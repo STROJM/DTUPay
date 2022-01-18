@@ -6,6 +6,9 @@ import messages.reporting.CustomerReportResponse;
 import messages.reporting.ManagerReportResponse;
 import messages.reporting.MerchantReportResponse;
 
+/**
+ * @author Roar Nind Steffensen
+ */
 public class ReportService {
     private final ReportRepository reportRepository;
 

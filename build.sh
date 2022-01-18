@@ -1,4 +1,7 @@
 #!/bin/bash
+
+#author: Roar Nind Steffensen
+#
 set -e
 
 # Build and install the libraries

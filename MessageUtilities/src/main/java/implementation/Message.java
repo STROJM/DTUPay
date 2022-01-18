@@ -2,6 +2,9 @@ package implementation;
 
 import com.rabbitmq.client.Delivery;
 
+/**
+ * @author Roar Nind Steffensen
+ */
 public class Message<TModel> {
     public Delivery delivery;
     public TModel model;

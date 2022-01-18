@@ -3,6 +3,9 @@ package g15.token;
 import g15.token.services.MessageService;
 import implementation.MessagingClientFactory;
 
+/**
+ * @author Roar Nind Steffensen
+ */
 public class StartUp {
 	public static void main(String[] args) {
 		new StartUp().startUp();

@@ -7,6 +7,9 @@ import messages.reporting.TransactionReportMessage;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * @author Roar Nind Steffensen
+ */
 public class EventStore {
     private final IMessagingClient client;
 

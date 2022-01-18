@@ -6,6 +6,9 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * @author Roar Nind Steffensen
+ */
 public class TokenRepository {
 
     private final HashMap<String, List<String>> tokensForCustomerStore = new HashMap<>();

@@ -1,3 +1,5 @@
+#@author Roar Nind Steffensen
+
 Feature: Token usage testing
 
   Scenario: Customer lookup with empty token

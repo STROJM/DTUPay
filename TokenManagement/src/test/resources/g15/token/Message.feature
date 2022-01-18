@@ -1,3 +1,5 @@
+#@author Roar Nind Steffensen
+
 Feature: Message testing
 
   Scenario: Token generation request message

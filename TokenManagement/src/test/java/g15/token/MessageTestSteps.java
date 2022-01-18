@@ -19,6 +19,9 @@ import org.mockito.ArgumentCaptor;
 
 import java.math.BigDecimal;
 
+/**
+ * @author Roar Nind Steffensen
+ */
 public class MessageTestSteps {
     private final Delivery fakeDelivery = mock(Delivery.class);
     IMessagingClient client = mock(IMessagingClient.class);

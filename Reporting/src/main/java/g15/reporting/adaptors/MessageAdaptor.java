@@ -5,6 +5,9 @@ import implementation.IMessagingClient;
 import implementation.Message;
 import messages.reporting.*;
 
+/**
+ * @author Roar Nind Steffensen
+ */
 public class MessageAdaptor {
     private final ReportService reportingService;
     private final IMessagingClient client;

@@ -6,6 +6,9 @@ import g15.token.repositories.TokenRepository;
 
 import java.util.UUID;
 
+/**
+ * @author Roar Nind Steffensen
+ */
 public class TokenService {
     private static final int MinTokenRequestAmount = 1;
     private static final int MaxTokenRequestAmount = 5;

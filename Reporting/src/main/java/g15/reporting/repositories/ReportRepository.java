@@ -8,6 +8,9 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
+/**
+ * @author Roar Nind Steffensen
+ */
 public class ReportRepository {
 
     private final Map<String, List<Report>> readModel = new ConcurrentHashMap<>();
