@@ -19,6 +19,8 @@ public class Report implements Serializable {
     private BigDecimal amount;
     private String description;
 
+    private boolean refund;
+
 
     public Report() {}
 
@@ -28,6 +30,14 @@ public class Report implements Serializable {
 
     public void setValid(boolean valid) {
         this.valid = valid;
+    }
+
+    public boolean isRefund() {
+        return refund;
+    }
+
+    public void setRefund(boolean refund) {
+        this.refund = refund;
     }
 
     public String getErrorMessage() {

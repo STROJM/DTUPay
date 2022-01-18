@@ -10,13 +10,15 @@ public class MerchantTransactionReport {
     public String description;
     public String errorMessage;
     public BigDecimal amount;
+    public boolean refund;
 
     public MerchantTransactionReport(){}
-    public MerchantTransactionReport(String token, String description, String errorMessage, BigDecimal amount) {
+    public MerchantTransactionReport(String token, String description, String errorMessage, BigDecimal amount, boolean refund) {
         this.token = token;
         this.description = description;
         this.errorMessage = errorMessage;
         this.amount = amount;
+        this.refund = refund;
     }
 
     public static MerchantTransactionReport from(Report report) {
@@ -24,7 +26,8 @@ public class MerchantTransactionReport {
                 report.getToken(),
                 report.getDescription(),
                 report.getErrorMessage(),
-                report.getAmount()
+                report.getAmount(),
+                report.isRefund()
         );
     }
 }

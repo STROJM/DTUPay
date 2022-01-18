@@ -7,7 +7,7 @@ public class ManagerTransactionReport extends Report {
     public ManagerTransactionReport() {}
 
     public ManagerTransactionReport(boolean valid, String errorMessage, String customerBankAccountNumber, String merchantBankAccountNumber,
-                                    String token, BigDecimal amount, String description)
+                                    String token, BigDecimal amount, String description, boolean refund)
     {
         super();
         this.setValid(valid);
@@ -17,6 +17,7 @@ public class ManagerTransactionReport extends Report {
         this.setToken(token);
         this.setAmount(amount);
         this.setDescription(description);
+        this.setRefund(refund);
     }
 
     public static ManagerTransactionReport from(Report report) {
@@ -27,7 +28,8 @@ public class ManagerTransactionReport extends Report {
                 report.getMerchantBankAccountNumber(),
                 report.getToken(),
                 report.getAmount(),
-                report.getDescription()
+                report.getDescription(),
+                report.isRefund()
         );
     }
 }

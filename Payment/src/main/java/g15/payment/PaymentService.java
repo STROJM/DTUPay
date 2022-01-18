@@ -46,9 +46,9 @@ public class PaymentService {
 
         try {
             this.bankAdaptor.performRefund(refund);
-            this.store.add(new TransactionCompleted(refund));
+            this.store.add(new TransactionCompleted(refund, true));
         } catch (BankException e) {
-            this.store.add(new TransactionFailed(refund, e.getMessage()));
+            this.store.add(new TransactionFailed(refund, true, e.getMessage()));
             throw new InvalidPaymentException(e.getMessage());
         }
     }

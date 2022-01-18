@@ -89,16 +89,8 @@ public class ReportingTestSteps {
     @And("the customer has a previous payment to the merchant of {int} kr")
     public void theCustomerHasAPreviousPaymentToTheMerchantOfKr(int amount) throws Exception {
         PaymentService paymentService = new PaymentService();
-        TokenService tokenService = new TokenService();
-
-        var tokenRequestResponse = tokenService.requestTokens(new TokenModel(accountCustomer.getAccountId(), 1));
-        if(!tokenRequestResponse.completed || tokenRequestResponse.model.length != 1){
-            throw new Exception("Could not get tokens for customer id: " + accountCustomer.getAccountId());
-        }
-
-        this.token = tokenRequestResponse.model[0];
-        PaymentModel paymentModel = new PaymentModel(accountMerchant.getAccountId(), this.token, new BigDecimal(amount), "The customer pays the merchant something");
-        paymentService.pay(paymentModel);
+        PaymentModel payment = preparePayment(amount, "The customer pays the merchant something");
+        paymentService.pay(payment);
     }
 
     @When("the customer requests a list of previous payments")
@@ -160,8 +152,45 @@ public class ReportingTestSteps {
                 accountMerchant.getAccountId(),
                 this.token,
                 new BigDecimal(amount),
-                "The customer pays the merchant something");
+                "The customer pays the merchant something",
+                false);
 
-        Assert.assertTrue(managerPayments.contains(expected));
+                Assert.assertTrue(managerPayments.contains(expected));
+    }
+
+    private PaymentModel preparePayment(int amount, String description) throws Exception {
+        TokenService tokenService = new TokenService();
+
+        var tokenRequestResponse = tokenService.requestTokens(new TokenModel(accountCustomer.getAccountId(), 1));
+        if(!tokenRequestResponse.completed || tokenRequestResponse.model.length != 1){
+            throw new Exception("Could not get tokens for customer id: " + accountCustomer.getAccountId());
+        }
+
+        this.token = tokenRequestResponse.model[0];
+        return new PaymentModel(accountMerchant.getAccountId(), this.token, new BigDecimal(amount), description);
+    }
+
+    @And("the customer has a previous refund from merchant of {int} kr")
+    public void theCustomerHasAPreviousRefundFromMerchantOfKr(int amount) throws Exception {
+        PaymentService paymentService = new PaymentService();
+        PaymentModel payment = preparePayment(amount, "The merchant refunds the customer");
+        paymentService.refund(payment);
+    }
+
+    @Then("the list contains a refund to the customer from the merchant for {int} kr")
+    public void theListContainsARefundToTheCustomerFromTheMerchantForKr(int amount) {
+        CustomerTransactionReport expected = new CustomerTransactionReport();
+
+        expected.token = this.token;
+        expected.description = "The merchant refunds the customer";
+        expected.errorMessage = null;
+        expected.amount = new BigDecimal(amount);
+        expected.merchantBankAccountNumber = this.accountMerchant.getAccountId();
+        expected.refund = true;
+
+        System.out.println(customerPayments);
+        System.out.println(expected);
+
+        Assert.assertTrue(customerPayments.contains(expected));
     }
 }
