@@ -97,7 +97,7 @@ public class PaymentTestSteps {
     @Given("a valid {string} event for a refund of {int} kr is received")
     public void aValidEventForARefundOfKrIsReceived(String eventName, int amount) {
         payment = new EnrichedRefundMessage("customer", "merchant", "token", new BigDecimal(amount), "desc", true, "");
-        paymentEvent = new TransactionCompleted(payment);
+        paymentEvent = new TransactionCompleted(payment, true);
         var message = Message.from(fakeDelivery, (EnrichedRefundMessage)payment);
         messageAdaptor.handleEnrichedRefundEvent(message);
     }

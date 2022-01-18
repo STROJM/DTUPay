@@ -12,6 +12,7 @@ public class Transaction implements Serializable {
     private String token;
     private String customerBankAccount;
     private String merchantBankAccount;
+    private boolean refund;
     private boolean completed;
     private String errorMessage;
 
@@ -20,6 +21,7 @@ public class Transaction implements Serializable {
         report.setAmount(amount);
         report.setDescription(description);
         report.setToken(token);
+        report.setRefund(this.isRefund());
         report.setCustomerBankAccountNumber(customerBankAccount);
         report.setMerchantBankAccountNumber(merchantBankAccount);
         report.setErrorMessage(errorMessage);
@@ -55,6 +57,10 @@ public class Transaction implements Serializable {
         return errorMessage;
     }
 
+    public boolean isRefund() {
+        return refund;
+    }
+
     public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
@@ -81,5 +87,9 @@ public class Transaction implements Serializable {
 
     public void setErrorMessage(String errorMessage) {
         this.errorMessage = errorMessage;
+    }
+
+    public void setRefund(boolean refund) {
+        this.refund = refund;
     }
 }
