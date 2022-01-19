@@ -1,3 +1,4 @@
+# @author Mikkel Denker (s184193)
 Feature: Payment testing
 
   Scenario: Test payment

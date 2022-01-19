@@ -15,6 +15,9 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/**
+ * @author Mikkel Denker (s184193)
+ */
 public class TokenTestSteps {
     TokenService service = new TokenService();
     private TypedResponseModel<String[]> tokenRequestResponse;

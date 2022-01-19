@@ -1,3 +1,4 @@
+# @author: Mikkel Denker (s184193)
 FROM adoptopenjdk:11-jre-hotspot
 
 COPY target/quarkus-app/lib /usr/src/lib

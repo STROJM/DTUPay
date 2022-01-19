@@ -1,3 +1,4 @@
+# @author Mikkel Denker (s184193)
 Feature: Reporting
 
   Scenario: Registered customer requests list of payments
