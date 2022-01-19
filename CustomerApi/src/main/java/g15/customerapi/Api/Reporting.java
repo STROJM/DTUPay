@@ -14,6 +14,7 @@ import java.util.List;
 
 /**
  * @author Oliver Ro Møltoft Christensen s176352
+ * @author Mikkel Denker (s184193)
  */
 @Path("/reporting/{id}")
 public class Reporting {

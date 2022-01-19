@@ -8,6 +8,9 @@ import messages.payment.EnrichedPaymentMessage;
 import messages.payment.EnrichedRefundMessage;
 import messages.payment.PaymentResponseMessage;
 
+/**
+ * @author Mikkel Denker (s184193)
+ */
 public class MessageAdaptor {
     private final IMessagingClient client;
     private final PaymentService paymentService;

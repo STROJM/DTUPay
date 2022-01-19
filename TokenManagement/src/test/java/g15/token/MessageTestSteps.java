@@ -15,6 +15,7 @@ import messages.payment.EnrichedPaymentMessage;
 import messages.payment.PaymentMessage;
 import messages.tokens.TokensRequestMessage;
 import messages.tokens.TokensResponseMessage;
+import messages.tokens.ValidatedTokensRequestMessage;
 import org.mockito.ArgumentCaptor;
 
 import java.math.BigDecimal;
@@ -37,8 +38,8 @@ public class MessageTestSteps {
 
     @And("the customer owns an unused token")
     public void theCustomerOwnsTokens() {
-        var request = new TokensRequestMessage(bankAccountNumber, 1);
-        service.handleTokensRequest(Message.from(fakeDelivery, request));
+        var request = new ValidatedTokensRequestMessage(bankAccountNumber, 1);
+        service.handleValidatedTokensRequest(Message.from(fakeDelivery, request));
         var captor = ArgumentCaptor.forClass(Message.class);
         verify(client).reply(captor.capture());
         var tokenResponse = (TokensResponseMessage)captor.getValue().model;
@@ -47,8 +48,8 @@ public class MessageTestSteps {
 
     @When("the event for {int} tokens is received")
     public void theEventForTokensIsReceived(int amount) {
-        var request = new TokensRequestMessage(this.bankAccountNumber, amount);
-        service.handleTokensRequest(Message.from(fakeDelivery, request));
+        var request = new ValidatedTokensRequestMessage(this.bankAccountNumber, amount);
+        service.handleValidatedTokensRequest(Message.from(fakeDelivery, request));
     }
 
     @Then("the valid token response event is sent")

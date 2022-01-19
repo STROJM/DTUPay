@@ -6,6 +6,9 @@ import implementation.IMessagingClient;
 import implementation.Message;
 import messages.register.CustomerRegisterMessage;
 import messages.register.CustomerRegisterResponse;
+import messages.tokens.TokensRequestMessage;
+import messages.tokens.TokensResponseMessage;
+import messages.tokens.ValidatedTokensRequestMessage;
 
 public class CustomerApiAdaptor {
     private final IMessagingClient client;
@@ -15,6 +18,7 @@ public class CustomerApiAdaptor {
         this.client = client;
         this.accountService = accountService;
         this.client.register(this::handleCustomerRegisterEvent, CustomerRegisterMessage.class);
+        this.client.register(this::handleValidateTokensRequestEvent, TokensRequestMessage.class);
     }
 
     public void handleCustomerRegisterEvent(Message<CustomerRegisterMessage> message) {
@@ -29,5 +33,15 @@ public class CustomerApiAdaptor {
         }
 
         this.client.reply(message.update(response));
+    }
+
+    public void handleValidateTokensRequestEvent(Message<TokensRequestMessage> message) {
+        if (this.accountService.isAccountRegistered(message.model.getCustomerBankAccount())) {
+            var validatedRequest = new ValidatedTokensRequestMessage(message.model.getCustomerBankAccount(), message.model.getTokensAmount());
+            this.client.forward(message.update(validatedRequest), ValidatedTokensRequestMessage.class);
+        } else {
+            var response = new TokensResponseMessage(false, "unknown customer", new String[0]);
+            this.client.reply(message.update(response));
+        }
     }
 }

@@ -15,4 +15,11 @@ public class AccountRepository {
     public final List<UserAccount> getAccounts() {
         return registeredAccounts;
     }
+
+    public boolean isAccountRegistered(String bankAccountNumber) {
+        return registeredAccounts.stream()
+                .filter(userAccount -> userAccount.getBankAccountNumber().equals(bankAccountNumber))
+                .findAny()
+                .orElse(null) != null;
+    }
 }

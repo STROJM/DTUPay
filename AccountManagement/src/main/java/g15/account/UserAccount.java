@@ -9,4 +9,8 @@ public class UserAccount {
         this.bankAccountNumber = bankAccountNumber;
         this.userId = userId;
     }
+
+    public String getBankAccountNumber() {
+        return this.bankAccountNumber;
+    }
 }

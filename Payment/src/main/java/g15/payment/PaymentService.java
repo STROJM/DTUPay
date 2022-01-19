@@ -12,6 +12,9 @@ import messages.payment.*;
 import java.math.BigDecimal;
 import java.util.List;
 
+/**
+ * @author Mikkel Denker (s184193)
+ */
 public class PaymentService {
     private final EventStore store;
     private final BankAdaptor bankAdaptor;

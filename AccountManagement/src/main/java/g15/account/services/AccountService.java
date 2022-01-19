@@ -33,4 +33,8 @@ public class AccountService {
     public List<UserAccount> getUserAccounts() {
         return accountRepository.getAccounts();
     }
+
+    public boolean isAccountRegistered(String bankAccountNumber) {
+        return this.accountRepository.isAccountRegistered(bankAccountNumber);
+    }
 }

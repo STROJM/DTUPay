@@ -19,17 +19,17 @@ public class MessageService {
 
     public MessageService(IMessagingClient messagingClient){
         this.messagingClient = messagingClient;
-        this.messagingClient.register(this::handleTokensRequest, TokensRequestMessage.class);
+        this.messagingClient.register(this::handleValidatedTokensRequest, ValidatedTokensRequestMessage.class);
         this.messagingClient.register(this::handleNonValidatedPaymentRequest, PaymentMessage.class);
         this.messagingClient.register(this::handleNonValidatedRefundRequest, RefundMessage.class);
     }
 
-    public void handleTokensRequest(Message<TokensRequestMessage> message) {
+    public void handleValidatedTokensRequest(Message<ValidatedTokensRequestMessage> message) {
         var response = getTokensResponse(message.model);
         this.messagingClient.reply(message.update(response));
     }
 
-    private TokensResponseMessage getTokensResponse(TokensRequestMessage request){
+    private TokensResponseMessage getTokensResponse(ValidatedTokensRequestMessage request){
         try {
             var tokens = tokenService.requestTokens(request.getCustomerBankAccount(), request.getTokensAmount());
             return new TokensResponseMessage(true, null, tokens);

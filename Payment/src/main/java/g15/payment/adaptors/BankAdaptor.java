@@ -7,6 +7,9 @@ import g15.payment.exceptions.BankException;
 import messages.payment.EnrichedPaymentMessage;
 import messages.payment.EnrichedRefundMessage;
 
+/**
+ * @author Mikkel Denker (s184193)
+ */
 public class BankAdaptor {
     private final BankService bankService = new BankServiceService().getBankServicePort();
     public void performPayment(EnrichedPaymentMessage payment) throws BankException {
