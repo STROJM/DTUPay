@@ -1,3 +1,7 @@
+# /**
+# * @author Johannes Hald s202784
+# */
+
 Feature: Account testing
 
   Scenario: Customer registers in dtu pay

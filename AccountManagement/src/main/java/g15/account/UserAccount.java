@@ -1,5 +1,9 @@
 package g15.account;
 
+/**
+ * @author Johannes Hald s202784
+ */
+
 public class UserAccount {
 
     String bankAccountNumber;

@@ -7,6 +7,7 @@ import implementation.MessagingClientFactory;
 
 /**
  * @author Roar Nind Steffensen
+ * @author Johannes Hald s202784
  */
 public class StartUp {
     public static void main(String[] args) throws Exception {

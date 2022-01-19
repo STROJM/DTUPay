@@ -9,6 +9,10 @@ import messages.register.RegisterMessage;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * @author Johannes Hald s202784
+ */
+
 public class AccountService {
     private final AccountRepository accountRepository;
     private final BankAdaptor bankAdaptor;

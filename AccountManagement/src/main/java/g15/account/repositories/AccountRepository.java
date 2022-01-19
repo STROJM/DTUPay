@@ -5,6 +5,10 @@ import g15.account.UserAccount;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Johannes Hald s202784
+ */
+
 public class AccountRepository {
     private ArrayList<UserAccount> registeredAccounts = new ArrayList<>();
 

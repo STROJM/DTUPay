@@ -21,6 +21,10 @@ import java.util.UUID;
 
 import static org.junit.Assert.assertThrows;
 
+/**
+ * @author Johannes Hald s202784
+ */
+
 public class AccountTestSteps {
     List<AccountInfo> testAccountsRegistered = new ArrayList<>();
     private final BankService testingService = new BankServiceService().getBankServicePort();

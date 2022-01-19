@@ -7,6 +7,10 @@ import implementation.Message;
 import messages.register.MerchantRegisterMessage;
 import messages.register.MerchantRegisterResponse;
 
+/**
+ * @author Johannes Hald s202784
+ */
+
 public class MerchantApiAdaptor {
     private final IMessagingClient client;
     private final AccountService accountService;

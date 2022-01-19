@@ -10,6 +10,10 @@ import messages.tokens.TokensRequestMessage;
 import messages.tokens.TokensResponseMessage;
 import messages.tokens.ValidatedTokensRequestMessage;
 
+/**
+ * @author Johannes Hald s202784
+ */
+
 public class CustomerApiAdaptor {
     private final IMessagingClient client;
     private final AccountService accountService;

@@ -7,6 +7,7 @@ import messages.reporting.*;
 
 /**
  * @author Roar Nind Steffensen
+ * @author Johannes Hald s202784
  */
 public class MessageAdaptor {
     private final ReportService reportingService;

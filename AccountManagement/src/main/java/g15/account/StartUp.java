@@ -7,6 +7,10 @@ import g15.account.repositories.AccountRepository;
 import g15.account.services.AccountService;
 import implementation.MessagingClientFactory;
 
+/**
+ * @author Johannes Hald s202784
+ */
+
 public class StartUp {
 	public static void main(String[] args) throws Exception {
 		new StartUp().startUp();
