@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 /**
  * @author Oliver Ro Møltoft Christensen s176352
+ * @author Tobias Olrik Birck Kristensen
  */
 public class PaymentModel {
     public String merchantId;

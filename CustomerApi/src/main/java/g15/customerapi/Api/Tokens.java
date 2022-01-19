@@ -13,6 +13,7 @@ import javax.ws.rs.core.MediaType;
 
 /**
  * @author Oliver Ro Møltoft Christensen s176352
+ * @author Tobias Olrik Birck Kristensen
  */
 @Consumes({"application/json"})
 @Path("/tokens")

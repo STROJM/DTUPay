@@ -8,6 +8,7 @@ import java.util.List;
 
 /**
  * @author Roar Nind Steffensen
+ * @author Tobias Olrik Birck Kristensen
  */
 public class TokenRepository {
 

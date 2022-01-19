@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 /**
+ * @author Tobias Olrik Birck Kristensen
  * @author Roar Nind Steffensen
  */
 public class TokenRequestTestSteps {

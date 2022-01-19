@@ -8,6 +8,7 @@ import java.util.UUID;
 
 /**
  * @author Roar Nind Steffensen
+ * @author Tobias Olrik Birck Kristensen
  */
 public class TokenService {
     private static final int MinTokenRequestAmount = 1;

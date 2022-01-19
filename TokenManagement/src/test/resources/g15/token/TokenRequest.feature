@@ -1,4 +1,5 @@
 #@author Roar Nind Steffensen
+#@author Tobias Olrik Birck Kristensen
 
 Feature: Token request testing
 
