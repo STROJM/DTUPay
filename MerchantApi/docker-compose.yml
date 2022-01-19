@@ -1,3 +1,4 @@
+ # @author Søren Andersen s182881
 version: '3'
 services:
   merchant-api:

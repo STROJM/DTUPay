@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #author: Roar Nind Steffensen
-#
+# author Søren Andersen s182881
 set -e
 
 # Build and install the libraries

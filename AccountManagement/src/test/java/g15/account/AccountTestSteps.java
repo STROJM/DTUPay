@@ -23,6 +23,7 @@ import static org.junit.Assert.assertThrows;
 
 /**
  * @author Johannes Hald s202784
+ * @author Søren Andersen s182881
  */
 
 public class AccountTestSteps {
