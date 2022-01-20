@@ -9,6 +9,7 @@ import messages.reporting.MerchantReportResponse;
 /**
  * @author Roar Nind Steffensen
  * @author Johannes Hald s202784
+ * @author Søren Andersen s182881
  */
 public class ReportService {
     private final ReportRepository reportRepository;

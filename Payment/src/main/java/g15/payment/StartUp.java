@@ -5,6 +5,10 @@ import g15.payment.adaptors.MessageAdaptor;
 import g15.payment.repositories.EventStore;
 import implementation.MessagingClientFactory;
 
+
+/**
+ # @author Søren Andersen s182881
+ */
 public class StartUp {
 	public static void main(String[] args) throws Exception {
 		new StartUp().startUp();
