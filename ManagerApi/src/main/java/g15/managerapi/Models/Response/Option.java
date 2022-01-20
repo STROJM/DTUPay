@@ -1,6 +1,7 @@
 package g15.managerapi.Models.Response;
 
 /**
+ * @author Søren Andersen s182881
  * @author Oliver Ro Møltoft Christensen s176352
  */
 public class Option {
