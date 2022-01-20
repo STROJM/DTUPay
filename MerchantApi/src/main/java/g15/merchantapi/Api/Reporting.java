@@ -1,7 +1,7 @@
 package g15.merchantapi.Api;
 
 import g15.merchantapi.Models.Response.TypedResponseModel;
-import g15.merchantapi.Service.ReportingService;
+import g15.merchantapi.Adaptors.ReportingAdaptor;
 import messages.reporting.MerchantReportMessage;
 import messages.reporting.MerchantTransactionReport;
 
@@ -16,9 +16,9 @@ import java.util.List;
 @Path("/reporting/{id}")
 public class Reporting {
 
-    ReportingService service;
+    ReportingAdaptor service;
 
-    public Reporting(ReportingService service) {
+    public Reporting(ReportingAdaptor service) {
         this.service = service;
     }
 

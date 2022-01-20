@@ -15,7 +15,7 @@ import java.util.function.Consumer;
 /**
  * @author Roar Nind Steffensen
  */
-public class RabbitMqClient implements IMessagingClient{
+public class RabbitMqClient implements MessagingClient {
     private final Map<String, CallAwaiter> awaiters = new ConcurrentHashMap<>();
     private final Channel channel;
     private static final Charset ENCODING = StandardCharsets.UTF_8;

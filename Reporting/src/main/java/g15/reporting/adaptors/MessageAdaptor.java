@@ -1,7 +1,7 @@
 package g15.reporting.adaptors;
 
 import g15.reporting.services.ReportService;
-import implementation.IMessagingClient;
+import implementation.MessagingClient;
 import implementation.Message;
 import messages.reporting.*;
 
@@ -11,9 +11,9 @@ import messages.reporting.*;
  */
 public class MessageAdaptor {
     private final ReportService reportingService;
-    private final IMessagingClient client;
+    private final MessagingClient client;
 
-    public MessageAdaptor(IMessagingClient client, ReportService reportService){
+    public MessageAdaptor(MessagingClient client, ReportService reportService){
         this.client = client;
         this.reportingService = reportService;
         this.client.register(this::handleTransactionReportMessage, TransactionReportMessage.class);

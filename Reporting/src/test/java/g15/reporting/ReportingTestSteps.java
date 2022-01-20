@@ -6,7 +6,7 @@ import messages.reporting.TransactionFailed;
 import g15.reporting.adaptors.MessageAdaptor;
 import g15.reporting.repositories.ReportRepository;
 import g15.reporting.services.ReportService;
-import implementation.IMessagingClient;
+import implementation.MessagingClient;
 import implementation.Message;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -31,7 +31,7 @@ public class ReportingTestSteps {
     ReportRepository reportRepository = new ReportRepository();
     ReportService reportService = new ReportService(reportRepository);
     Delivery fakeDelivery = mock(Delivery.class);
-    IMessagingClient client = mock(IMessagingClient.class);
+    MessagingClient client = mock(MessagingClient.class);
     MessageAdaptor messageAdaptor = new MessageAdaptor(client, reportService);
     Report paymentReport;
     private String customerId;

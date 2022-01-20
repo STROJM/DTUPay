@@ -3,7 +3,7 @@ package g15.merchantapi.Api;
 import g15.merchantapi.Mapper.PaymentMapper;
 import g15.merchantapi.Models.PaymentModel;
 import g15.merchantapi.Models.Response.TypedResponseModel;
-import g15.merchantapi.Service.TokenService;
+import g15.merchantapi.Adaptors.TokenAdaptor;
 import messages.payment.PaymentResponseMessage;
 
 import javax.ws.rs.Consumes;
@@ -18,9 +18,9 @@ import javax.ws.rs.core.MediaType;
  */
 @Path("/payments")
 public class Payments {
-    TokenService service;
+    TokenAdaptor service;
 
-    public Payments(TokenService service) {
+    public Payments(TokenAdaptor service) {
         this.service = service;
     }
 

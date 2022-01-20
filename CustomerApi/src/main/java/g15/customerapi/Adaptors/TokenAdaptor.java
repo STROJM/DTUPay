@@ -1,6 +1,6 @@
-package g15.customerapi.Service;
+package g15.customerapi.Adaptors;
 
-import implementation.IMessagingClient;
+import implementation.MessagingClient;
 import implementation.MessagingClientFactory;
 import messages.tokens.TokensRequestMessage;
 import messages.tokens.TokensResponseMessage;
@@ -12,9 +12,9 @@ import javax.inject.Singleton;
  * @author Tobias Olrik Birck Kristensen
  */
 @Singleton
-public class TokenService {
-    private final IMessagingClient messagingClient;
-    public TokenService(){
+public class TokenAdaptor {
+    private final MessagingClient messagingClient;
+    public TokenAdaptor(){
         this.messagingClient = MessagingClientFactory.createAwaitableClient();
     }
 

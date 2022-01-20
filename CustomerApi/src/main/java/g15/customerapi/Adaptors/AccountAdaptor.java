@@ -1,8 +1,8 @@
-package g15.customerapi.Service;
+package g15.customerapi.Adaptors;
 
 import messages.register.CustomerRegisterMessage;
 import messages.register.CustomerRegisterResponse;
-import implementation.IMessagingClient;
+import implementation.MessagingClient;
 import implementation.MessagingClientFactory;
 
 import javax.inject.Singleton;
@@ -12,10 +12,10 @@ import javax.inject.Singleton;
  * @author Tobias Olrik Birck Kristensen
  */
 @Singleton
-public class AccountService {
-    private final IMessagingClient client;
+public class AccountAdaptor {
+    private final MessagingClient client;
 
-    public AccountService(){
+    public AccountAdaptor(){
         this.client = MessagingClientFactory.createAwaitableClient();
     }
     public CustomerRegisterResponse customerRegister(CustomerRegisterMessage request){

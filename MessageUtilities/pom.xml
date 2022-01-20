@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>g15.messaging</groupId>
 	<artifactId>MessageUtilities</artifactId>
-	<version>3.2</version>
+	<version>1.5</version>
 	<name>MessageUtilities</name>
 	<properties>
 		<maven.compiler.source>11</maven.compiler.source>

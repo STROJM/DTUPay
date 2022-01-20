@@ -2,7 +2,7 @@ package g15.account.adaptors;
 
 import g15.account.exceptions.InvalidBankAccountException;
 import g15.account.services.AccountService;
-import implementation.IMessagingClient;
+import implementation.MessagingClient;
 import implementation.Message;
 import messages.register.CustomerRegisterMessage;
 import messages.register.CustomerRegisterResponse;
@@ -16,10 +16,10 @@ import messages.tokens.ValidatedTokensRequestMessage;
  */
 
 public class CustomerApiAdaptor {
-    private final IMessagingClient client;
+    private final MessagingClient client;
     private final AccountService accountService;
 
-    public CustomerApiAdaptor(IMessagingClient client, AccountService accountService){
+    public CustomerApiAdaptor(MessagingClient client, AccountService accountService){
         this.client = client;
         this.accountService = accountService;
         this.client.register(this::handleCustomerRegisterEvent, CustomerRegisterMessage.class);

@@ -1,6 +1,6 @@
 package g15.token;
 
-import g15.token.services.MessageService;
+import g15.token.adaptors.MessageAdaptor;
 import implementation.MessagingClientFactory;
 
 /**
@@ -14,7 +14,7 @@ public class StartUp {
 	private void startUp() {
 		System.out.println("startup");
 		var mq = MessagingClientFactory.create();
-		new MessageService(mq);
+		new MessageAdaptor(mq);
 		System.out.println("token-management running");
 	}
 }

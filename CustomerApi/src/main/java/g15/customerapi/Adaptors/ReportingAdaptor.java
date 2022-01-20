@@ -1,6 +1,6 @@
-package g15.customerapi.Service;
+package g15.customerapi.Adaptors;
 
-import implementation.IMessagingClient;
+import implementation.MessagingClient;
 import implementation.MessagingClientFactory;
 import messages.reporting.CustomerReportMessage;
 import messages.reporting.CustomerReportResponse;
@@ -11,10 +11,10 @@ import javax.inject.Singleton;
  * @author Oliver Ro Møltoft Christensen s176352
  */
 @Singleton
-public class ReportingService {
-    private final IMessagingClient client;
+public class ReportingAdaptor {
+    private final MessagingClient client;
 
-    public ReportingService() {
+    public ReportingAdaptor() {
         this.client = MessagingClientFactory.create();
     }
 

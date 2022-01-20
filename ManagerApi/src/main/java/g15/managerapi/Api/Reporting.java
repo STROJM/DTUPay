@@ -1,7 +1,7 @@
 package g15.managerapi.Api;
 
 import g15.managerapi.Models.Response.TypedResponseModel;
-import g15.managerapi.Service.ReportingService;
+import g15.managerapi.Adaptors.ReportingAdaptor;
 import messages.reporting.ManagerReportMessage;
 import messages.reporting.ManagerTransactionReport;
 
@@ -12,9 +12,9 @@ import java.util.List;
 
 @Path("/reporting")
 public class Reporting {
-    ReportingService service;
+    ReportingAdaptor service;
 
-    public Reporting(ReportingService service) {
+    public Reporting(ReportingAdaptor service) {
         this.service = service;
     }
 

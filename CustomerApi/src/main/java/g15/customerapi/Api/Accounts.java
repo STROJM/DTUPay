@@ -3,7 +3,7 @@ package g15.customerapi.Api;
 import g15.customerapi.Mapper.CustomerMapper;
 import g15.customerapi.Models.AccountModel;
 import g15.customerapi.Models.Response.TypedResponseModel;
-import g15.customerapi.Service.AccountService;
+import g15.customerapi.Adaptors.AccountAdaptor;
 import messages.register.CustomerRegisterResponse;
 
 import javax.ws.rs.*;
@@ -14,9 +14,9 @@ import javax.ws.rs.core.MediaType;
  */
 @Path("/accounts")
 public class Accounts {
-    AccountService service;
+    AccountAdaptor service;
 
-    public Accounts(AccountService service) {
+    public Accounts(AccountAdaptor service) {
         this.service = service;
     }
 

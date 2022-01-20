@@ -1,7 +1,7 @@
-package g15.managerapi.Service;
+package g15.managerapi.Adaptors;
 
 
-import implementation.IMessagingClient;
+import implementation.MessagingClient;
 import implementation.MessagingClientFactory;
 import messages.reporting.ManagerReportMessage;
 import messages.reporting.ManagerReportResponse;
@@ -9,10 +9,10 @@ import messages.reporting.ManagerReportResponse;
 import javax.inject.Singleton;
 
 @Singleton
-public class ReportingService {
-    private final IMessagingClient client;
+public class ReportingAdaptor {
+    private final MessagingClient client;
 
-    public ReportingService() {
+    public ReportingAdaptor() {
         this.client = MessagingClientFactory.createAwaitableClient();
     }
 

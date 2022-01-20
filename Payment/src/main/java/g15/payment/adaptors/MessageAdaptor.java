@@ -2,7 +2,7 @@ package g15.payment.adaptors;
 
 import g15.payment.PaymentService;
 import g15.payment.exceptions.InvalidPaymentException;
-import implementation.IMessagingClient;
+import implementation.MessagingClient;
 import implementation.Message;
 import messages.payment.EnrichedPaymentMessage;
 import messages.payment.EnrichedRefundMessage;
@@ -13,10 +13,10 @@ import messages.payment.PaymentResponseMessage;
  * @author Oliver Ro Møltoft Christensen s176352
  */
 public class MessageAdaptor {
-    private final IMessagingClient client;
+    private final MessagingClient client;
     private final PaymentService paymentService;
 
-    public MessageAdaptor(IMessagingClient client, PaymentService paymentService){
+    public MessageAdaptor(MessagingClient client, PaymentService paymentService){
         this.client = client;
         this.paymentService = paymentService;
         this.client.register(this::handleEnrichedPaymentEvent, EnrichedPaymentMessage.class);

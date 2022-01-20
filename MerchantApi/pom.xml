@@ -98,7 +98,7 @@
         <dependency>
             <groupId>g15.messaging</groupId>
             <artifactId>MessageUtilities</artifactId>
-            <version>3.2</version>
+            <version>1.5</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>

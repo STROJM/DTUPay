@@ -12,7 +12,7 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import implementation.IMessagingClient;
+import implementation.MessagingClient;
 import implementation.Message;
 import org.junit.Assert;
 import org.mockito.ArgumentCaptor;
@@ -26,7 +26,7 @@ import static org.mockito.Mockito.verify;
 public class PaymentTestSteps {
     Delivery fakeDelivery = mock(Delivery.class);
     BankAdaptor bankAdaptor = mock(BankAdaptor.class);
-    IMessagingClient client = mock(IMessagingClient.class);
+    MessagingClient client = mock(MessagingClient.class);
     EventStore eventStore = new EventStore(client);
     PaymentService service = new PaymentService(eventStore, bankAdaptor);
     MessageAdaptor messageAdaptor = new MessageAdaptor(client, service);

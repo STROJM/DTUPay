@@ -1,7 +1,7 @@
 package g15.customerapi.Api;
 
 import g15.customerapi.Models.Response.TypedResponseModel;
-import g15.customerapi.Service.ReportingService;
+import g15.customerapi.Adaptors.ReportingAdaptor;
 import messages.reporting.CustomerReportMessage;
 import messages.reporting.CustomerTransactionReport;
 
@@ -18,9 +18,9 @@ import java.util.List;
  */
 @Path("/reporting/{id}")
 public class Reporting {
-    ReportingService service;
+    ReportingAdaptor service;
 
-    public Reporting(ReportingService service) {
+    public Reporting(ReportingAdaptor service) {
         this.service = service;
     }
 

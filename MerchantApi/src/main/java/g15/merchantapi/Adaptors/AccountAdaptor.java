@@ -1,6 +1,6 @@
-package g15.merchantapi.Service;
+package g15.merchantapi.Adaptors;
 
-import implementation.IMessagingClient;
+import implementation.MessagingClient;
 import implementation.MessagingClientFactory;
 import messages.register.MerchantRegisterMessage;
 import messages.register.MerchantRegisterResponse;
@@ -11,10 +11,10 @@ import javax.inject.Singleton;
  * @author Oliver Ro Møltoft Christensen s176352
  */
 @Singleton
-public class AccountService {
-    private final IMessagingClient client;
+public class AccountAdaptor {
+    private final MessagingClient client;
 
-    public AccountService() {
+    public AccountAdaptor() {
         this.client = MessagingClientFactory.createAwaitableClient();
     }
 

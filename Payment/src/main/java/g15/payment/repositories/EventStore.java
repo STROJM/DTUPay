@@ -1,7 +1,7 @@
 package g15.payment.repositories;
 
 import messages.reporting.Transaction;
-import implementation.IMessagingClient;
+import implementation.MessagingClient;
 import messages.reporting.TransactionReportMessage;
 
 import java.util.LinkedList;
@@ -11,9 +11,9 @@ import java.util.List;
  * @author Roar Nind Steffensen
  */
 public class EventStore {
-    private final IMessagingClient client;
+    private final MessagingClient client;
 
-    public EventStore(IMessagingClient client){
+    public EventStore(MessagingClient client){
         this.client = client;
     }
 

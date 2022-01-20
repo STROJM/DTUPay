@@ -3,7 +3,7 @@ package g15.customerapi.Api;
 import g15.customerapi.Mapper.TokenMapper;
 import g15.customerapi.Models.Response.TypedResponseModel;
 import g15.customerapi.Models.TokenModel;
-import g15.customerapi.Service.TokenService;
+import g15.customerapi.Adaptors.TokenAdaptor;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -18,9 +18,9 @@ import javax.ws.rs.core.MediaType;
 @Consumes({"application/json"})
 @Path("/tokens")
 public class Tokens {
-    TokenService service;
+    TokenAdaptor service;
 
-    public Tokens(TokenService service){
+    public Tokens(TokenAdaptor service){
         this.service = service;
     }
 
