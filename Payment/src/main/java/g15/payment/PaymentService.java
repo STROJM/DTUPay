@@ -14,6 +14,7 @@ import java.util.List;
 
 /**
  * @author Mikkel Denker (s184193)
+ * @author Oliver Ro Møltoft Christensen s176352
  */
 public class PaymentService {
     private final EventStore store;
