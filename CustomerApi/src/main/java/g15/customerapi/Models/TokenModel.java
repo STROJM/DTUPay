@@ -2,6 +2,7 @@ package g15.customerapi.Models;
 
 /**
  * @author Oliver Ro Møltoft Christensen s176352
+ * @author Tobias Olrik Birck Kristensen
  */
 public class TokenModel {
     public String customerBankAccount;

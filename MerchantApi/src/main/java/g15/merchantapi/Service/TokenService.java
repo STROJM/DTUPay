@@ -9,6 +9,7 @@ import messages.payment.RefundMessage;
 import javax.inject.Singleton;
 
 /**
+ * @author Tobias Olrik Birck Kristensen
  * @author Oliver Ro Møltoft Christensen s176352
  */
 @Singleton

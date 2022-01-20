@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 /**
  * @author Roar Nind Steffensen
  * @author Johannes Hald s202784
+ * @author Søren Andersen s182881
  */
 public class ReportRepository {
 

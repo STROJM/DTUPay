@@ -9,6 +9,7 @@ import messages.payment.EnrichedRefundMessage;
 
 /**
  * @author Mikkel Denker (s184193)
+ * @author Oliver Ro Møltoft Christensen s176352
  */
 public class BankAdaptor {
     private final BankService bankService = new BankServiceService().getBankServicePort();

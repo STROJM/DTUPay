@@ -23,6 +23,7 @@ import static org.mockito.Mockito.verify;
 
 /**
  * @author Johannes Hald s202784
+ * @author Søren Andersen s182881
  */
 
 public class ReportingTestSteps {

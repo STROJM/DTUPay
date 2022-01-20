@@ -9,6 +9,7 @@ import javax.inject.Singleton;
 
 /**
  * @author Oliver Ro Møltoft Christensen s176352
+ * @author Tobias Olrik Birck Kristensen
  */
 @Singleton
 public class TokenService {

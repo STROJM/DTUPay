@@ -13,6 +13,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 /**
+ * @author Tobias Olrik Birck Kristensen
  * @author Oliver Ro Møltoft Christensen s176352
  */
 @Path("/payments")

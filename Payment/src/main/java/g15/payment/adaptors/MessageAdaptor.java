@@ -10,6 +10,7 @@ import messages.payment.PaymentResponseMessage;
 
 /**
  * @author Mikkel Denker (s184193)
+ * @author Oliver Ro Møltoft Christensen s176352
  */
 public class MessageAdaptor {
     private final IMessagingClient client;
